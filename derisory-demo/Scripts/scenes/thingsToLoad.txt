@@ -10,8 +10,8 @@ var thingsToLoad = [
 ["audio", "Sounds/music/calmV1.mp3", "calm"],
 ["audio", "Sounds/music/waterfall.mp3", "waterfall"],
 ["audio", "Sounds/music/miningRobotBossThemeV1.mp3", "musicMiningRobotBoss"],
-["audio", "Sounds/music/tinyKnightBossThemeV1.mp3", "musicTinyKnightBoss"],
-["audio", "Sounds/music/tinyKnightBossThemeDrumsV1.mp3", "musicTinyKnightBossDrums"],
+["audio", "Sounds/music/TinyKnightBossThemeV1.mp3", "musicTinyKnightBoss"],
+["audio", "Sounds/music/TinyKnightBossThemeDrumsV1.mp3", "musicTinyKnightBossDrums"],
 ["audio", "Sounds/music/formerSecretV1.mp3", "formerSecret"],
 ["audio", "Sounds/music/sleepFrogSwampV1.mp3", "sleepFrogSwamp"],
 
