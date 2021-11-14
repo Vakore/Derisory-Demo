@@ -762,7 +762,7 @@ const loadArea = function(area) {
         var areaElement = document.getElementById("currentAreaData");
         areaElement.remove();
         var newArea = document.createElement("script");
-        newArea.src = "https://github.com/Vakore/Derisory-Demo/edit/main/derisory-demo/Scripts/levels/" + area + ".txt";
+        newArea.src = "https://raw.githubusercontent.com/Vakore/Derisory-Demo/main/derisory-demo/Scripts/levels/" + area + ".txt";
         newArea.id = "currentAreaData";
         newArea.onload = function() {loadingArea = false;};
         document.getElementById("areaDummy").appendChild(newArea);
