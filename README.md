@@ -1,5 +1,5 @@
 # Derisory-Demo
-A demo of my work in progress game Derisory. I originally wanted it to work in the web browser without downloading it, however my current code will not work due to the way I was loading scripts when changing areas and Google Chrome being overly sensitive to loading files dynamically. I could change the code, however my current solution is to just have it as a download. The areas will load faster anywars and it'll save you tons of bandwidth from not having to load the 130 files over the internet every time you want to run the game.
+A demo of my work in progress game Derisory. I originally wanted it to work in the web browser without downloading it, however my current code will not work due to the way I was loading scripts when changing areas and Google Chrome being overly sensitive to loading files dynamically. I could change the code, however my current solution is to just have it as a download. The areas will load faster anyways and it'll save you tons of bandwidth from not having to load the 130 files over the internet every time you want to run the game.
 
 HOW TO:
  1. Download the ZIP file called derisory-demo
