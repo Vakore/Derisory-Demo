@@ -172,7 +172,7 @@ function thingsToLoadScene() {
         rect(227 - 32, 128 + 32, floor((thingIsLoading / thingsToLoad.length) * 64), 16);
         if (thingIsLoading == floor(thingIsLoading) && thingIsLoading < thingsToLoad.length) {
             thingToLoad = document.createElement(thingsToLoad[thingIsLoading][0]);
-            thingToLoad.src = thingsToLoad[thingIsLoading][1];
+            thingToLoad.src = "https://raw.githubusercontent.com/Vakore/Derisory-Demo/main/derisory-demo/" + thingsToLoad[thingIsLoading][1];
             var loadEventType = "load";
             if (thingsToLoad[thingIsLoading][0] == "audio") {
                 loadEventType = "canplaythrough";
