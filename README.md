@@ -9,5 +9,7 @@ HOW TO:
 I've only tested this in Google Chrome. If it works in other browsers that is great, but if something doesn't work that may be why.
 
 Here are some links if you want them. If you don't then no need to read below.
+
 DISCORD: https://discord.com/invite/qb3nhGyh
+
 YOUTUBE: https://www.youtube.com/channel/UCqSwjaGctHSVnY7xR8Mec9g
