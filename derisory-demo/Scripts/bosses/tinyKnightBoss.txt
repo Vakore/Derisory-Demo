@@ -1,0 +1,619 @@
+/*
+Attacks:
+Dash(explanatory)
+Jump(explanatory, some RNG for differnet jump arcs)
+Jump n Pound(explanatory, see Jump)
+Walk(explanatory, short delay and then different attack)
+Boomerang(throw n return)
+Holy Water(throw em)
+Roll(Roll slightly away from the player. Not really an attack but still nice to have)
+Bow(run to edge, jump and shoow a few arrows, maybe save for the rematch)
+Parry(explanatory, the parry will be a swift, larger attack. Maybe save for the rematch)
+Holy Grenade(Reference, definitely save for rematch, heavy hitting attack. Will sometimes mix in Holy Water)
+
+For Rematch:
+Act like a player of sorts. Run left and right while idling to throw off the player, short hops,
+mix attacks together and do them in the air, try to bait the player, go aggro when the player tries to heal.
+*/
+var tinyKnightBossImgs = {
+    "idle":{x:1,y:1,w:11,h:13,shiftX:-1,shiftY:0},
+    "dash1":{x:13,y:1,w:11,h:13,shiftX:-1,shiftY:0},
+    "dash2":{x:25,y:1,w:10,h:13,shiftX:-1,shiftY:0},
+    "dash3":{x:36,y:1,w:10,h:13,shiftX:-1,shiftY:0},
+    "dash4":{x:47,y:1,w:10,h:13,shiftX:-1,shiftY:0},
+    "jump1":{x:1,y:15,w:12,h:13,shiftX:-1,shiftY:0},
+    "jump2":{x:14,y:15,w:10,h:13,shiftX:-1,shiftY:0},
+    "jump3":{x:25,y:15,w:12,h:13,shiftX:-1,shiftY:0},
+    "jump4":{x:38,y:15,w:14,h:13,shiftX:-2,shiftY:0},
+    "dive1":{x:53,y:15,w:10,h:13,shiftX:-1,shiftY:0},
+    "dive2":{x:64,y:15,w:12,h:13,shiftX:-2,shiftY:0},
+    "roll1":{x:1,y:29,w:13,h:13,shiftX:-1,shiftY:0},
+    "roll2":{x:15,y:29,w:12,h:13,shiftX:-1,shiftY:0},
+    "roll3":{x:28,y:29,w:13,h:12,shiftX:-1,shiftY:0},
+    "roll4":{x:42,y:29,w:13,h:13,shiftX:-1,shiftY:0},
+    "roll5":{x:56,y:29,w:13,h:13,shiftX:-1,shiftY:0},
+
+    "run1":{x:1,y:43,w:12,h:13,shiftX:-1,shiftY:-1},
+    "run2":{x:14,y:43,w:11,h:13,shiftX:-1,shiftY:0},
+    "run3":{x:26,y:43,w:10,h:13,shiftX:-1,shiftY:-1},
+    "throwBoomerang1":{x:37,y:43,w:11,h:13,shiftX:-1,shiftY:0},
+    "throwBoomerang2":{x:49,y:43,w:10,h:17,shiftX:-1,shiftY:-4},
+    "throwBoomerang3":{x:61,y:43,w:14,h:16,shiftX:-5,shiftY:-3},
+    "throwBoomerang4":{x:76,y:43,w:12,h:13,shiftX:-1,shiftY:-1},
+    "throwHolyWater1":{x:37,y:43,w:11,h:13,shiftX:-1,shiftY:0},
+    "throwHolyWater2":{x:89,y:43,w:11,h:17,shiftX:-2,shiftY:-4},
+    "throwHolyWater3":{x:101,y:43,w:13,h:18,shiftX:-4,shiftY:-5},
+    "throwHolyWater4":{x:76,y:43,w:12,h:13,shiftX:-1,shiftY:-1},
+
+    "boomerang":{x:84,y:1,w:18,h:18,shiftX:0,shiftY:0},
+    "holyWater1":{x:103,y:1,w:7,h:9,shiftX:-1,shiftY:-3},
+    "holyWater2":{x:111,y:1,w:9,h:7,shiftX:-3,shiftY:-1},
+    "holyWater3":{x:121,y:1,w:7,h:9,shiftX:-1,shiftY:-1},
+    "holyWater4":{x:129,y:1,w:9,h:7,shiftX:-1,shiftY:-1},
+
+    "holyFire1":{x:77,y:20,w:7,h:7,shiftX:-1,shiftY:-2},
+    "holyFire2":{x:85,y:20,w:7,h:7,shiftX:-1,shiftY:-2},
+    "holyFire3":{x:93,y:20,w:7,h:8,shiftX:-1,shiftY:-3},
+    "holyFire4":{x:101,y:20,w:7,h:9,shiftX:-1,shiftY:-4},
+
+    "readingMap1":{x:49,y:61,w:12,h:13,shiftX:-1,shiftY:0},
+    "readingMap2":{x:62,y:61,w:12,h:13,shiftX:-1,shiftY:0},
+    "surprised":{x:73,y:29,w:14,h:13,shiftX:-2,shiftY:-1},
+};
+
+var tinyKnightHolyWater = function(x, y, velX, velY) {
+    this.x = x;
+    this.y = y;
+    this.w = 5;
+    this.h = 5;
+    this.velX = velX;
+    this.velY = velY;
+    this.immuneTimers = [-10, -10];
+    this.attackTimer = 0;
+    this.inWater = false;
+    this.sprite = "holyWater1";
+    this.ded = false;//saveData.bosses.miningRobot;
+    this.dir = 1;
+    this.hp = 40;
+    this.kbTimer = 10;
+    this.splash = false;
+    this.spriteTimer = 1;
+    this.spriteDir = 0.1;
+};
+tinyKnightHolyWater.prototype.run = function() {
+    this.spriteTimer += this.spriteDir;
+    if (this.splash && abs(this.spriteDir) < 0.2) {this.spriteDir *= 2;}
+    if (floor(this.spriteTimer) > 4) {
+        if (this.splash) {
+            this.spriteTimer = 4;
+            this.spriteDir = -0.2;
+        } else {
+            this.spriteTimer = 1;
+        }
+    } else if (floor(this.spriteTimer) < 1) {
+        this.spriteTimer = 2;
+        this.spriteDir = 0.2;
+    }
+    if (this.attackTimer < 120) {
+        this.velY += 0.1;
+        this.x += this.velX;
+        this.y += this.velY;
+        checkCollisions(this);
+    } else {
+        this.y += 0.5;
+    }
+    if (!this.splash) {
+        hurtBox(this.x + 1, this.y + 1, this.w - 2, this.h - 2, 1);
+        this.sprite = "holyWater" + floor(this.spriteTimer);
+    } else {
+        this.velX = 0;
+        if (this.attackTimer < 120) {
+            hurtBox(this.x + 1, this.y + 1, this.w - 2, this.h - 2, 1);
+        }
+        this.sprite = "holyFire" + floor(this.spriteTimer);
+        this.attackTimer++;
+        if (this.attackTimer > 150) {this.ded = true;}
+    }
+};
+tinyKnightHolyWater.prototype.wallTop = function() {
+    if (!this.splash) {
+        playSound("holyFire", 0.3);
+    }
+    this.splash = true;
+};
+tinyKnightHolyWater.prototype.wallBottom = function() {
+    if (!this.splash) {
+        playSound("holyFire", 0.3);
+    }
+    this.splash = true;
+};
+tinyKnightHolyWater.prototype.wallLeft = function() {
+    if (!this.splash) {
+        playSound("holyFire", 0.3);
+    }
+    this.splash = true;
+};
+tinyKnightHolyWater.prototype.wallRight = function() {
+    if (!this.splash) {
+        playSound("holyFire", 0.3);
+    }
+    this.splash = true;
+};
+tinyKnightHolyWater.prototype.takeDamage = function() {};
+
+tinyKnightHolyWater.prototype.draw = function() {
+    save();
+    translate(round(this.x), round(this.y));
+    if (this.dir < 0) {translate(this.w, 0);}
+    scale(this.dir, 1);
+    if (checkBlinking(this)) {
+        image("tinyKnightBossSprites", tinyKnightBossImgs[this.sprite], 0, 0);
+    }
+    //fill(255, 0, 0, 0.8);
+    //rect(0, 0, this.w, this.h);
+    restore();
+};
+
+var tinyKnightBoomerang = function(x, y, velX) {
+    this.x = x;
+    this.y = y;
+    this.w = 8;
+    this.h = 8;
+    this.comehomeX = this.x;
+    this.comehomeY = this.y;
+    this.velX = velX;
+    this.velY = 0;
+    this.immuneTimers = [-10, -10];
+    this.attackTimer = 0;
+    this.inWater = false;
+    this.sprite = "boomerang";
+    this.ded = false;//saveData.bosses.miningRobot;
+    this.dir = 1;
+    this.hp = 40;
+    this.kbTimer = 10;
+};
+tinyKnightBoomerang.prototype.run = function() {
+    this.attackTimer++;
+    if (this.attackTimer > 200) {
+        if (this.comehomeX > this.x) {
+            this.velX += 0.05;
+        } else if (this.comehomeX < this.x) { 
+            this.velX -= 0.05;
+        }
+        if (this.comehomeY > this.y) {
+            //this.velY += 0.1;
+        } else if (this.comehomeY < this.y) { 
+            //this.velY -= 0.1;
+        }
+        this.velX = constrain(this.velX, -3, 3);
+        this.velY = constrain(this.velY, -3, 3);
+    }
+    this.x += this.velX;
+    this.y += this.velY;
+    checkCollisions(this);
+    //attackBox(this.x + 5, this.y + 5, this.w + 7, this.h + 7, this);
+    hurtBox(this.x + 3, this.y + 7, 3, 3, 1);
+};
+tinyKnightBoomerang.prototype.wallTop = function() {
+    this.velY = 0;
+};
+tinyKnightBoomerang.prototype.wallBottom = function() {
+    this.velY = 0;
+};
+tinyKnightBoomerang.prototype.wallLeft = function() {
+    this.velX = -this.velX;
+};
+tinyKnightBoomerang.prototype.wallRight = function() {
+    this.velX = -this.velX;
+};
+tinyKnightBoomerang.prototype.takeDamage = function(amount, kb) {
+    this.hp = 40;
+    playSound("miningRobotBossDamage", 0.25);
+};
+
+tinyKnightBoomerang.prototype.draw = function() {
+    save();
+    translate(this.x + 4, this.y + 8);
+    if (this.dir < 0) {translate(this.w, 0);}
+    scale(this.dir, 1);
+    rotate(Math.floor((this.attackTimer * 10) / 45) * 45);
+    image("tinyKnightBossSprites", tinyKnightBossImgs[this.sprite], -9, -9);
+    restore();
+    fill(255, 255, 255, 0.5);
+    //rect(this.x + 5, this.y + 5, 7, 7);
+    //rect(this.x + 7, this.y + 7, 3, 3);
+    /*save();
+    translate(round(this.x), round(this.y));
+    if (this.dir < 0) {translate(this.w, 0);}
+    scale(this.dir, 1);
+    if (checkBlinking(this)) {
+        image("tinyKnightBossSprites", tinyKnightBossImgs[this.sprite], 0, 0);
+    }
+    fill(255, 255, 255, 0.5);
+    rect(0, 0, 3, 3);
+    restore();*/
+};
+
+var tinyKnightLance = function(x, y, velX) {
+};
+var tinyKnightBoss = function(x, y) {
+    this.x = x;
+    this.y = y - 10;
+    this.w = 10;
+    this.h = 13;
+    this.velX = 0;
+    this.velY = 0;
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+    this.isGrounded = false;
+    this.sprite = "idle";
+    this.hp = 50;
+    this.ded = false;//saveData.bosses.miningRobot;
+    this.dir = 1;
+    this.attackList = [1, 1, 2, 2, 3, 4, 5];
+    this.attackType = 0;
+    this.attackTimer = 50;
+    this.projectiles = [];
+    this.spriteTimer = 0;
+    this.active = false;
+    this.jumpVelXFactor = 2;
+};
+
+tinyKnightBoss.prototype.run = function() {
+    if (!this.active) {
+        if (lastBossFaced != "tinyKnight") {
+            this.attackType = -1;
+            this.attackTimer = 150;
+        } else {
+            this.dir = -1;
+            this.attackTimer = 20;
+        }
+        if (players[0].x > this.x - 200 && players[0].x < this.x + this.w + 200) {
+            if (lastBossFaced != "tinyKnight") {
+                resetCutscene();
+                cutscene.timer = 100;
+                
+                dialogBox = {
+                    "txts":
+                        [
+                            "???: So I last came through here... meaning this is^somewhere I haven't been before!",
+                            "???: I heard something.",
+                        ],
+                    "txtPage":0,
+                    "leLimit":4,
+                    "speed":0.5,
+                    "volume":0.7,
+                    "sound":"tinyKnightSpeak",
+                    "visible":true,
+                    "lockCutsceneTimer":100,
+                    "selector":1,
+                    "skippable":true,
+                };
+                cutscene.type = "tinyKnightBossIntro";
+                lastBossFaced = "tinyKnight";
+            } else {
+                musicPlaying.nextTrack = "musicTinyKnightBoss";
+                musicPlaying.volumeTo = 0.8;
+                resetSound("musicTinyKnightBoss");
+                musicPlaying.nextDrumTrack = "musicTinyKnightBossDrums";
+                musicPlaying.drumVolumeTo = 0.8;
+                resetSound("musicTinyKnightBossDrums");
+                musicPlaying.smoothTransition = false;
+            }
+            this.active = true;
+        }
+    }
+    if (dialogBox.visible) {
+        this.attackTimer++;
+    }
+    this.sprite = "idle";
+   if (this.hp > 0) {
+    this.attackTimer--;
+    if (this.attackTimer < 0) {
+        this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+        //this.attackType = floor(random(1, 4.99));
+        this.attackList.splice(0, 1);
+        if (this.attackList.length == 0) {
+            this.attackList = generateBag([1,2,3,3,4,5]);
+            this.attackList.push(this.attackList[0]);
+            if (abs(players[0].x - this.x) < 80) {
+                this.attackType = 10;
+            } else {
+                this.attackType = 6;
+            }
+        } else {
+            this.attackType = this.attackList[0];
+        }
+        this.attackTimer = 100;
+        this.spriteTimer = 0;
+        //this.attackType = 0;
+    }
+    this.velX = 0;
+    if (this.attackType == -1) {
+        if (this.attackTimer >= 110) {
+            this.sprite = "readingMap1";
+        } else if (this.attackTimer > 80 && this.attackTimer < 140) {
+            this.sprite = "readingMap2";
+        } else if (this.attackTimer == 80) {
+            this.dir = -1;
+            this.velY = -1;
+            playSound("tinyKnightSurprised");
+        }
+        if (!this.isGrounded) {this.sprite = "surprised";}
+    } else if (this.attackType == 1) {
+        if (this.attackTimer == 99) {playSound("tinyKnightDash1");}
+        this.sprite = "dash" + [1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4][constrain(20 - (Math.floor(this.attackTimer / 5)), 0, 13)];
+        if (this.attackTimer < 45 && this.attackTimer > 35) {
+            this.velX = this.dir * constrain((this.attackTimer - 35) * 2, 0, 10);
+        } else if (this.attackTimer > 55) {
+            //this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+            this.velX = 0;
+        } else {this.velX = 0;}
+        if (this.attackTimer == 45) {playSound("tinyKnightDash2");}
+    } else if (this.attackType == 2) {
+        if (this.isGrounded && this.attackTimer > 80) {
+            this.sprite = "jump1";
+            this.velX = 0;
+        } else if (this.isGrounded && this.attackTimer < 80 && this.attackTimer > 70) {
+            playSound("tinyKnightJump");
+            this.spriteTimer = random(-0.2, 0.3);
+            this.velX = 0;
+            this.isGrounded = false;
+            this.velY = -3.5 - random(-0.2, 0.3);
+            this.jumpVelXFactor = random(1.9, 2.1);
+            this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+            this.attackTimer = 70;
+        } else if (!this.isGrounded) {
+            this.velX = this.dir * (this.jumpVelXFactor + this.spriteTimer);
+            if (this.velY <= -0.6) {
+                this.sprite = "jump2";
+            } if (this.velY > -0.6 && this.velY < 0.6) {
+                this.sprite = "jump3";
+            } else if (this.velY >= 0.6) {
+                this.sprite = "jump4";
+            }
+            this.attackTimer = 15;
+        } else {
+            if (this.attackTimer == 14) {playSound("tinyKnightLand");}
+            if (this.attackTimer > 10) {this.sprite = "jump1";}
+            this.velX = 0;
+            this.attackTimer--;
+        }
+    } else if (this.attackType == 3) {
+        if (this.isGrounded && this.attackTimer > 80) {
+            this.sprite = "jump1";
+        } else if (this.isGrounded && this.attackTimer > 70) {
+            playSound("tinyKnightJump");
+            this.spriteTimer = random(-0.2, 0.3);
+            this.velX = 0;
+            this.isGrounded = false;
+            this.velY = -3.5 - random(-0.2, 0.3);
+            this.jumpVelXFactor = random(1.9, 2.1);
+            this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+            this.attackTimer = 70;
+        } else if (!this.isGrounded) {
+            if (this.attackTimer > 30) {
+                this.velX = this.dir * (this.jumpVelXFactor + this.spriteTimer);
+                if (this.velY <= -0.6) {
+                    this.sprite = "jump2";
+                } if (this.velY > -0.6 && this.velY < 0.6) {
+                    this.sprite = "jump3";
+                } else if (this.velY >= 0.6) {
+                    this.sprite = "jump4";
+                }
+            }
+            if (this.velY > 0 && this.velY < 1 && this.attackTimer > 30) {
+                this.attackTimer = 30;
+                this.velX = 0;
+                this.velY = -2;
+                playSound("tinyKnightDive1");
+            } else if (this.attackTimer > 23 && this.attackTimer < 30) {
+                //if (this.attackTimer == 29) {playSound("tinyKnightDive2");}
+                this.velY += 0.1;
+                this.sprite = "dive1";
+            } else if (this.attackTimer < 23) {
+                this.velY += 0.3;
+                this.sprite = "dive2";
+            }
+            if (this.attackTimer < 20) {this.attackTimer = 20;}
+        } else {
+            if (this.attackTimer == 19) {playSound("tinyKnightLand");}
+            this.velX = 0;
+            this.attackTimer--;
+        }
+    } else if (this.attackType == 4) {
+        if (this.attackTimer > 45) {
+            this.sprite = "throwBoomerang" + [1, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4][constrain(20 - (Math.floor(this.attackTimer / 5)), 0, 13)];
+        } else {
+            this.sprite = "idle";
+        }
+        if (this.attackTimer == 60) {
+            this.velY = -1;
+            playSound("tinyKnightThrow3", 0.3);
+            this.projectiles.push(new tinyKnightBoomerang(this.x, this.y - 8, this.dir * 3));
+        }
+    } else if (this.attackType == 5) {
+        if (this.attackTimer > 5) {
+            this.sprite = "throwHolyWater" + [1, 2, 3, 3, 3, 3, 3, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 4, 4, 4][constrain(20 - (Math.floor(this.attackTimer / 5)), 0, 19)];
+        } else {
+            this.sprite = "idle";
+        }
+        if (this.attackTimer == Math.round(this.attackTimer / 20) * 20 && this.attackTimer > 20 && this.attackTimer < 80) {
+            this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+            this.projectiles.push(new tinyKnightHolyWater(this.x, this.y - 5, constrain(((players[0].x + 7) - (this.x + this.w / 2)) / 50, -2.5, 2.5), -random(1, 2.5)));
+            playSound("tinyKnightThrow" + floor(random(1, 3.9999)), 0.3);
+            //this.velY = -1;
+        }
+        if (this.attackTimer == 20) {
+            this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+            this.projectiles.push(new tinyKnightHolyWater(this.x, this.y - 5, constrain(((players[0].x + 7) - (this.x + this.w / 2)) / 50, -3, 3), -random(2.5, 3)));
+            playSound("tinyKnightThrow" + floor(random(1, 3.9999)), 0.3);
+            this.velY = -1;
+        }
+    } else if (this.attackType == 6) {
+        this.spriteTimer += 0.15;
+        this.attackTimer--;
+        if (floor(this.spriteTimer) > 3) {this.spriteTimer = 0;}
+        this.sprite = "run" + [1,2,3,2][floor(this.spriteTimer)];
+        this.velX = this.dir * 2;
+    } else if (this.attackType == 10) {
+        if (this.attackTimer > 45) {
+            this.velX = -this.dir * 3;
+        } else {
+            this.velX = 0;
+        }
+        if (this.attackTimer > 40) {
+            this.sprite = "roll" + [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5][constrain(20 - (Math.floor(this.attackTimer / 5)), 0, 13)];
+        }
+        this.attackTimer -= 2;
+    }
+  }
+
+
+    if (this.kbTimer > 0 && this.hp > 0) {
+        this.kbTimer -= 0.5;
+        if (this.kbDir == 1) {
+            this.velX += this.kbTimer;
+        } else if (this.kbDir == -1) {
+            this.velX += -this.kbTimer;
+        } else {
+            //this.velX = 0;
+        }
+    }
+    this.velY += 0.1;
+    this.x += this.velX;
+    this.y += this.velY;
+    this.isGrounded = false;
+    checkCollisions(this);
+    if (this.hp > 0) {
+        attackBox(this.x, this.y, this.w, this.h, this);
+        hurtBox(this.x + 2, this.y + 2, this.w - 4, this.h - 3, 1);
+        musicPlaying.drumVolumeTo = constrain(2 - ((2 / 50) * this.hp), 0.01, 1);
+        musicPlaying.volumeTo = 0.8 + constrain(0.2 - ((0.2 / 50) * this.hp), 0, 0.2);
+    } else {
+        musicPlaying.nextTrack = "";
+        musicPlaying.nextDrumTrack = "";
+        musicPlaying.smoothTransition = true;
+        var inventoryButtonDisplay = buttonNames[controls.E];
+        //this.ded = true;
+        if (this.hp > -9.5) {this.hp -= 0.2;}
+        if (this.hp > -10 && this.hp < -9 && players[0].isGrounded > 0) {
+            this.hp = -10;
+            this.velX = 0;
+            this.velY = 1;
+            resetCutscene();
+            cutscene.timer = 100;
+            this.dir = (((players[0].x + players[0].w) > (this.x + this.w / 2)) ? 1 : -1);
+            cutscene.player.dir = -this.dir;
+            dialogBox = {
+                "txts":
+                    [
+                        "???: Ouch.",
+                        "???: This is a hard boss. It super aggressive.",
+                        ["@","What are you talking about?","No you.","You're the boss!"],
+                        ["$","???: I was saying...","???: You mean I was tricky opponent?","???: Oh how original."],
+                        ["$","???: Nevermind. It wasn't important.","???: I don't consider myself very good, but I^appreciate the complement.","???: The whole 'you were the boss all along' game^twist."],
+                        ["@","What is your name?","May you please tell me your name?","The developer is giving me the illusion of choice."],
+                        ["$","???: My Name?","???: Well since you asked politely...","???: Ah yes, making fun of the illusion of choice.^Never seen that one before."],
+                        ["$","Tiny Knight: It's Tiny Knight.","Tiny Knight: My name is Tiny Knight.","Tiny Knight: Oh yeah my name is Tiny Knight in case^you were wondering."],
+                        "Tiny Knight: I don't know what else to say. I guess^since you bested me in combat I should give you^something.",
+                        "Tiny Knight: Oh I know! Take this. It's a spare map I^have.",
+                        "You got the map! Press " + inventoryButtonDisplay + " to view it in your^inventory. Sit at a campfire to update the map.",
+                        "Tiny Knight: I'll be on my way then.",
+                    ],
+                "txtPage":0,
+                "leLimit":4,
+                "speed":0.5,
+                "volume":0.7,
+                "sound":"tinyKnightSpeak",
+                "visible":true,
+                "lockCutsceneTimer":100,
+                "selector":1,
+                "skippable":true,
+            };
+            if (players[0].flaskCount < players[0].maxFlaskCount) {
+                dialogBox.txts[1] = "???: This is a hard boss. It just keeps healing."
+            }
+            cutscene.type = "tinyKnightBossAfter";
+        } else if (this.hp <= -10) {
+            if (dialogBox.txtPage == 10) {
+                dialogBox.sound = "playerJump";
+                dialogBox.skippable = false;
+            } else {
+                dialogBox.sound = "tinyKnightSpeak";
+                dialogBox.skippable = true;
+            }
+        }
+        if (cutscene.type == "tinyKnightBossAfter" && cutscene.timer < 10) {
+            this.dir = -1;
+            this.spriteTimer += 0.15;
+            if (floor(this.spriteTimer) > 3) {this.spriteTimer = 0;}
+            this.sprite = "run" + [1,2,3,2][floor(this.spriteTimer)];
+            this.velX = -2;
+            enemies[0].currentWave = 100;
+            if (this.x < -20) {this.ded = true;}
+        }
+        if (!saveData.bosses.tinyKnightBoss) {
+            saveData.spawnLocations[0] = 224;
+            saveData.spawnLocations[1] = 192;
+            saveData.bosses.tinyKnightBoss = true;
+            saveData.updateMap.owned = true;
+            saveData.mapData.owned = true;
+            saveGame(saveFile);
+        }
+    }
+    for (var i = 0; i < this.projectiles.length; i++) {
+        this.projectiles[i].run();
+        if (this.projectiles[i].w == 8 && this.projectiles[i].h == 8 && this.projectiles[i].attackTimer > 30) {
+            this.projectiles[i].comehomeX = this.x;
+            this.projectiles[i].comehomeY = this.y;
+            if (this.projectiles[i].x + this.projectiles[i].w > this.x && this.projectiles[i].x < this.x + this.w &&
+                this.projectiles[i].y + this.projectiles[i].h + 8 > this.y && this.projectiles[i].y + 8 < this.y + this.h) {
+                this.projectiles[i].ded = true;
+            }
+            if (this.projectiles[i].attackTimer > 10000) {this.projectiles[i].ded = true;}
+        }
+        if (this.projectiles[i].immuneTimers != undefined) {
+            if (this.projectiles[i].immuneTimers[0] > -10) {this.projectiles[i].immuneTimers[0]--;}
+            if (this.projectiles[i].immuneTimers[1] > -10) {this.projectiles[i].immuneTimers[1]--;}
+        }
+        if (this.projectiles[i].kbTimer > -1) {this.projectiles[i].kbTimer--;}
+        if (this.projectiles[i].ded) {
+            this.projectiles.splice(i, 1);
+            i--;
+        }
+    }
+};
+
+tinyKnightBoss.prototype.wallTop = function() {
+    this.velY = 0;
+    this.isGrounded = true;
+};
+tinyKnightBoss.prototype.wallBottom = function() {};
+tinyKnightBoss.prototype.wallLeft = function() {
+    this.velX = 0;
+};
+tinyKnightBoss.prototype.wallRight = function() {
+    this.velX = 0;
+};
+tinyKnightBoss.prototype.takeDamage = function(amount, kb) {
+    this.hp -= amount;
+    takeKb(this, kb);
+    playSound("tinyKnightDamage", 0.75);
+};
+
+tinyKnightBoss.prototype.draw = function() {
+    save();
+    translate(round(this.x), round(this.y));
+    if (this.dir < 0) {translate(this.w, 0);}
+    scale(this.dir, 1);
+    if (checkBlinking(this)) {
+        image("tinyKnightBossSprites", tinyKnightBossImgs[this.sprite], 0, 0);
+    }
+    fill(255, 0, 0);
+    //rect(0, 0, this.w, this.h);
+    restore();
+    for (var i = 0; i < this.projectiles.length; i++) {
+        this.projectiles[i].draw();
+    }
+};

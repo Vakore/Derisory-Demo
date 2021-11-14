@@ -1,0 +1,1564 @@
+var collectableImgs = {
+    "sword":{x:1,y:1,w:5,h:11,shiftX:0,shiftY:5},
+    "jetboots":{x:1,y:47,w:10,h:4,shiftX:0,shiftY:0},
+    "jetbootsTable":{x:1,y:52,w:24,h:12,shiftX:0,shiftY:0},
+    "shine1":{x:78,y:1,w:9,h:9,shiftX:0,shiftY:0},
+    "shine2":{x:88,y:1,w:9,h:9,shiftX:0,shiftY:0},
+    "shine3":{x:98,y:1,w:9,h:9,shiftX:0,shiftY:0},
+    "shine4":{x:108,y:1,w:9,h:9,shiftX:0,shiftY:0},
+    "shine5":{x:118,y:1,w:9,h:9,shiftX:0,shiftY:0},
+
+    "coinPickup1":{x:7,y:1,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup2":{x:24,y:1,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup3":{x:41,y:1,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup4":{x:58,y:1,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup5":{x:7,y:18,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup6":{x:24,y:18,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup7":{x:41,y:18,w:16,h:16,shiftX:0,shiftY:0},
+    "coinPickup8":{x:58,y:18,w:16,h:16,shiftX:0,shiftY:0},
+
+    "drinkWarmWater":{x:78,y:11,w:7,h:12,shiftX:2,shiftY:0},
+    "drinkYellowTea":{x:86,y:11,w:8,h:12,shiftX:1,shiftY:0},
+};
+
+var notEnemySprites = {
+    "breakWallRight1":{x:1,y:1,w:16,h:48},
+    "breakWallRight2":{x:18,y:1,w:16,h:48},
+    "breakWallRight3":{x:35,y:1,w:16,h:48},
+    "breakWallLeft1":{x:1,y:50,w:16,h:48},
+    "breakWallLeft2":{x:18,y:50,w:16,h:48},
+    "breakWallLeft3":{x:35,y:50,w:16,h:48},
+    "breakWallTop1":{x:52,y:1,w:48,h:16},
+    "breakWallTop2":{x:52,y:18,w:48,h:16},
+    "breakWallTop3":{x:52,y:35,w:48,h:16},
+    "breakWallBottom1":{x:52,y:52,w:48,h:16},
+    "breakWallBottom2":{x:52,y:69,w:48,h:16},
+    "breakWallBottom3":{x:52,y:86,w:48,h:16},
+    "grass1":{x:1,y:100,w:16,h:16},
+    "grass2":{x:18,y:100,w:16,h:16},
+    "grass3":{x:35,y:100,w:16,h:16},
+    "seaweed1":{x:1,y:117,w:16,h:32},
+    "seaweed2":{x:18,y:117,w:16,h:32},
+    "seaweed3":{x:35,y:117,w:16,h:32},
+    "seaweed4":{x:52,y:117,w:16,h:32},
+
+    "infestedEggs01":{x:69,y:132,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggs02":{x:100,y:132,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggs03":{x:131,y:132,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggs04":{x:162,y:132,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch01":{x:87,y:148,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch02":{x:118,y:148,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch03":{x:151,y:148,w:32,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch04":{x:184,y:148,w:30,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch05":{x:87,y:164,w:29,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch06":{x:117,y:164,w:22,h:15,shiftX:-3,shiftY:-9},
+
+    "infestedEggs11":{x:87,y:180,w:29,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggs12":{x:117,y:180,w:29,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggs13":{x:147,y:180,w:29,h:15,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch11":{x:177,y:178,w:29,h:17,shiftX:-3,shiftY:-9},
+    "infestedEggsHatch12":{x:207,y:178,w:29,h:17,shiftX:-3,shiftY:-9},
+
+    "infestedEggs21":{x:87,y:196,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggs22":{x:117,y:196,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggs23":{x:147,y:196,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggs24":{x:177,y:196,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggsHatch21":{x:207,y:196,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggsHatch22":{x:87,y:212,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggsHatch23":{x:117,y:212,w:29,h:15,shiftX:-3,shiftY:-10},
+    "infestedEggsHatch24":{x:147,y:212,w:29,h:15,shiftX:-3,shiftY:-10},
+
+    "infestedEggsLarva1":{x:69,y:149,w:3,h:3},
+    "infestedEggsLarva2":{x:73,y:149,w:7,h:3},
+    "infestedEggsLarva3":{x:81,y:149,w:5,h:3},
+    /*"blueSwitchBlockOn1":{x:1,y:150,w:8,h:8,shiftX:0,shiftY:0},
+    "blueSwitchBlockOn2":{x:9,y:150,w:8,h:8,shiftX:0,shiftY:0},
+    "blueSwitchBlockOn3":{x:1,y:158,w:8,h:8,shiftX:0,shiftY:0},
+    "blueSwitchBlockOn4":{x:9,y:158,w:8,h:8,shiftX:0,shiftY:0},
+    "blueSwitchBlockOff":{x:18,y:150,w:16,h:16,shiftX:0,shiftY:0},
+    "redSwitchBlockOn":{x:1,y:167,w:16,h:16,shiftX:0,shiftY:0},
+    "redSwitchBlockOff":{x:18,y:167,w:16,h:16,shiftX:0,shiftY:0},*/
+    "sleepLog":{x:1,y:184,w:16,h:7},
+};
+
+var pressButton = function(x, y, w, h, button, func, drawFunc) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.button = button;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.ded = false;
+    this.showText = 0;
+    this.showTextGoDown = false;
+    this.func = func;
+    this.drawFunc = drawFunc;
+};
+pressButton.prototype.run = function() {
+    this.func(this);
+};
+pressButton.prototype.drawMoreFront = function() {
+    this.drawFunc(this);
+};
+
+var coinPickup = function(x, y, saveMarker) {
+    this.x = x * 16;
+    this.y = y * 16;
+    this.realX = x * 16;
+    this.realY = y * 16;
+    this.w = 16;
+    this.h = 16;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.ded = false;
+    this.saveMarker = saveMarker;
+    this.sprite = "coinPickup1";
+    this.spriteTimer = 1;
+    this.spriteDir = 0.25;
+    if (saveData.coins[this.saveMarker]) {
+        this.ded = true;
+    }
+
+    this.itemGet = false;
+    this.itemGetTimer = 0;
+    this.velY = 0;
+    this.fallTimer = 0;
+};
+
+coinPickup.prototype.run = function() {
+  if (!this.ded) {
+    this.spriteTimer += this.spriteDir;
+    if (floor(this.spriteTimer > 8)) {
+        this.spriteTimer = 8;
+        this.spriteDir = -this.spriteDir;
+    } else if (this.spriteTimer < 1) {
+        this.spriteTimer = 1;
+        this.spriteDir = -this.spriteDir;
+    }
+    if (!this.itemGet && players[0].x + players[0].w > this.x && players[0].x < this.x + this.w && players[0].y + players[0].h > this.y && players[0].y < this.y + this.h) {
+        musicPlaying.volumeTo = 0;
+        musicPlaying.drumVolumeTo = 0;
+        musicPlaying.smoothTransition = false;
+        //pauseSound(musicPlaying.track);
+        saveData.coins[this.saveMarker] = true;
+        if (!this.itemGet) {
+            playSound("coinJingle");
+            saveData.spawnLocations = [this.x, this.y, this.x + this.w, this.y];
+            saveData.currentArea = currentArea;
+            saveData.currentScreen = currentScreen;
+            saveGame(saveFile);
+            resetCutscene();
+            cutscene.type = "collectCoin";
+            cutscene.timer = 500;
+            cutscene.movePlayer[0] = this.x + 1;
+        }
+        this.itemGet = true;
+    }
+
+    if (this.itemGet) {
+        this.itemGetTimer++;
+        this.x = this.realX + sin(this.itemGetTimer / 10) * 20;
+        if (this.fallTimer >= 60 || this.y <= this.realY - 32 && floor(this.x) == this.realX) {
+            //this.spriteTimer = 1;
+            this.velY = 0;
+            this.itemGetTimer = -1;
+            this.x = this.realX;
+            if (abs(this.spriteDir) != 2) {this.spriteDir = -2;}
+            if (abs(this.spriteDir) == 2) {
+                //this.spriteDir = 0.5;
+                this.fallTimer++;
+                if (this.fallTimer >= 80) {
+                    this.fallTimer = 80;
+                    this.velY = 10;
+                } else {
+                    this.velY = -0.1;
+                }
+            }
+        } else {
+            this.velY -= 0.01;
+        }
+        this.y += this.velY;
+        if (this.fallTimer >= 60 && this.y >= players[0].y) {
+            players[0].idleTimer = 500;
+            coinGuiSubTimer = 300;
+            this.ded = true;
+            if (cutscene.timer > 50 && cutscene.type == "collectCoin") {cutscene.timer = 50;}
+            playSound("coinShatter");
+            for (var i = 0; i < 5; i++) {
+                enemies.push(new bounceParticle(players[0].x + this.w / 2 + random(-4, 4), players[0].y, 1, 1, random(-3, 3), random(-3, -1), 0.15, 0));
+            }
+            musicPlaying.volumeTo = currentLevel[currentLevel.length - 1][0].attributes.music.volume;
+            musicPlaying.smoothTransition = currentLevel[currentLevel.length - 1][0].attributes.music.smoothTransition;
+            //unpauseSound(musicPlaying.track);
+        }
+    }
+    this.sprite = "coinPickup" + floor(this.spriteTimer);
+  }
+};
+
+coinPickup.prototype.drawFront = function() {
+    image("collectableSprites", collectableImgs[this.sprite], this.x, this.y);
+};
+
+var swordPickup = function(x, y) {
+    this.tag = "collectable";
+    this.x = x;
+    this.y = y;
+    this.w = 5;
+    this.h = 11;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.sprite = "sword";
+    this.sprite2 = "shine1";
+    this.spriteTimer = 1;
+    this.ded = false;
+    this.fadeTimer = 0;
+};
+
+swordPickup.prototype.run = function() {
+    this.fadeTimer -= 0.1;
+    var thisItem = this;
+    if (cutscene.timer <= 0) {
+    interactionBox(this.x - 16, this.y - 32, 48, 48, this.x - 16, this.y - 32, 48, 48, function() {thisItem.fadeTimer += 0.2;}, function() {
+        saveData.abilities.sword = true;
+        saveData.spawnLocations = [thisItem.x, thisItem.y - 8, thisItem.x + thisItem.w, thisItem.y - 8];
+        saveData.currentArea = currentArea;
+        saveData.currentScreen = currentScreen;
+        saveGame(saveFile);
+        //alert(saveData.abilities.gravity);
+        //itemGet = true;
+        for (var j = 0; j < players.length; j++) {
+            players[j].pickUpSword(thisItem.x, thisItem.y - 6);
+        }
+        itemGetArr = [-50, 0, 0, "idle", "idle", "idle"];
+        itemGetFunc = function() {
+            if (itemGetArr[0] == 26) {
+                playSound("swipe1");
+            }
+            var attackKey = buttonNames[controls.X];
+            if (controllerType == 1) {
+                attackKey = getControllerKey("X", false);
+            }
+            for (var i = 0; i < players.length; i++) {
+                if (keysDown[players[i].controls.X]) {
+                    itemGet = false;
+                    itemGetTimer = -3;
+                }
+            }
+            itemGetArr[0]++;
+            itemGetArr[1] += itemGetArr[2];
+            itemGetArr[2] += 0.3;
+            if (itemGetArr[0] > 90) {itemGetArr[0] = 0;}
+            if (itemGetArr[0] == 0) {itemGetArr[2] = -6.5;}
+
+            //The first sprite
+            if (itemGetArr[2] < -1) {
+                itemGetArr[3] = "jump1";
+            } else if (itemGetArr[2] >= -1 && itemGetArr[2] < 0) {
+                itemGetArr[3] = "jump2";
+            } else if (itemGetArr[2] >= 0 && itemGetArr[2] < 1) {
+                itemGetArr[3] = "jump3";
+            } else if (itemGetArr[2] >= 1 && itemGetArr[2] < 2) {
+                itemGetArr[3] = "jump4";
+            } else if (itemGetArr[2] >= 2) {
+                itemGetArr[3] = "jump5";
+            }
+
+            if (itemGetArr[1] > 0) {itemGetArr[1] = 0; itemGetArr[3] = "idle";}
+            image("playerSprites", playerImgs[itemGetArr[3] + "Leg"], 140, 128 + round(itemGetArr[1]));
+            if (itemGetArr[0] > 20 && itemGetArr[0] < 35) {
+                itemGetArr[3] = "attackDown" + (floor(itemGetArr[0] / 5) - 3);
+            }
+            image("playerSprites", playerImgs[itemGetArr[3]], 140, 128 + round(itemGetArr[1]));
+            if (itemGetArr[0] > 25 && itemGetArr[0] < 35) {
+                image("playerSprites", playerImgs["swipeDown" + (floor(itemGetArr[0] / 5) - 3)], 140, 128 + round(itemGetArr[1]));
+            }
+            image("gui", {x:1,y:1,w:17,h:17}, 125, 158);
+            if (controllerType == 0) {
+                image("gui", {x:53,y:1,w:17,h:17}, 155, 158);
+            } else {
+                image("gui", {x:35,y:1,w:17,h:17}, 155, 158);
+            }
+            fill(0, 0, 0);
+            if (itemGetArr[0] > 15 && itemGetArr[0] < 40) {
+                image("gui", {x:27,y:9,w:7,h:6,shiftX:5,shiftY:11}, 125, 158);
+                if (controllerType == 0) {
+                    image("gui", {x:53,y:19,w:17,h:17}, 155, 158);
+                } else {
+                    image("gui", {x:35,y:19,w:17,h:17}, 155, 158);
+                }
+                fill(255, 255, 255);
+            }
+            text8(attackKey, 164, 163, 1, "center");
+
+            image("playerSprites", playerImgs["idleLeg"], 220, 128);
+            itemGetArr[4] = "idle";
+            if (itemGetArr[0] > 20 && itemGetArr[0] < 35) {
+                itemGetArr[4] = "attack" + (floor(itemGetArr[0] / 5) - 3);
+            }
+                image("playerSprites", playerImgs[itemGetArr[4]], 220, 128);
+            if (itemGetArr[0] > 25 && itemGetArr[0] < 35) {
+                image("playerSprites", playerImgs["swipe" + (floor(itemGetArr[0] / 5) - 3)], 220, 128);
+            }
+            fill(0, 0, 0);
+            if (controllerType == 0) {
+                image("gui", {x:53,y:1,w:17,h:17}, 220, 158);
+            } else {
+                image("gui", {x:35,y:1,w:17,h:17}, 220, 158);
+            }
+            if (itemGetArr[0] > 15 && itemGetArr[0] < 40) {
+                image("gui", {x:35,y:19,w:17,h:17}, 220, 158);
+                if (controllerType == 0) {
+                    image("gui", {x:53,y:19,w:17,h:17}, 220, 158);
+                } else {
+                    image("gui", {x:35,y:19,w:17,h:17}, 220, 158);
+                }
+                fill(255, 255, 255);
+            }
+            text8(attackKey, 229, 163, 1, "center");
+
+            image("playerSprites", playerImgs["idleLeg"], 300, 128);
+            itemGetArr[5] = "idle";
+            if (itemGetArr[0] > 20 && itemGetArr[0] < 35) {
+                itemGetArr[5] = "attackUp" + (floor(itemGetArr[0] / 5) - 3);
+            }
+            image("playerSprites", playerImgs[itemGetArr[5]], 300, 128);
+            if (itemGetArr[0] > 25 && itemGetArr[0] < 35) {
+                image("playerSprites", playerImgs["swipeUp" + (floor(itemGetArr[0] / 5) - 3)], 300, 128);
+            }
+            fill(0, 0, 0);
+            image("gui", {x:1,y:1,w:17,h:17}, 285, 158);
+            if (controllerType == 0) {
+                image("gui", {x:53,y:1,w:17,h:17}, 315, 158);
+            } else {
+                image("gui", {x:35,y:1,w:17,h:17}, 315, 158);
+            }
+            if (itemGetArr[0] > 15 && itemGetArr[0] < 40) {
+                image("gui", {x:19,y:9,w:7,h:6,shiftX:5,shiftY:0}, 285, 158);
+                if (controllerType == 0) {
+                    image("gui", {x:53,y:19,w:17,h:17}, 315, 158);
+                } else {
+                    image("gui", {x:35,y:19,w:17,h:17}, 315, 158);
+                }
+                fill(255, 255, 255);
+            }
+            text8(attackKey, 324, 163, 1, "center");
+        };
+    });
+    }
+  //}
+    if (cutscene.timer == 80) {this.ded = true;}
+    this.fadeTimer = constrain(this.fadeTimer, 0, 1);
+    this.spriteTimer += 0.25;
+    if (this.spriteTimer > 30) {this.spriteTimer = 1;}
+    this.sprite2 = "shine" + floor(this.spriteTimer);
+};
+
+swordPickup.prototype.draw = function() {
+    fill(255, 255, 255, this.fadeTimer);
+    text8("Pick Up", this.x, this.y - 16, 1, "center");
+    image("collectableSprites", collectableImgs[this.sprite], this.x, this.y, 5, 11);
+    if (this.spriteTimer < 6) {
+        image("collectableSprites", collectableImgs[this.sprite2], this.x, this.y);
+    }
+};
+
+var bootPickup = function(x, y) {
+    this.tag = "collectable";
+    this.x = x;
+    this.y = y + 4;
+    this.w = 24;
+    this.h = 12;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.sprite = "jetbootsTable";
+    this.sprite2 = "shine1";
+    this.spriteTimer = 1;
+    this.ded = false;
+    this.fadeTimer = 0;
+};
+
+bootPickup.prototype.run = function() {
+    this.fadeTimer -= 0.1;
+    var thisItem = this;
+    if (cutscene.timer <= 0 && !saveData.abilities.jetboots) {
+    interactionBox(this.x - 16, this.y - 32, 48, 48, this.x - 16, this.y - 32, 48, 48, function() {thisItem.fadeTimer += 0.2;}, function() {
+        saveData.abilities.jetboots = true;
+        saveData.spawnLocations = [thisItem.x, thisItem.y - 12, thisItem.x + thisItem.w, thisItem.y - 12];
+        saveData.currentArea = currentArea;
+        saveData.currentScreen = currentScreen;
+        saveGame(saveFile);
+        //itemGet = true;
+        for (var j = 0; j < players.length; j++) {
+            players[j].pickUpBoot(thisItem.x, thisItem.y - 10);
+        }
+        itemGetArr = [-50, 0, 0, "idle", "idle", "idle", 1];
+        itemGetFunc = function() {
+            var jumpKey = buttonNames[controls.Z];
+            if (controllerType == 1) {
+                jumpKey = getControllerKey("A", false);
+            }
+            for (var i = 0; i < players.length; i++) {
+                if (keysDown[players[i].controls.Z]) {
+                    itemGet = false;
+                    itemGetTimer = -3;
+                }
+            }
+            itemGetArr[0]++;
+            if (itemGetArr[0] > 90) {itemGetArr[0] = 0;}
+            if (itemGetArr[0] == 0) {itemGetArr[2] = -6.5;}
+            itemGetArr[1] += itemGetArr[2];
+            itemGetArr[2] += 0.3;
+
+            //The first sprite
+            if (itemGetArr[2] < -1) {
+                itemGetArr[3] = "jump1";
+            } else if (itemGetArr[2] >= -1 && itemGetArr[2] < 0) {
+                itemGetArr[3] = "jump2";
+            } else if (itemGetArr[2] >= 0 && itemGetArr[2] < 1) {
+                itemGetArr[3] = "jump3";
+            } else if (itemGetArr[2] >= 1 && itemGetArr[2] < 2) {
+                itemGetArr[3] = "jump4";
+            } else if (itemGetArr[2] >= 2) {
+                itemGetArr[3] = "jump5";
+            }
+
+            if (itemGetArr[1] > 0) {
+                itemGetArr[1] = 0;
+                itemGetArr[2] = 1;
+                itemGetArr[3] = "idle";
+            }
+            var oldItemGetArr = itemGetArr[3];
+            if (itemGetArr[2] > 2) {
+                itemGetArr[2] = 2;
+                itemGetArr[6] += 0.25;
+                if (itemGetArr[6] > 3) {itemGetArr[6] = 1;}
+                itemGetArr[3] = "glide" + Math.floor(itemGetArr[6]);
+                getId("playerJetboots").play();
+                getId("playerJetboots").volume = 0.23 * _settings.soundVolume;
+                if (getId("playerJetboots").currentTime > 0.8) {
+                    getId("playerJetboots").currentTime = 0.1;
+                }
+            } else {
+                endSound("playerJetboots");
+            }
+            image("playerSprites", playerImgs[itemGetArr[3] + "Leg"], 220, 128 + round(itemGetArr[1]));
+            image("playerSprites", playerImgs[oldItemGetArr], 220, 128 + round(itemGetArr[1]));
+            if (controllerType == 0) {
+                image("gui", {x:53,y:1,w:17,h:17}, 220, 158);
+            } else {
+                image("gui", {x:35,y:1,w:17,h:17}, 220, 158);
+            }
+            fill(0, 0, 0);
+            if (itemGetArr[2] >= 2 || itemGetArr[2] < -3) {
+                if (controllerType == 0) {
+                    image("gui", {x:53,y:19,w:17,h:17}, 220, 158);
+                } else {
+                    image("gui", {x:35,y:19,w:17,h:17}, 220, 158);
+                }
+                fill(255, 255, 255);
+            }
+            text8(jumpKey, 229, 163, 1, "center");
+        };
+    });
+    }
+  //}
+    this.fadeTimer = constrain(this.fadeTimer, 0, 1);
+    this.spriteTimer += 0.25;
+    if (this.spriteTimer > 30) {this.spriteTimer = 1;}
+    this.sprite2 = "shine" + floor(this.spriteTimer);
+    if (saveData.abilities.jetboots) {this.fadeTimer = 0;}
+};
+
+bootPickup.prototype.draw = function() {
+    fill(255, 255, 255, this.fadeTimer);
+    text8("Pick Up", this.x + 12, this.y - 32, 1, "center");
+    image("collectableSprites", collectableImgs[this.sprite], this.x, this.y);
+    if (!saveData.abilities.jetboots) {
+        image("collectableSprites", collectableImgs.jetboots, this.x + 5, this.y - 4);
+        if (this.spriteTimer < 6) {
+            image("collectableSprites", collectableImgs[this.sprite2], this.x + 3, this.y - 7);
+        }
+    }
+};
+
+
+var drinkPickup = function(x, y, elDrink) {
+    this.tag = "collectable";
+    this.x = x;
+    this.y = y + 4;
+    this.drink = elDrink;
+    this.w = 12;
+    this.h = 12;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.velX = 0;
+    this.velY = 0;
+    this.sprite = ["drinkWarmWater","drinkYellowTea"][this.drink];
+    this.sprite2 = "shine1";
+    this.spriteTimer = 1;
+    this.ded = false;
+    this.fadeTimer = 0;
+};
+
+drinkPickup.prototype.run = function() {
+    this.fadeTimer -= 0.1;
+    var thisItem = this;
+    interactionBox(this.x - 16, this.y - 32, 44, 48, this.x - 16, this.y - 32, 48, 48, function() {thisItem.fadeTimer += 0.2;}, function() {
+        var showTutorial = true;
+        for (var i = 1; i < saveData.flasks.unlocked.length; i++) {
+            if (saveData.flasks.unlocked[i]) {
+                showTutorial = false;
+            }
+        }
+        /*if (showTutorial) {
+            screenTitle.title = ["Default","Yellow Tea","???","???","???","???","???","???","???","???","???","???","???"][thisItem.drink];
+            screenTitle.titleSize = 1;
+            screenTitle.subtitle = "Press E at a campfire to equip";
+            screenTitle.subtitleSize = 1;
+            screenTitle.fadeDir = 0.05;
+            screenTitle.resetTimer = 200;
+            screenTitle.x = 227;
+            screenTitle.y = 80;
+            screenTitle.x2 = 227;
+            screenTitle.y2 = 96;
+        }*/
+                resetCutscene();
+                dialogBox = {
+                    "txts":
+                        [
+                            "You got " + ["Default","Yellow Tea","???","???","???","???","???","???","???","???","???","???","???"][thisItem.drink] + "!",
+                            "Press E at a campfire to equip.",
+                        ],
+                    "txtPage":0,
+                    "leLimit":4,
+                    "speed":0.5,
+                    "volume":0.7,
+                    "sound":"playerJump",
+                    "visible":true,
+                    "lockCutsceneTimer":2,
+                    "selector":1,
+                    "skippable":!showTutorial,
+                };
+        saveData.flasks.unlocked[thisItem.drink] = true;
+        saveData.spawnLocations = [thisItem.x - 1, thisItem.y - 12, thisItem.x + 32, thisItem.y - 12];
+        saveData.currentArea = currentArea;
+        saveData.currentScreen = currentScreen;
+        playSound("playerCollectDrink");
+        saveGame(saveFile);
+        thisItem.ded = true;
+    });
+    this.velX = 0;
+    this.velY += 0.1;
+    this.x += this.velX;
+    this.y += this.velY;
+    checkCollisions(this);
+    this.fadeTimer = constrain(this.fadeTimer, 0, 1);
+    this.spriteTimer += 0.25;
+    if (this.spriteTimer > 30) {this.spriteTimer = 1;}
+    this.sprite2 = "shine" + floor(this.spriteTimer);
+};
+
+drinkPickup.prototype.wallTop = function() {
+    this.velY = 0;
+};
+
+drinkPickup.prototype.draw = function() {
+    fill(255, 255, 255, this.fadeTimer);
+    text8("Pick Up", floor(this.x) + 6, floor(this.y) - 32, 1, "center");
+    //fill(255, 255, 255);
+    //rect(this.x, this.y, 12, 12);
+    image("collectableSprites", collectableImgs[this.sprite], this.x, this.y);
+    if (!saveData.abilities.jetboots) {
+        if (this.spriteTimer < 6) {
+            image("collectableSprites", collectableImgs[this.sprite2], this.x + 3, this.y - 3);
+        }
+    }
+};
+
+//CAMERA LOCK
+var cameraLock = function(x, y, w, h, minX, maxX, minY, maxY) {
+    this.tag = "notEnemy";
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.minX = minX + screenW;
+    this.maxX = maxX - screenW;
+    this.minY = minY + screenH;
+    this.maxY = maxY - screenH;
+    this.locksCamera = true;
+    this.ded = false;
+};
+
+cameraLock.prototype.run = function() {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y && p.y < this.y + this.h) {
+            scrollLock = {minX:this.minX,maxX:this.maxX,minY:this.minY,maxY:this.maxY};
+        }
+    }
+};
+
+cameraLock.prototype.draw = function() {
+    //fill(0, 0, 255, 0.5);
+    //rect(this.x, this.y, this.w, this.h);
+};
+
+//CAMERA LOCK
+var checkPoint = function(x, y, w, h, x2, y2, needsGround) {
+    this.tag = "notEnemy";
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.x = x * 16;
+    this.y = y * 16;
+    this.w = w * 16;
+    this.h = h * 16;
+    this.x2 = x2 * 16;
+    this.y2 = y2 * 16 + 7;
+};
+
+checkPoint.prototype.run = function() {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        var myXChanger = 16;
+        if (p.isGrounded > 0) {myXChanger = 0;}
+        if (p.isGrounded > 0 | !this.needsGround &&
+            p.x + p.w > this.x + myXChanger && p.x < this.x + this.w - myXChanger && p.y + p.h > this.y && p.y < this.y + this.h) {
+            p.checkPointX = this.x2;
+            p.checkPointY = this.y2;
+        }
+    }
+};
+
+checkPoint.prototype.draw = function() {
+    //debugging. Blue retangle is the bounds of the checkpoint(16px smaller on both sides when in the air),
+    //and the red box is where the player will respawn. This is only for spikes and such on the same screen.
+    //It is set to the room entrance when changing rooms.
+    /*fill(0, 0, 255, 0.5);
+    rect(this.x, this.y, this.w, this.h);
+    fill(255, 0, 0, 0.5);
+    rect(this.x2, this.y2, 16, 24);*/
+};
+
+//DESTRUCTIVE PLATFORMS(collision needs improvement)
+var breakPlatform = function(x, y, saveMarker, w, h, triggerX, triggerW, drawFunc) {
+    this.tag = "notEnemy";
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.triggerX = triggerX;
+    this.triggerW = triggerW;
+    this.breakTimer = 30;
+    this.ded = false;
+    this.saveMarker = saveMarker;
+    if (saveData.oneTimers[currentArea].length < this.saveMarker) {
+        this.saveMarker = 0;
+        alert("uh oh, savemarker... breakwall... notEnemies...");
+    }
+    this.drawFunc = drawFunc;
+};
+
+breakPlatform.prototype.run = function() {
+    if (saveData.oneTimers[currentArea].length < this.saveMarker) {
+        this.saveMarker = 0;
+        alert("uh oh, savemarker... breakwall... notEnemies...");
+    }
+    if (saveData.oneTimers[currentArea][this.saveMarker]) {
+        this.ded = true;
+    }
+    if (this.breakTimer < 30) {
+        this.breakTimer--;
+        if (this.breakTimer < 0) {
+            playSound("wallBreak");
+            this.ded = true;
+            saveData.oneTimers[currentArea][this.saveMarker] = true;
+        }
+    }
+};
+
+breakPlatform.prototype.draw = function() {
+  if (!saveData.oneTimers[currentArea][this.saveMarker]) {
+    //fill(0, 255, 0);
+    //rect(this.x + this.triggerX, this.y, this.triggerW, this.h);
+  }
+};
+breakPlatform.prototype.drawFront = function() {
+    if (!saveData.oneTimers[currentArea][this.saveMarker]) {
+        save();
+        translate(this.x, this.y);
+        this.drawFunc(this);
+        restore();
+    }
+};
+
+breakPlatform.prototype.collider = function(p) {
+    if (p.tag == "player") {
+        if (p.x + p.w > this.x + this.triggerX && p.x < this.x + this.triggerX + this.triggerW && p.y + p.h > this.y
+            && p.y + p.h < this.y + 0.1 + p.velY && p.velY > 0 && this.breakTimer == 30) {
+            this.breakTimer--;
+            playSound("wallHurt");
+        }
+    }
+    collider(this.x, this.y, this.w, this.h, p);
+};
+
+/*
+Breakable Wall Function
+
+Breaks when player attacks it with sword.
+*/
+var breakWall = function(x, y, w, h, side, saveMarker, func, func2) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.hp = 3;
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+    this.ded = false;
+    this.func = func;
+    this.func2 = func2;
+    this.side = side;
+    this.saveMarker = saveMarker;
+    if (saveData.oneTimers[currentArea].length < this.saveMarker) {
+        this.saveMarker = 0;
+        alert("uh oh, savemarker... breakwall... notEnemies...");
+    }
+};
+
+breakWall.prototype.run = function() {
+    if (saveData.oneTimers[currentArea].length < this.saveMarker) {
+        this.saveMarker = 0;
+        alert("uh oh, savemarker... breakwall... notEnemies...");
+    }
+    if (this.hp > 0 && !saveData.oneTimers[currentArea][this.saveMarker]) {
+      var p = players[0];
+      if (this.side == -1 && p.x <= this.x || this.side == 1 && p.x >= this.x || this.side == -0.5 && p.y <= this.y || this.side == 0.5 && p.y >= this.y) {
+        attackBox(this.x, this.y, this.w, this.h, this);
+      }
+    } else {
+        this.ded = true;
+        //NEED TO MAKE PERMANENTLY SAVED WHEN DESTROYED(i.e. after dying the wall should stay broke)
+        saveData.oneTimers[currentArea][this.saveMarker] = true;
+    }
+};
+
+breakWall.prototype.drawFront = function() {
+  if (!saveData.oneTimers[currentArea][this.saveMarker]) {
+    this.func(this.x, this.y, this.hp);
+  }
+};
+breakWall.prototype.drawMoreFront = function() {
+  if (!saveData.oneTimers[currentArea][this.saveMarker]) {
+    this.func2(this.x, this.y);
+  }
+};
+
+breakWall.prototype.takeDamage = function(amount, kb, tip) {
+    //var tip = [0, 0];
+    this.hp -= amount;
+    if (this.hp > 0) {
+        playSound("wallHurt", 0.3);
+    } else {
+        playSound("wallBreak", 0.3);
+    }
+    var addX = 0;
+    var addY = 0;
+    var addVX = function() {return 0;};
+    var addVY = function() {return 0;};
+    switch (this.side) {
+      case -1:
+        addX = 0;
+        addY = constrain(tip[1] - this.y, 0, this.h - 2);
+        addVX = function() {return random(-3, -0.5);};
+        addVY = function() {return random(-3, 3);};
+      break;
+      case 1:
+        addX = 16;
+        addY = constrain(tip[1] - this.y, 0, this.h - 2);
+        addVX = function() {return random(0.5, 3);};
+        addVY = function() {return random(-3, 3);};
+      break;
+      case 0.5:
+        addX = constrain(tip[0] - this.x, 0, this.w - 2);
+        addY = 16;
+        addVX = function() {return random(-3, 3);};
+        addVY = function() {return random(0.5, 3);};
+      break;
+      case -0.5:
+        addX = constrain(tip[0] - this.x, 0, this.w - 2);
+        addY = 0;
+        addVX = function() {return random(-3, 3);};
+        addVY = function() {return random(-3, -0.5);};
+      break;
+    }
+    for (var i = 0; i < 5; i++) {
+        enemies.push(new bounceParticle(this.x + addX, this.y + addY, 1, 1, addVX(), addVY(), 0.3, 0));
+    }
+};
+
+breakWall.prototype.collider = function(p) {
+    collider(this.x, this.y, this.w, this.h, p);
+};
+
+var jumpPlatform = function(x, y, w, h, color) {
+    this.x = x * 16;
+    this.y = y * 16;
+    this.w = w * 16;
+    this.h = h * 16;
+    this.color = color;
+    this.on = color;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.lastSaw = true;
+    this.currentSaw = true;
+    this.switchTimer = 0;
+};
+
+jumpPlatform.prototype.run = function() {
+    if (this.switchTimer > 0) {
+        this.switchTimer--;
+    }
+    this.currentSaw = (players[0].isGrounded > 0);
+    if (this.lastSaw != this.currentSaw && players[0].velY < 0) {
+        this.on = !this.on;
+        this.switchTimer = 5;
+    }
+    this.lastSaw = (players[0].isGrounded > 0);
+};
+
+jumpPlatform.prototype.draw = function() {
+    save();
+    translate(0, this.switchTimer);
+    if (this.color == 0) {
+        fill(255, 0, 0, (this.on) ? 1 : 0);
+        rect(this.x, this.y, this.w, this.h);
+        fill((this.on) ? 0 : 255, 0, 0);
+    } else {
+        fill(0, 0, 255, (this.on) ? 1 : 0);
+        rect(this.x, this.y, this.w, this.h);
+        fill(0, 0, (this.on) ? 0 : 255);
+    } 
+    rect(this.x + 1, this.y + 1, 3, 1);
+    rect(this.x + 1, this.y + 1, 1, 3);
+    rect(this.x + 1, this.y + 12, 1, 3);
+    rect(this.x + 1, this.y + 14, 3, 1);
+    rect(this.x + this.w - 4, this.y + 1, 3, 1);
+    rect(this.x + this.w - 2, this.y + 1, 1, 3);
+    rect(this.x + this.w - 2, this.y + 12, 1, 3);
+    rect(this.x + this.w - 4, this.y + 14, 3, 1);
+    restore();
+};
+
+jumpPlatform.prototype.collider = function(p) {
+    if (this.on) {
+        collider(this.x, this.y, this.w, this.h, p);
+    }
+};
+
+var jumpSpike = function(x, y, w, h, color) {
+    this.x = x * 16;
+    this.y = y * 16;
+    this.w = w * 16;
+    this.h = h * 16;
+    this.color = color;
+    this.on = color;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.lastSaw = true;
+    this.currentSaw = true;
+    this.switchTimer = 0;
+};
+
+jumpSpike.prototype.run = function() {
+    if (this.switchTimer > 0) {
+        this.switchTimer--;
+    }
+    this.currentSaw = (players[0].isGrounded > 0);
+    if (this.lastSaw != this.currentSaw && players[0].velY < 0) {
+        this.on = !this.on;
+        this.switchTimer = 5;
+    }
+    this.lastSaw = (players[0].isGrounded > 0);
+};
+
+jumpSpike.prototype.draw = function() {
+    save();
+    translate(0, this.switchTimer);
+    if (this.color == 0) {
+        fill(255, 0, 0, (this.on) ? 1 : 0);
+        rect(this.x, this.y, this.w, this.h);
+        fill((this.on) ? 0 : 255, 0, 0);
+    } else {
+        fill(0, 0, 255, (this.on) ? 1 : 0);
+        rect(this.x, this.y, this.w, this.h);
+        fill(0, 0, (this.on) ? 0 : 255);
+    } 
+    /*rect(this.x + 1, this.y + 1, 3, 1);
+    rect(this.x + 1, this.y + 1, 1, 3);
+    rect(this.x + 1, this.y + 12, 1, 3);
+    rect(this.x + 1, this.y + 14, 3, 1);
+    rect(this.x + this.w - 4, this.y + 1, 3, 1);
+    rect(this.x + this.w - 2, this.y + 1, 1, 3);
+    rect(this.x + this.w - 2, this.y + 12, 1, 3);
+    rect(this.x + this.w - 4, this.y + 14, 3, 1);*/
+    restore();
+};
+
+
+/*
+Grass
+*/
+var grass = function(x, y, w, h, sprites, spriteTimerSpeed) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.immuneTimers = [-10,-10];
+    this.inWater = false;
+    this.sprite = sprites[0];
+    this.sprites = sprites;
+    this.spriteTimer = 0;
+    this.spriteTimerSpeed = spriteTimerSpeed;
+    this.ded = false;
+};
+
+grass.prototype.run = function() {
+    this.spriteTimer += this.spriteTimerSpeed;
+    if (floor(this.spriteTimer) > this.sprites.length - 1) {this.spriteTimer = 0;}
+    this.sprite = this.sprites[floor(this.spriteTimer)];
+    attackBox2(this.x, this.y, this.w, this.h, this);
+};
+
+grass.prototype.drawBack = function() {
+    image("notEnemySprites", notEnemySprites[this.sprite], this.x, this.y);
+};
+
+grass.prototype.takeDamage = function(amount, kb) {
+    this.ded = true;
+    var addVelX = random(-1, 1);
+    if (kb == 1 || kb == -1) {addVelX = kb / random(1, 4);}
+    var addVelY = random(-0.5, 0.5);
+    for (var i = 1; i < 4; i++) {
+        var iRandoms = [random(-0.3, 0.3), random(-0.3, 0.1), round(random(-1, 1)), round(random(-1, 1))];
+        enemies.push(new floatParticle(this.x + 4 * i, this.y + 5, 1, 1,
+                     constrain(addVelX + iRandoms[0], -1, 1), constrain(addVelY + iRandoms[1], -1, 1), 1.05, 60, [128, 128, 128]));
+        enemies.push(new floatParticle(this.x + 4 * i + iRandoms[2], this.y + 5 + iRandoms[3], 1, 1,
+                     constrain(addVelX + iRandoms[0], -1, 1), constrain(addVelY + iRandoms[1], -1, 1), 1.05, 60, [128, 128, 128]));
+        enemies.push(new floatParticle(this.x + 4 * i - iRandoms[2], this.y + 5 - iRandoms[3], 1, 1,
+                     constrain(addVelX + iRandoms[0], -1, 1), constrain(addVelY + iRandoms[1], -1, 1), 1.05, 60, [128, 128, 128]));
+    }
+};
+
+var standardDoor = function(x, y) {
+    this.x = x + 1;
+    this.y = y;
+    this.w = 28;
+    this.h = 48;
+    this.opened = 0;
+    this.opening = 0;
+    this.closed = false;
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+    this.lastPlayed = 0;
+};
+
+standardDoor.prototype.run = function() {
+    this.opened += this.opening;
+    if (this.lastPlayed != 1 && this.opening >= 0.5) {
+        playSound("doorSlam", 0.3);
+        this.lastPlayed = 1;
+    } else if (this.lastPlayed != 0 && this.opening < 0.5) {
+        playSound("doorOpen", 0.2);
+        this.lastPlayed = 0;
+    }
+    this.opened = constrain(this.opened, 0, 3.99);
+};
+standardDoor.prototype.collider = function(p) {
+    if (floor(this.opened) > 0) {
+        collider(this.x - 1, this.y, this.w + 2, this.h, p);
+    }
+};
+
+standardDoor.prototype.draw = function() {
+    if (floor(this.opened) > 0) {
+        fill(255, 255, 255);
+        rect(this.x, this.y - 4, 1, 4);
+        rect(this.x + this.w - 1, this.y - 4, 1, 4);
+        rect(this.x, this.y + this.h, 1, 4);
+        rect(this.x + this.w - 1, this.y + this.h, 1, 4);
+        image("redFlyAssets", redFlyBossImgs["door" + floor(this.opened)], this.x, this.y);
+    }
+};
+
+var spawnRoom = function(x, y, w, h, saveMarker, doors, minions, waveCount, enemiesPerWave, drums) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.saveMarker = saveMarker;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.ded = saveData.oneTimers[currentArea][this.saveMarker];
+    this.doors = doors;
+    this.minions = minions;
+    this.wave = [];
+    this.waveTimer = 180;
+    this.countDown = false;
+    this.waveCount = waveCount;
+    this.currentWave = -1;
+    this.enemiesPerWave = enemiesPerWave;
+    this.enemiesSpawned = 0;
+    this.drums = drums;
+};
+
+spawnRoom.prototype.run = function() {
+    for (var i = 0; i < this.doors.length; i++) {
+        this.doors[i].run();
+        if (this.currentWave < 0 && players[0].x + players[0].w > this.x && players[0].x < this.x + this.w &&
+            players[0].y + players[0].h > this.y && players[0].y < this.y + this.h) {
+            this.doors[i].opening = 0.5;
+            this.countDown = true;
+            if (this.drums) {
+                musicPlaying.nextDrumTrack = this.drums;
+            }
+        } else if (this.currentWave >= this.waveCount) {
+            this.doors[i].opening = -0.5;
+            if (this.drums) {
+                musicPlaying.nextDrumTrack = "";
+            }
+            saveData.oneTimers[currentArea][this.saveMarker] = true;
+        }
+    }
+    //if (this.countDown && this.currentWave < 0 && this.w) {this.currentWave = 0;}
+    for (var i = 0; i < this.wave.length; i++) {
+        if (this.wave[i].ded == true) {
+            this.wave.splice(i, 1);
+            //console.log(this.currentWave + ", " + this.wave);
+        }
+    }
+    if (this.countDown && this.wave.length == 0 && this.waveTimer > -100) {
+        this.waveTimer--;
+    }
+
+    if (this.countDown && this.wave.length == 0 && this.waveTimer < 0 && this.currentWave < 0 | this.enemiesSpawned == this.enemiesPerWave[this.currentWave]) {
+        this.waveTimer = 180;
+        this.currentWave++;
+        //console.log("e");
+        this.enemiesSpawned = 0;
+    }
+    for (var i = 0; i < this.minions.length; i++) {
+        if (this.minions[i].parent) {this.minions[i].parent = this;}
+            this.minions[i].run();
+            if (this.minions[i].ded) {
+                this.minions.splice(i, 1);
+                i--;
+            }
+    }
+};
+
+spawnRoom.prototype.draw = function() {
+    //fill(0, 255, 0, 0.3);
+    //text8("" + this.waveTimer + ", " + this.waveCount + ", " + this.currentWave, this.x + 64, 128, 1, "center");
+    //rect(this.x, this.y, this.w, this.h);
+    for (var i = 0; i < this.doors.length; i++) {
+        this.doors[i].draw();
+    }
+    if (!saveData.oneTimers[currentArea][this.saveMarker]) {
+        for (var i = 0; i < this.minions.length; i++) {
+            this.minions[i].draw();
+        }
+    }
+};
+spawnRoom.prototype.drawFront = function() {
+    //fill(0, 255, 0, 0.3);
+    //rect(this.x, this.y, this.w, this.h);
+    for (var i = 0; i < this.doors.length; i++) {
+        if(this.doors[i].drawFront) {this.doors[i].drawFront();}
+    }
+
+    if (!saveData.oneTimers[currentArea][this.saveMarker]) {
+        for (var i = 0; i < this.minions.length; i++) {
+            if (this.minions[i].drawFront) {this.minions[i].drawFront();}
+        }
+    }
+};
+
+spawnRoom.prototype.collider = function(p) {
+    for (var i = 0; i < this.doors.length; i++) {
+        this.doors[i].collider(p);
+    }
+};
+
+var infestedEggs = function(x, y, type, spawners, spawnClause) {
+    this.x = x + 3;
+    this.y = y + 10;
+    this.w = 23;
+    this.h = 6;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.ded = false;
+    this.spawners = spawners;
+    this.spawnClause = spawnClause;
+    this.sprite = "infestedEggs01";
+    this.spriteTimer = 1;
+    this.spriteDir = 1;
+    this.spawnEm = false;
+    this.waveTimer = 1000;
+    this.parent = this;
+    this.children = [];
+    this.type = type;
+    this.shakeTimer = 0;
+    this.shakeX = 0;
+};
+
+infestedEggs.prototype.run = function() {
+    this.spriteTimer += this.spriteDir;
+    switch(this.type) {
+      case 0:
+        if (floor(this.spriteTimer) > 4) {
+            if (this.shakeTimer < 90) {
+                this.spriteTimer = 4.9;
+                this.spriteDir = -0.25;
+            } else if (floor(this.spriteTimer > 6)) {
+                this.spriteTimer = 7;
+            }
+        } else if (floor(this.spriteTimer) < 1) {
+            this.spriteTimer = 1;
+            this.spriteDir = 0.25;
+        }
+      break;
+      case 1:
+          if (this.spriteTimer < 2 && this.shakeTimer < 90) {
+              this.spriteDir = 0.01;
+          } else if (!this.ded) {
+              this.spriteDir = 0.25;
+          } else {
+              this.spriteDir = 0.15;
+          }
+          if (floor(this.spriteTimer) > 3 && this.shakeTimer < 90) {
+              this.spriteTimer = 1;
+          }
+      break;
+      case 2:
+        if (floor(this.spriteTimer) > 4) {
+            if (this.shakeTimer < 90) {
+                this.spriteTimer = 4.9;
+                this.spriteDir = -0.25;
+            } else if (floor(this.spriteTimer > 5)) {
+                this.spriteTimer = 5;
+            }
+        } else if (floor(this.spriteTimer) < 1) {
+            this.spriteTimer = 1;
+            this.spriteDir = 0.25;
+        }
+      break;
+    }
+    this.spawnClause(this);
+    if (this.shakeTimer == 91) {
+        playSound("redFlyHatch");
+        this.spriteTimer = 1;
+        this.spriteDir = 0.25;
+        for (var i = 0; i < this.spawners.length; i++) {
+            switch (this.spawners[i].type) {
+                case 1:enemies.push(new RedFly(this.x, this.y, -2 + i, -i / 4, true));break;
+                case 2:enemies.push(new redParasite(this.x, this.y - 10, 0, 0));break;
+                case 3:enemies.push(new BigRedFly(this.x, this.y - 10, -1 + i, 0, true));break;
+            }
+            if (this.parent) {
+                this.parent.wave.push(enemies[enemies.length - 1]);
+                this.parent.enemiesSpawned++;
+            }
+        }
+    }
+    if (this.shakeTimer < 92) {
+        this.sprite = "infestedEggs" + this.type + Math.floor(this.spriteTimer);
+        if (this.spawnEm) {
+            this.shakeTimer++;
+            this.shakeX = random(-1.6, 1.6);
+        }
+    } else {
+        this.shakeX = 0;
+        this.sprite = "infestedEggsHatch" + this.type + Math.floor(this.spriteTimer);
+        if (!notEnemySprites[this.sprite]) {
+            this.sprite = "infestedEggsHatch" + this.type + Math.floor(this.spriteTimer - 1);
+            this.ded = true;
+        }
+    }
+};
+infestedEggs.prototype.draw = function() {};
+infestedEggs.prototype.drawFront = function() {
+    //text8("" + this.shakeTimer, this.x, this.y - 20, 1);
+    if (this.spriteTimer < [8, 4, 5][this.type] && !this.ded && notEnemySprites[this.sprite] != undefined) {
+        console.log(this.sprite);
+        image("notEnemySprites", notEnemySprites[this.sprite], this.x + this.shakeX, this.y);
+    }
+    if (this.spawners && this.shakeTimer < 90) {
+        var offSets = [
+                       [{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":-1},{"x":-1,"y":-3},{"x":-1,"y":-4},{"x":-1,"y":-5}],
+                       [{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":-3},{"x":0,"y":-1},{"x":0,"y":0},{"x":0,"y":0},],
+                       [{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":2},{"x":0,"y":3},{"x":0,"y":4},{"x":0,"y":0},],
+                      ][this.type][Math.floor(this.spriteTimer)];
+        for (var i = 0; i < this.spawners.length; i++) {
+            image("notEnemySprites", notEnemySprites["infestedEggsLarva" + this.spawners[i].type],
+                  this.x + this.spawners[i].x + offSets.x + this.shakeX, this.y + this.spawners[i].y + offSets.y);
+        }
+    }
+    //fill(255, 0, 0);
+    //rect(this.x, this.y, this.w, this.h);
+};         
+
+var miscSpawner = function(x, y, spawners, spawnClause) {
+    this.x = x;
+    this.y = y;
+    this.w = 1;
+    this.h = 1;
+    this.immuneTimers = [0,0];
+    this.inWater = false;
+    this.ded = false;
+    this.spawners = spawners;
+    this.spawnClause = spawnClause;
+    this.spawnEm = false;
+    this.parent = this;
+    this.children = [];
+};               
+miscSpawner.prototype.run = function() {
+    //this.spawnClause(this);
+    if (!this.ded) {
+        this.ded = true;
+        for (var i = 0; i < this.spawners.length; i++) {
+            this.spawners[i]();
+            if (this.parent) {
+                this.parent.wave.push(enemies[enemies.length - 1]);
+                this.parent.enemiesSpawned++;
+            }
+        }
+    }
+};
+miscSpawner.prototype.draw = function() {};
+
+
+var sleepLog = function(x, y, offSet) {
+    this.x = x;
+    this.y = y;
+    this.homeY = y;
+    this.velY = 0;
+    this.w = 16;
+    this.h = 8;
+    this.lastX = this.x;
+    this.lastY = this.y;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.switchTimer = offSet;
+    if (this.switchTimer == 0) {
+        this.switchTimer = abs(sin(this.x) * 120);
+    }
+    this.hasDone = 0;
+};
+
+sleepLog.prototype.run = function() {
+    var p = players[0];
+    if (this.hasDone > 0) {this.hasDone--;}
+    var willDo = false;
+    if (p.isGrounded > 0 && p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y - 1 && p.y < this.y + this.h) {
+        willDo = true;
+    }
+    this.lastX = this.x;
+    this.lastY = this.y;
+    this.velY += 0.1;
+    if (floor(this.y) == this.homeY && this.velY < 1) {
+        this.velY = 0;
+    } else if (this.y > this.homeY) {
+        if (this.y > this.homeY + 3.5) {
+            this.y = this.homeY + 3.5;
+            if (-scrollX + 455 > this.x - 32 && -scrollX < this.x + 32 &&
+                -scrollY + 256 > this.y - 32 && -scrollY < this.y + 32) {
+                playSound("playerSplash1", 0.4);
+                for (var i = 0; i < 5; i++) {
+                    enemies.push(new bounceParticle(this.x + 8 + random(-4, 4), this.y + 2, 1, 1, random(-1, 1), random(-4, -3), 0.1, 0));
+                }
+            }
+            this.velY = 0;
+        }
+        this.y -= 0.1;
+        if (this.velY < 1) {
+            this.velY = 0;
+        }
+    }
+    if (floor(this.y) >= this.homeY && floor(this.y) <= this.homeY + 5) {
+        this.switchTimer++;
+    }
+    if (this.switchTimer > 120) {
+        this.y = this.homeY;
+        this.velY = -4;
+        this.switchTimer = 0;
+        if (-scrollX + 455 > this.x - 32 && -scrollX < this.x + 32 &&
+      -scrollY + 256 > this.y - 32 && -scrollY < this.y + 32) {
+            playSound("playerSplash2", 0.4);
+            for (var i = 0; i < 5; i++) {
+                enemies.push(new bounceParticle(this.x + 8 + random(-4, 4), this.y + 2, 1, 1, random(-1, 1), random(-4, -3), 0.1, 0));
+            }
+        }
+    }
+    this.y += this.velY;
+    if (p.isGrounded > 0 && p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y - 1 && p.y < this.y + this.h) {
+        willDo = true;
+    }
+    if (willDo) {
+        if (p.immuneTimer < 0 && p.isGrounded > 0 && p.y < this.y - 16 && this.hasDone <= 0 && this.y > this.homeY) {
+            if (this.switchTimer < 100) {
+                this.y += 2;
+                if (this.y > this.homeY + 3.5) {
+                    this.y = this.homeY + 3.5;
+                }
+            }
+            playSound("playerSplash1", 0.4);
+            for (var i = 0; i < 5; i++) {
+                enemies.push(new bounceParticle(this.x + 8 + random(-4, 4), this.y + 2, 1, 1, random(-1, 1), random(-2, -1), 0.1, 0));
+            }
+            this.hasDone = 42;
+        }
+        if (p.isGrounded > 0 && p.y < this.y - 16 && this.switchTimer < 100) {
+            this.hasDone = 5;
+        } else if (p.isGrounded > 0 && p.y < this.y - 16 && this.switchTimer >= 100) {
+            this.hasDone = 42;
+        }
+        p.carryX = this.x - this.lastX;
+        p.carryY += this.y - this.lastY;
+        //p.velY = this.y - this.lastY;
+    }
+    this.shakeOffX = 0;
+    if (this.switchTimer > 80) {
+        this.shakeOffX = random(-1, 1);
+    }
+};
+
+sleepLog.prototype.draw = function() {
+    save();
+    translate(round(this.lastX + this.shakeOffX), round(this.lastY));
+    image("notEnemySprites", notEnemySprites.sleepLog, 0, 0);
+    //fill(255, 255, this.switchTimer * 2);
+    //rect(0, 0, this.w, this.h);
+    restore();
+};
+
+sleepLog.prototype.collider = function(p) {
+    collider(this.x, this.y, this.w, this.h, p, "-111", {x:abs(this.x - this.lastX),y:abs(this.y - this.lastY)});
+};
+
+var sleepParticle = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.w = 1;
+    this.h = 1;
+    this.velX = 0;
+    this.velY = 0;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.stillAlive = 1;
+    this.speed = random(0.5, 1.2);
+};
+
+sleepParticle.prototype.run = function() {
+    this.y -= this.speed;
+    this.inWater = false;
+    checkCollisions(this);
+    if (!this.inWater || this.stillAlive < 1) {
+        this.stillAlive -= random(0.1, 0.2);
+    }
+    if (this.stillAlive < 0) {
+        this.stillAlive = 0;
+        this.ded = true;
+    }
+};
+
+sleepParticle.prototype.draw = function() {};
+sleepParticle.prototype.drawFront = function() {
+    save();
+    translate(round(this.x), round(this.y));
+    fill(255, 255, 255, this.stillAlive);
+    rect(0, 0, 1, 1);
+    restore();
+};
+
+var sleepParticleSpawner = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.w = 1;
+    this.h = 1;
+    this.velX = 0;
+    this.velY = 0;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.spawnTimer = 0;
+};
+
+sleepParticleSpawner.prototype.run = function() {
+  if (-scrollX + 455 > this.x - 128 && -scrollX < this.x + 128 &&
+      -scrollY + 256 > this.y - 128 && -scrollY < this.y + 128) {
+    this.spawnTimer--;
+    if (this.spawnTimer < 0) {
+        enemies.push(new sleepParticle(this.x + random(1, 14), this.y));
+        this.spawnTimer = random(5, 10);
+    }
+  }
+};
+
+sleepParticleSpawner.prototype.draw = function() {
+    if (-scrollX > this.x || -scrollX + 455 < this.x + 16) {
+        //fill(255, 0, 0);
+        //rect(this.x, this.y - 15, 16, 16);
+    }
+};
+
+
+//This is more of a reference function than anything
+var movePlatform = function(x, y, w, h, color) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.lastX = this.x;
+    this.lastY = this.y;
+    this.color = color;
+    this.on = color;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.switchTimer = 0;
+};
+
+movePlatform.prototype.run = function() {
+    var p = players[0];
+    var willDo = false;
+    if (p.isGrounded > 0 && p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y - 1 && p.y < this.y + this.h) {
+        willDo = true;
+    }
+    this.lastX = this.x;
+    this.lastY = this.y;
+    this.switchTimer++;
+    this.x += cos(this.switchTimer / 20) * 3;
+    this.y += sin(this.switchTimer / 20) * 3;
+    if (p.isGrounded > 0 && p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y - 1 && p.y < this.y + this.h) {
+        willDo = true;
+    }
+    if (willDo) {
+        p.carryX = this.x - this.lastX;
+        p.carryY += this.y - this.lastY;
+        //p.velY = this.y - this.lastY;
+    }
+};
+
+movePlatform.prototype.draw = function() {
+    save();
+    translate(round(this.lastX), round(this.lastY));
+    fill(255, 255, 255);
+    rect(0, 0, this.w, this.h);
+    restore();
+};
+
+movePlatform.prototype.collider = function(p) {
+    collider(this.x, this.y, this.w, this.h, p, "----", {x:abs(this.x - this.lastX),y:abs(this.y - this.lastY)});
+};
+
+var areaNameBox = function(x, y, w, h, leName) {
+    this.tag = "notEnemy";
+    this.immuneTimers = [0, 0];
+    this.inWater = false;
+    this.x = x * 16;
+    this.y = y * 16;
+    this.w = w * 16;
+    this.h = h * 16;
+    this.leName = leName;
+};
+
+areaNameBox.prototype.run = function() {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y && p.y < this.y + this.h &&
+            JSON.stringify(saveData.lastAreaVisited) != JSON.stringify(this.leName)) {
+            saveData.lastAreaVisited = this.leName;
+            screenTitle = {
+                "title":this.leName,
+                "titleSize":1,
+                "subtitle":"",
+                "subtitleSize":1,
+                "resetTimer":200,
+                "fade":0,
+                "fadeDir":0.05,
+                "x":227,
+                "y":129,
+                "x2":0,
+                "y2":0,
+            };
+        }
+    }
+};
+
+areaNameBox.prototype.draw = function() {
+    //fill(255, 255, 0, 0.5);
+    //rect(this.x, this.y, this.w, this.h);
+};
+
+var demoBox = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.w = 10;
+    this.h = 10;
+    this.velX = 0;
+    this.velY = 0;
+    this.inWater = false;
+    this.immumeTimers = [-10, -10];
+    this.textFade = 0;
+};
+
+demoBox.prototype.run = function() {
+    var thisCampfire = this;
+    this.textFade -= 0.1;
+    interactionBox(this.x - 32, this.y, this.w + 32, this.h, this.x - 16, this.y - 128, this.w + 32, this.h + 128,
+    function(p) {
+        thisCampfire.textFade += 0.2;
+    },function(p) {
+        players[0].abilities.cDash = true;
+        players[0].abilities.wallJump = true;
+        saveData.abilities.wallJump = true;
+        saveData.abilities.cDash = true;
+        p.checkPointX = thisCampfire.x - 16;
+        p.checkPointY = thisCampfire.y - 8;
+        saveData.spawnLocations = [thisCampfire.x - 16, thisCampfire.y - 8, thisCampfire.x + thisCampfire.w, thisCampfire.y - 8];
+        saveGame(saveFile);
+        dialogBox = {
+            "txts":
+                [
+                    "Vakore: End of demo.",
+                    "Vakore: Thanks for playing! Hope you enjoyed this^bonus room.",
+                    "Vakore: As a reward, take this dash ability and wall^jump ability.",
+                    "Vakore: You'll figure out how to use both. Just be^warned they are both a WIP.",
+                    "Vakore: You can find my dev discord on my github page.^If you want to join it you can find it there.",
+                    "Vakore: Anyways, have a good day!",
+                ],
+                "txtPage":0,
+                "leLimit":5,
+                "speed":0.6,
+                "volume":0.3,
+                "sound":"playerDie",
+                "visible":true,
+                "lockCutsceneTimer":5,
+                "selector":1,
+                "skippable":true,
+        };
+    });
+    this.textFade = constrain(this.textFade, 0, 1);
+};
+demoBox.prototype.draw = function() {
+    fill(255, 255, 255);
+    rect(this.x, this.y, 10, 10);
+    fill(255, 255, 255, this.textFade);
+    text8("???", this.x + 5, this.y - 16, 1, "center");
+};

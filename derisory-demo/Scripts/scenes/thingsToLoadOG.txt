@@ -1,0 +1,177 @@
+<!--MUSIC-->
+<audio src = "Sounds/music/titleScreenV1.mp3" id = "musicTitleScreen"></audio>
+<audio src = "Sounds/music/redFlyBossThemeV1.mp3" id = "musicRedFlyBoss"></audio>
+<audio src = "Sounds/music/infestedMinesV1.mp3" id = "infestedMines"></audio>
+<audio src = "Sounds/music/infestedMinesDrumsV1.mp3" id = "infestedMinesDrums"></audio>
+<audio src = "Sounds/music/calmV1.mp3" id = "calm"></audio>
+<audio src = "Sounds/music/waterfall.mp3" id = "waterfall"></audio>
+<audio src = "Sounds/music/miningRobotBossThemeV1.mp3" id = "musicMiningRobotBoss"></audio>
+<audio src = "Sounds/music/tinyKnightBossThemeV1.mp3" id = "musicTinyKnightBoss"></audio>
+<audio src = "Sounds/music/tinyKnightBossThemeDrumsV1.mp3" id = "musicTinyKnightBossDrums"></audio>
+<audio src = "Sounds/music/formerSecretV1.mp3" id = "formerSecret"></audio>
+<audio src = "Sounds/music/sleepFrogSwampV1.mp3" id = "sleepFrogSwamp"></audio>
+
+<!--AUDIO-->
+<audio src = "Sounds/cutscenes/itemGetDramatic1.mp3" id = "itemGetDramatic1"></audio>
+<audio src = "Sounds/cutscenes/itemGetDramatic2.mp3" id = "itemGetDramatic2"></audio>
+<audio src = "Sounds/cutscenes/pickUpSword.mp3" id = "pickUpSword"></audio>
+<audio src = "Sounds/cutscenes/coinShatter.mp3" id = "coinShatter"></audio>
+<audio src = "Sounds/cutscenes/coinJingle.mp3" id = "coinJingle"></audio>
+
+<!--LOW HP BEEP-->
+<audio src = "Sounds/player/lowHealth.wav" id = "annoying"></audio>
+<audio src = "Sounds/player/playerDrinkOut.mp3" id = "playerDrinkOut"></audio>
+<audio src = "Sounds/player/dash.wav" id = "dash"></audio>
+<audio src = "Sounds/player/takeDamage.mp3" id = "takeDamage"></audio>
+<audio src = "Sounds/player/takeHeavyDamage.mp3" id = "takeHeavyDamage"></audio>
+<audio src = "Sounds/player/secret.mp3" id = "secret"></audio>
+<audio src = "Sounds/player/playerCollectDrink.mp3" id = "playerCollectDrink"></audio>
+<audio src = "Sounds/player/swipe1.mp3" id = "swipe1"></audio>
+<audio src = "Sounds/player/swipe2.mp3" id = "swipe2"></audio>
+<audio src = "Sounds/player/playerJump.mp3" id = "playerJump"></audio>
+<audio src = "Sounds/player/playerSwim.mp3" id = "playerSwim"></audio>
+<audio src = "Sounds/player/playerSplash1.mp3" id = "playerSplash1"></audio>
+<audio src = "Sounds/player/playerSplash2.mp3" id = "playerSplash2"></audio>
+<audio src = "Sounds/player/playerJetboots.mp3" id = "playerJetboots"></audio>
+<audio src = "Sounds/player/playerJetbootsEmpty.mp3" id = "playerJetbootsEmpty"></audio>
+<audio src = "Sounds/player/playerHeal.mp3" id = "playerHeal"></audio>
+<audio src = "Sounds/player/metalHit2.wav" id = "metalHit1"></audio>
+<audio src = "Sounds/player/playerCutsceneJumpBoots.mp3" id = "playerCutsceneJumpBoots"></audio>
+<audio src = "Sounds/player/playerDie.mp3" id = "playerDie"></audio>
+
+<audio src = "Sounds/menu/menuMove.wav" id = "menuMove"></audio>
+<audio src = "Sounds/menu/menuSelect.wav" id = "menuSelect"></audio>
+<audio src = "Sounds/menu/menuBack.wav" id = "menuBack"></audio>
+
+<audio src = "Sounds/environment/doorSlam.mp3" id = "doorSlam"></audio>
+<audio src = "Sounds/environment/doorOpen.mp3" id = "doorOpen"></audio>
+<audio src = "Sounds/environment/fire.mp3" id = "fire"></audio>
+<audio src = "Sounds/environment/fireStart.mp3" id = "fireStart"></audio>
+<audio src = "Sounds/environment/wallBreak.mp3" id = "wallHurt"></audio>
+<audio src = "Sounds/environment/wallHurt.mp3" id = "wallBreak"></audio>
+
+<!--audio src = "Sounds/playerLand.wav" id = "swipe2"></audio-->
+<audio src = "Sounds/enemies/pancakeBeetleHurt1.mp3" id = "pancakeBeetleHurt1"></audio>
+<audio src = "Sounds/enemies/pancakeBeetleHurt2.mp3" id = "pancakeBeetleHurt2"></audio>
+
+<audio src = "Sounds/enemies/slimeHurt1.mp3" id = "slimeHurt1"></audio>
+<audio src = "Sounds/enemies/slimeHurt2.mp3" id = "slimeHurt2"></audio>
+<audio src = "Sounds/enemies/slimeHurt3.mp3" id = "slimeHurt3"></audio>
+
+<audio src = "Sounds/enemies/redFlyDamage1.mp3" id = "redFlyDamage1"></audio>
+<audio src = "Sounds/enemies/redFlyDamage2.mp3" id = "redFlyDamage2"></audio>
+<audio src = "Sounds/enemies/redFlyDamage3.mp3" id = "redFlyDamage3"></audio>
+<audio src = "Sounds/enemies/redFlySurprised.mp3" id = "redFlySurprised"></audio>
+<audio src = "Sounds/enemies/redFlyHatch.mp3" id = "redFlyHatch"></audio>
+<audio src = "Sounds/enemies/redFlyEggsHurt.mp3" id = "redFlyEggsHurt"></audio>
+
+<audio src = "Sounds/enemies/batFlap.mp3" id = "batFlap"></audio>
+<audio src = "Sounds/enemies/batDamage.mp3" id = "batDamage"></audio>
+
+<audio src = "Sounds/enemies/wormAttack.mp3" id = "wormAttack"></audio>
+<audio src = "Sounds/enemies/wormDamage.mp3" id = "wormDamage"></audio>
+
+<audio src = "Sounds/enemies/malfuncAttack.mp3" id = "malfuncAttack"></audio>
+<audio src = "Sounds/enemies/malfuncDamage.mp3" id = "malfuncDamage"></audio>
+
+<audio src = "Sounds/enemies/robotJump.mp3" id = "robotJump"></audio>
+<audio src = "Sounds/enemies/robotLand.mp3" id = "robotLand"></audio>
+<audio src = "Sounds/enemies/robotAttack.mp3" id = "robotAttack"></audio>
+<audio src = "Sounds/enemies/robotDamage.mp3" id = "robotDamage"></audio>
+
+
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossHurt1.mp3" id = "pancakeBeetleBossHurt1"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossHurt2.mp3" id = "pancakeBeetleBossHurt2"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossHurt3.mp3" id = "pancakeBeetleBossHurt3"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossShoot1.mp3" id = "pancakeBeetleBossShoot1"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossShoot2.mp3" id = "pancakeBeetleBossShoot2"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossSwipe1.mp3" id = "pancakeBeetleBossSwipe1"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossSwipe2.mp3" id = "pancakeBeetleBossSwipe2"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossRun.mp3" id = "pancakeBeetleBossRun"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossJump1.mp3" id = "pancakeBeetleBossJump1"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossJump2.mp3" id = "pancakeBeetleBossJump2"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/pancakeBeetleBossLand.mp3" id = "pancakeBeetleBossLand"></audio>
+<audio src = "Sounds/bosses/pancakeBeetleBoss/waterBreakWall.mp3" id = "waterBreakWall"></audio>
+
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossDamage1.mp3" id = "redFlyBossDamage2"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossDamage2.mp3" id = "redFlyBossDamage3"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossDamage3.mp3" id = "redFlyBossDamage1"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossSpit.mp3" id = "redFlyBossSpit"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossSpitLand.mp3" id = "redFlyBossSpitLand"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossScream.mp3" id = "redFlyBossScream"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossFly.mp3" id = "redFlyBossFly"></audio>
+<audio src = "Sounds/bosses/redFlyBoss/redFlyBossLand.mp3" id = "redFlyBossLand"></audio>
+
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossDamage.mp3" id = "miningRobotBossDamage"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossJump.mp3" id = "miningRobotBossJump"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossSlam1.mp3" id = "miningRobotBossSlam1"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossSlam2.mp3" id = "miningRobotBossSlam2"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossHeadShake.mp3" id = "miningRobotBossHeadShake"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossStomp1.mp3" id = "miningRobotBossStomp1"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossStomp2.mp3" id = "miningRobotBossStomp2"></audio>
+<audio src = "Sounds/bosses/miningRobotBoss/miningRobotBossStomp3.mp3" id = "miningRobotBossStomp3"></audio>
+
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightDash1.mp3" id = "tinyKnightDash1"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightDash2.mp3" id = "tinyKnightDash2"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightDamage.mp3" id = "tinyKnightDamage"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/holyFire.mp3" id = "holyFire"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightThrow1.mp3" id = "tinyKnightThrow1"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightThrow2.mp3" id = "tinyKnightThrow2"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightThrow3.mp3" id = "tinyKnightThrow3"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightDive1.mp3" id = "tinyKnightDive1"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightDive2.mp3" id = "tinyKnightDive2"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightJump.mp3" id = "tinyKnightJump"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightLand.mp3" id = "tinyKnightLand"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightSurprised.mp3" id = "tinyKnightSurprised"></audio>
+<audio src = "Sounds/bosses/tinyKnightBoss/tinyKnightSpeak.mp3" id = "tinyKnightSpeak"></audio>
+
+
+<audio src = "Sounds/enemies/sleepDropperShoot1.mp3" id = "sleepDropperShoot1"></audio>
+<audio src = "Sounds/enemies/sleepDropperShoot2.mp3" id = "sleepDropperShoot2"></audio>
+<audio src = "Sounds/enemies/sleepDropperShoot3.mp3" id = "sleepDropperShoot3"></audio>
+<audio src = "Sounds/enemies/sleepDropperShoot4.mp3" id = "sleepDropperShoot4"></audio>
+
+
+<audio src = "Sounds/enemies/sleepFrogHurt1.mp3" id = "sleepFrogHurt1"></audio>
+<audio src = "Sounds/enemies/sleepFrogHurt2.mp3" id = "sleepFrogHurt2"></audio>
+<audio src = "Sounds/enemies/sleepFrogHurt3.mp3" id = "sleepFrogHurt3"></audio>
+<audio src = "Sounds/enemies/sleepFrogJump.mp3" id = "sleepFrogJump"></audio>
+<audio src = "Sounds/enemies/sleepFrogSpit.mp3" id = "sleepFrogSpit"></audio>
+
+<!--IMAGES-->
+<img src = "SpritesTransparent/player/player.png" id = "playerSprites"></img>
+<img src = "SpritesTransparent/blocks/blocks.png" id = "blockSprites"></img>
+<img src = "SpritesTransparent/misc/collectables.png" id = "collectableSprites"></img>
+<img src = "SpritesTransparent/bgProps/plainsProps.png" id = "plainsProps" class = "tempLoad"></img>
+<img src = "SpritesTransparent/bgProps/infestedMinesProps.png" id = "infestedMinesProps" class = "tempLoad"></img>
+<img src = "SpritesTransparent/enemies/enemies.png" id = "enemySprites"></img>
+<img src = "SpritesTransparent/enemies/notEnemies.png" id = "notEnemySprites"></img>
+<img src = "SpritesTransparent/player/campfire.png" id = "campfire"></img>
+<img src = "SpritesTransparent/bosses/pancakeBeetleBoss.png" id = "pancakeBeetleBossSprites"></img>
+<img src = "SpritesTransparent/bosses/redFlyBoss.png" id = "redFlyBossSprites"></img>
+<img src = "SpritesTransparent/bosses/miningRobotBoss.png" id = "miningRobotBossSprites"></img>
+<img src = "SpritesTransparent/bosses/tinyKnightBoss.png" id = "tinyKnightBossSprites"></img>
+<img src = "SpritesTransparent/bosses/redFlyAssets.png" id = "redFlyAssets"></img>
+
+<!--GUI-->
+<img src = "SpritesTransparent/misc/gui.png" id = "gui"></img>
+<img src = "SpritesTransparent/maps/infestedMines.png" id = "infestedMinesMap"></img>
+
+<!--SCRIPTS-->
+<script src = "Scripts/player/player.txt"></script>
+<script src = "Scripts/player/cutscenes.txt"></script>
+<script src = "Scripts/player/campfire.txt"></script>
+
+<!--ENEMIES-->
+<script src = "Scripts/enemies/enemies.txt"></script>
+<script src = "Scripts/enemies/notEnemies.txt"></script>
+
+<!--Bosses-->
+<script src = "Scripts/bosses/redFlyBoss.txt"></script>
+<script src = "Scripts/bosses/pancakeBeetleBoss.txt"></script>
+<script src = "Scripts/bosses/miningRobotBoss.txt"></script>
+<script src = "Scripts/bosses/tinyKnightBoss.txt"></script>
+
+<!--MISC-->
+<script src = "Scripts/misc/collectables.txt"></script>
+<script src = "Scripts/misc/particles.txt"></script>

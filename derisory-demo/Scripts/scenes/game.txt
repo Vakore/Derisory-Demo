@@ -1,0 +1,1644 @@
+//7/13/2019 3:13pm is the latest this project was started, possibly earlier, especially due to engine rewrite at one point
+/*function generateBag(bag) {
+    var oldBag = bag;
+    var newBag = [];
+    for (var i = 0; i < bag.length; i++) {
+        var pickBag = random(0, oldBag.length - 1);
+        newBag.push(bag[pickBag]);
+        oldBag.splice(pickBag, 1);
+    }
+    return newBag;
+};
+
+function checkBlinking(obj) {
+    var returner = false;
+    if (obj.immuneTimers[1] <= 0 && obj.immuneTimers[0] == round(obj.immuneTimers[0] / 2) * 2 ||
+        obj.immuneTimers[0] <= 0 && obj.immuneTimers[1] == round(obj.immuneTimers[1] / 2) * 2) {
+        returner = true;
+    }
+    return returner;
+};*/
+
+var playersDed = false;
+var playersDedTimer = 0;
+var deathParticles = [];
+
+//The average position of the players on screen's 'X' and 'Y' positions
+var playersX = 0;
+var playersY = 0;
+
+//The screen's scroll on the 'X' and 'Y' positions
+var scrollX = 0;
+var scrollY = 0;
+var screenShake = {
+    x:0,
+    y:0,
+    w:0,
+    h:0,
+    timer:0,
+};
+function shakeScreen(amountX, amountY, intensityX, intensityY, howLong) {
+  if (screenShake.timer <= 0) {
+    vibrateGamepads(howLong * 16, 25);
+    screenShake = {
+        x:amountX,
+        y:amountY,
+        w:intensityX,
+        h:intensityY,
+        timer:howLong,
+    };
+  }
+};
+var scrollLock = {minX:-1,maxX:-1,minY:-1,maxY:-1};
+
+var screenWidth = 455;//455
+var screenHeight = 256;//256
+
+var screenW = screenWidth / 2;
+var screenH = screenHeight / 2;
+
+var paused = false;//Game is paused or not
+var pauseTimer = 0;
+
+var lastBossFaced = "";
+var screenTitle = {
+    "title":"",
+    "titleSize":1,
+    "subtitle":"",
+    "subtitleSize":1,
+    "resetTimer":-10,
+    "fade":0,
+    "fadeDir":0,
+    "x":0,
+    "y":0,
+    "x2":0,
+    "y2":0,
+};
+
+var dialogBox = {
+    "txts":["",],
+    "txtPage":0,
+    "leLimit":0,
+    "speed":0.5,
+    "volume":0.5,
+    "sound":"",
+    "visible":false,
+    "lockCutsceneTimer":-1,
+    "selector":1,
+    "skippable":true,
+};
+
+var inventoryOpened = false;
+var inventoryFade = 0;
+var inventoryPage = 1;
+var inventoryCursor = {
+    x:0,
+    y:0,
+    showMap:false,
+    mapX:-291,
+    mapY:-141,
+    blink:0,
+};
+
+var playerMapDisplay = {
+    minX:10000,
+    minY:10000,
+    w:-10000,
+    h:-10000,
+};
+
+function inventoryMapImg(src, theThings, x, y, theMap, theRoom, elModifier) {
+  if (!elModifier) {
+    elModifier = {x1:0,y1:0,x2:0,y2:0};
+  }
+  //if (saveData.mapData.areas[theMap][theRoom]) {
+
+    if (currentScreen == theRoom) {
+        if (x < playerMapDisplay.minX) {playerMapDisplay.minX = x + elModifier.x1;}
+        if (y < playerMapDisplay.minY) {playerMapDisplay.minY = y + elModifier.y1;}
+        if (x + theThings.w > playerMapDisplay.w) {playerMapDisplay.w = (x + theThings.w - elModifier.x1) - elModifier.x2;}
+        if (y + theThings.h > playerMapDisplay.h) {playerMapDisplay.h = (y + theThings.h - elModifier.y2) - elModifier.y2;}
+    }
+
+    if (x + inventoryCursor.mapX < -150) {
+        var leFormula = x + 150 + (inventoryCursor.mapX);
+        theThings.x -= leFormula;
+        theThings.w = constrain(0, theThings.w + leFormula);
+    }
+    if (y + inventoryCursor.mapY < -68) {
+        var leFormula = y + 68 + (inventoryCursor.mapY);
+        theThings.y -= leFormula;
+        theThings.h = constrain(0, theThings.h + leFormula);
+    }
+
+    if (x + inventoryCursor.mapX < -150) {
+        var leFormula = x + 150 + (inventoryCursor.mapX);
+        x -= leFormula;
+    }
+    if (y + inventoryCursor.mapY < -68) {
+        var leFormula = y + 68 + (inventoryCursor.mapY);
+        y -= leFormula;
+    }
+    if (x + theThings.w + inventoryCursor.mapX > 150) {
+        theThings.w = constrain(0, theThings.w - (-150 + x + theThings.w + (inventoryCursor.mapX )) );
+    }
+    if (y + theThings.h + inventoryCursor.mapY > 80) {
+        theThings.h = constrain(0, theThings.h - (-80 + y + theThings.h + (inventoryCursor.mapY )) );
+    }
+
+  if (saveData.mapData.areas[theMap][theRoom]) {
+    image(src, theThings, x, y);
+  }
+  //}
+};
+
+function inventoryMapRect(x, y, w, h, theMap, theRoom) {
+  var showX = 0;
+  var showY = 0;
+  if (saveData.mapData.areas[theMap][theRoom]) {
+    if (x + inventoryCursor.mapX < -150) {
+        var leFormula = x + 150 + (inventoryCursor.mapX);
+        showX -= leFormula;
+        w = constrain(0, w + leFormula);
+        x -= leFormula;
+    }
+    if (y + inventoryCursor.mapY < -68) {
+        var leFormula = y + 68 + (inventoryCursor.mapY);
+        showY -= leFormula;
+        h = constrain(0, h + leFormula);
+        y -= leFormula;
+    }
+    if (x + w + inventoryCursor.mapX > 150) {
+        w = constrain(0, w - (-150 + x + w + (inventoryCursor.mapX )) );
+    }
+    if (y + h + inventoryCursor.mapY > 80) {
+        h = constrain(0, h - (-80 + y + h + (inventoryCursor.mapY )) );
+    }
+
+    rect(x, y, w, h);
+  }
+};
+
+function inventoryPlayerDisplay(x, y) {
+    x = floor(x);
+    y = floor(y);
+    
+    var theThings = {"x":1,"y":1,"w":12,"h":12};
+    if (x + inventoryCursor.mapX < -150) {
+        var leFormula = x + 150 + (inventoryCursor.mapX);
+        theThings.x -= leFormula;
+        theThings.w = constrain(0, theThings.w + leFormula);
+    }
+    if (y + inventoryCursor.mapY < -68) {
+        var leFormula = y + 68 + (inventoryCursor.mapY);
+        theThings.y -= leFormula;
+        theThings.h = constrain(0, theThings.h + leFormula);
+    }
+
+    if (x + theThings.w + inventoryCursor.mapX > 150) {
+        theThings.w = constrain(0, theThings.w - (-150 + x + theThings.w + (inventoryCursor.mapX )) );
+    }
+    if (y + theThings.h + inventoryCursor.mapY > 80) {
+        theThings.h = constrain(0, theThings.h - (-80 + y + theThings.h + (inventoryCursor.mapY )) );
+    }
+
+    if (x + inventoryCursor.mapX < -150) {
+        var leFormula = x + 150 + (inventoryCursor.mapX);
+        x -= leFormula;
+    }
+    if (y + inventoryCursor.mapY < -68) {
+        var leFormula = y + 68 + (inventoryCursor.mapY);
+        y -= leFormula;
+    }
+    //image("playerSprites", theThings, x, y);
+    fill(255, 0, 0, 0.5);
+    if (inventoryCursor.blink > 30) {fill(255, 255, 255, 0.5);}
+    rect(x, y, theThings.w, theThings.h);
+};
+
+var itemGet = false;//Used for picking up items
+var itemGetTimer = 0;
+var itemGetArr = [];
+var itemGetFunc;
+
+var roomTimer = 0;
+var roomDir = -1;
+var roomTo = 0;
+
+var currentScreen = 0;
+/*
+var drainParticles = [];
+for (var i = 0; i < 128; i++) {
+    drainParticles.push([floor(random(0, 455)), floor(random(0, 256)), floor(random(1, 3)), floor(random(1, 5))]);
+}
+*/
+var setPage = {dir:"down",x:0,y:0};
+var colliders = [];
+var dramaticTimer = 0;
+var coinGuiY = -32;
+var coinGuiCount = 0;
+var coinGuiSubTimer = 0;
+
+//FPS stuff(not my code)
+var before,now,fps;
+before=Date.now();
+fps=0;
+var gameScene = function() {
+    //scrollTheorem = round(currentLevel[0].length * 8 + scrollX);
+    saveData.timePlayed++;
+    if (dramaticTimer > 0) {
+        dramaticTimer--;
+    }
+    //if (players[0].flipped == -1) {translate(0, 256);}
+    //scale(1, players[0].flipped);
+    fill(0, 0, 0);
+    rect(0, 0, 455, 256);
+    for (var i = 0; i < enemies.length; i++) {
+        if (enemies[i].locksCamera) {
+            enemies[i].run();
+        }
+    }
+    if (roomTimer <= 0 && !paused && !inventoryOpened && inventoryFade <= 0 && !itemGet && !playersDed && !loadingArea && dramaticTimer <= 0) {//Moving the camera
+        playersX = 0;
+        playersY = 0;
+        for (var i = 0; i < players.length; i++) {
+            playersX += players[i].x + (players[i].velX) + players[i].w / 2;
+            playersY += players[i].y + (players[i].velY) + players[i].h / 2;
+        }
+        playersX /= players.length;
+        playersY /= players.length;
+
+        if (scrollLock.minX > -1) {playersX = constrain(playersX, scrollLock.minX, scrollLock.maxX);}
+        if (scrollLock.minY > -1) {playersY = constrain(playersY, scrollLock.minY, scrollLock.maxY);}
+
+        if (scrollX != -playersX + screenW) {
+            scrollX += (-playersX + screenW - scrollX) / 4;
+        }
+        if (scrollY != -playersY + screenH) {
+            scrollY += (-playersY + screenH - scrollY) / 4;
+        }
+
+        //Constrain the camera on the X and Y axises
+        scrollX = constrain(scrollX, -(currentLevel[0].length * 16) + screenWidth, 0);
+        scrollY = constrain(scrollY, -(currentLevel.length * 16) + 16 + screenHeight, 0);
+        if (currentLevel[0].length == 29) {
+            scrollX = constrain(scrollX, -(currentLevel[0].length * 16) + screenWidth + 4, -5);
+        }
+
+        scrollLock = {minX:-1,maxX:-1,minY:-1,maxY:-1};
+
+        scrollX = round(scrollX);
+        scrollY = round(scrollY);
+    }
+
+    //Stuff in the background
+    if (background.backFuncs != undefined) {
+        for (var i = 0; i < background.backFuncs.length; i += 2) {
+            save();
+            translate(round((scrollX - 227 + sin(screenShake.timer * screenShake.w) * screenShake.x -  ((currentLevel[0].length * 8) * (background.backFuncs[i + 1] - 1))) / background.backFuncs[i + 1] + currentLevel[0].length * 8) + 227,
+                      round((scrollY - 128 + cos(screenShake.timer * screenShake.h) * screenShake.y -  ((currentLevel.length * 8 - 8) * (background.backFuncs[i + 1] - 1))) / background.backFuncs[i + 1] + currentLevel.length * 8 - 8) + 128);
+            background.backFuncs[i]();
+    //image("background1", {x:0,y:0,w:848,h:256}, 0, 0); 
+    //Display the drain particles
+    /*
+    fill(40, 40, 40);
+    for (var i = 0; i < drainParticles.length; i++) {
+        var p = drainParticles[i];
+        rect(floor(p[0]), floor(p[1]), p[2], p[2]);
+        p[1] -= p[3] / 10;
+        if (p[1] + p[2] < 0) {
+            p[0] = floor(random(0, currentLevel[0].length * 16));
+            p[1] = currentLevel.length * 16;
+        }
+    }
+    */
+            restore();
+        }
+    }
+
+    //Stuff affected by the screen scrolling
+    save();
+    screenShake.timer--;
+    if (screenShake.timer < 0) {
+        screenShake = {
+            x:0,y:0,w:0,h:0,timer:0
+        };
+    }
+    translate(round(scrollX + sin(screenShake.timer * screenShake.w) * screenShake.x), round(scrollY + cos(screenShake.timer * screenShake.h) * screenShake.y));
+    if (cutscene.timer > 0 && !paused && !inventoryOpened && inventoryFade <= 0 && !playersDed) {doCutscene();}
+    
+    if (roomTimer <= 0 && !paused && !inventoryOpened && inventoryFade <= 0 && dramaticTimer <= 0 && !itemGet && !playersDed) {
+        playersDed = true;
+        for (var i = 0; i < players.length; i++) {
+            players[i].run();
+            if (players[i].hp > 0) {
+                playersDed = false;
+            } else if (playersDed) {
+                setPage.x = floor(players[i].x + scrollX);
+                setPage.y = floor(players[i].y + scrollY);
+            }
+            //Player death, die, dying, ded, dead
+            if (players[i].hp <= 0) {
+                //loadGame(saveFile);
+               /*if (!loadingArea) {
+                resetCutscene();
+                var loadData = window.localStorage.getItem("test_saveData" + saveFile);
+                if (loadData != undefined) {
+                    loadData = JSON.parse(loadData);
+                    saveData = loadData;
+                }
+               }*/
+               /*loadArea(saveData.currentArea);
+               if (!loadingArea) {
+                  players[i].hp = players[i].maxHp;
+                  var setMapData = JSON.stringify(saveData.updateMap);
+                  loadGame(saveFile);
+                  saveData.mapData = JSON.parse(setMapData);
+                  currentLevel = levels[saveData.currentScreen];
+                  updateLevelDisplay();
+                  updateLevelMusic();
+                  //Constrain the camera on the X and Y axises
+                  scrollX = constrain(scrollX, -(currentLevel[0].length * 16) + screenWidth, 0);
+                  scrollY = constrain(scrollY, -(currentLevel.length * 16) + 16 + screenHeight, 0);
+                  setPage.x2 = floor(players[0].x + scrollX);
+                  setPage.y2 = floor(players[0].y + scrollY);
+                  enemies = [];
+                  projectiles = [];
+                  spawnEntities();
+               }*/
+            }
+        }
+        for (var i = 0; i < enemies.length; i++) {
+            if (enemies[i].inWater == undefined) {
+                alert(JSON.stringify(enemies[i]));
+                enemies[i].inWater[2] = "error";
+            }
+            if (enemies[i].immuneTimers != undefined) {
+                if (enemies[i].immuneTimers[0] > -10) {enemies[i].immuneTimers[0]--;}
+                if (enemies[i].immuneTimers[1] > -10) {enemies[i].immuneTimers[1]--;}
+            }
+            if (enemies[i].kbTimer > -1) {enemies[i].kbTimer--;}
+            enemies[i].run();
+            if (enemies[i].ded) {
+                enemies.splice(i, 1);
+                i--;
+            }
+        }
+    }
+for (var i = 0; i < enemies.length; i++) {
+    if (enemies[i].drawBack != undefined) {enemies[i].drawBack();}
+}
+
+for (var i = 0; i < players.length; i++) {
+    players[i].draw();
+}
+for (var i = 0; i < enemies.length; i++) {
+    if (enemies[i].draw != undefined) {enemies[i].draw();}
+}
+
+if (dramaticTimer > 0) {
+    for (var i = 0; i < players.length; i++) {
+        players[i].draw();
+    }
+}
+
+for (var i = 0; i < damageBoxes.length; i++) {
+    var d = damageBoxes[i];
+    var number6 = false;
+    if (d[6]) {number6 = d[6];}
+    hurtBox(d[0], d[1], d[2], d[3], d[4], d[5], number6);
+}
+damageBoxes = [];
+//Display the level
+fill(255, 255, 255);
+/*for (var j = 0; j < displayedLevel.length; j++) {
+    if (j * 16 < -scrollY - 16 || j * 16 > -scrollY + 256) {continue;}
+    for (var i = 0; i < displayedLevel[j].length; i++) {
+        if (i * 16 < -scrollX - 16 || i * 16 > -scrollX + 455 || displayedLevel[j][i] == "-") {continue;}
+        image("blockSprites", {x:displayedLevel[j][i][0],y:displayedLevel[j][i][1],w:16,h:16}, i * 16, j * 16, 16, 16);
+    }
+}*/
+
+image("bufferCanvas", {x:-scrollX, y:-scrollY, w:455, h:256}, -scrollX, -scrollY);
+
+for (var i = 0; i < enemies.length; i++) {
+    if (enemies[i].drawFront != undefined) {enemies[i].drawFront();}
+}
+for (var i = 0; i < enemies.length; i++) {
+    if (enemies[i].drawMoreFront != undefined) {enemies[i].drawMoreFront();}
+}
+
+//Screen transitions/secrets
+for (var i = 0; i < currentLevel[currentLevel.length - 1].length; i++) {
+    var l = currentLevel[currentLevel.length - 1][i];
+    if (l.fade < 1 && l.fade > 0 && l.fade != undefined) {
+        l.fade -= 0.1;
+        playSound("secret", 1);
+    }
+    if (l.fade != undefined) {
+        fill(l.c[0], l.c[1], l.c[2], l.fade);
+    } else {
+        fill(0, 0, 255);
+    }
+    rect(l.x * 16, l.y * 16, l.w * 16, l.h * 16);
+    if (detectPlayer(l.x * 16, l.y * 16, l.w * 16, l.h * 16)) {
+        if (l.screen != undefined) {
+            currentScreen = l.screen;
+            roomTo = l;
+            roomDir = 1;
+            setPage.x = floor(players[0].x + scrollX);
+            setPage.y = floor(players[0].y + scrollY);
+        } else if (l.fade >= 1) {
+            l.fade -= 0.1;
+        }
+    }
+}
+restore();
+
+
+save();
+//translate(scrollX * 2, scrollY * 2);
+restore();
+
+
+fill(0, 0, 0, roomTimer);
+rect(0, 0, 455, 256);
+roomTimer = constrain(roomTimer, 0, 2);
+roomTimer += roomDir / 10;
+if (roomTimer >= 2 && round(setPage.x2) == round(setPage.x) && round(setPage.y2) == round(setPage.y) && updateLevelDisplayY >= currentLevel.length - 1) {
+    roomTimer = 1;
+    roomDir = -1;
+}
+
+//Change the room the player is currently in
+if (roomTimer > 0) {
+    scrollLock = {minX:-1,maxX:-1,minY:-1,maxY:-1};
+    getId("playerJetboots").volume = 0;
+    if (roomTimer >= 2) {
+        if (roomTo.area != undefined && roomDir != 0) {loadArea(roomTo.area);}
+        if (roomDir != 0 && !loadingArea) {
+            var setX = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setX;
+            var setY = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setY;
+            if (levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setXL != undefined && keys[controls.a]) {
+                setX = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setXL;
+                setY = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setYL;
+            } else if (levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setXR != undefined && keys[controls.d]) {
+                setX = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setXR;
+                setY = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].setYR;
+            }
+            var exitX = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].x;
+            var exitY = levels[roomTo.screen][levels[roomTo.screen].length - 1][roomTo.exit].y;
+            for (var j = 0; j < players.length; j++) {
+                players[j].x = setX * 16 + j;
+                players[j].y = setY * 16 + 10;
+                players[j].checkPointX = setX * 16 + j;
+                players[j].checkPointY = setY * 16 + 10;
+                players[j].velX = 0;
+                players[j].velY = 0;
+                players[j].dashTimer = 0;
+                players[j].cDashTimer = 0;
+                players[j].attackTimer = 0;
+                scrollX = -players[j].x - (players[j].w / 2) + screenW;
+                scrollY = -players[j].y - (players[j].h / 2) + screenH;
+            }
+            background = {};
+            currentLevel = levels[roomTo.screen];
+            //saveData.mapData.areas[currentArea][roomTo.screen] = true;
+            saveData.updateMap.areas[currentArea][roomTo.screen] = true;
+            saveData.updateMap.visitedAreas[currentArea] = true;
+            if (currentLevel[currentLevel.length - 1][0].background != undefined) {
+                background = currentLevel[currentLevel.length - 1][0].background;
+            }
+            updateLevelDisplay();
+            updateLevelMusic();
+            enemies = [];
+            projectiles = [];
+            spawnEntities();
+            for (var i = 0; i < enemies.length; i++) {
+                if (enemies[i].locksCamera) {
+                    enemies[i].run();
+                }
+            }
+            playersX = 0;
+            playersY = 0;
+            for (var i = 0; i < players.length; i++) {
+                playersX += players[i].x + (players[i].velX) + players[i].w / 2;
+                playersY += players[i].y + (players[i].velY) + players[i].h / 2;
+            }
+            playersX /= players.length;
+            playersY /= players.length;
+            if (scrollLock.minX > -1) {playersX = constrain(playersX, scrollLock.minX, scrollLock.maxX);}
+            if (scrollLock.minY > -1) {playersY = constrain(playersY, scrollLock.minY, scrollLock.maxY);}
+            if (scrollX != -playersX + screenW) {
+                scrollX += (-playersX + screenW - scrollX);
+            }
+            if (scrollY != -playersY + screenH) {
+                scrollY += (-playersY + screenH - scrollY);
+            }
+            //Constrain the camera on the X and Y axises
+            scrollX = constrain(scrollX, -(currentLevel[0].length * 16) + screenWidth, 0);
+            if (currentLevel[0].length == 29) {
+                scrollX = constrain(scrollX, -(currentLevel[0].length * 16) + screenWidth + 4, -5);
+            }
+            scrollY = constrain(scrollY, -((currentLevel.length - 1) * 16) + screenHeight, 0);
+            scrollX = round(scrollX);
+            scrollY = round(scrollY);
+            setPage.x2 = floor(players[0].x + scrollX);
+            setPage.y2 = floor(players[0].y + scrollY);
+        }
+        if (!loadingArea) {
+            roomDir = 0;
+            setPage.x += (setPage.x2 - setPage.x) / 6;
+            setPage.y += (setPage.y2 - setPage.y) / 6;
+            if (round(setPage.x2) == round(setPage.x)) {setPage.x = setPage.x2;}
+            if (round(setPage.y2) == round(setPage.y)) {setPage.y = setPage.y2;}
+        } else {
+            fill(0, 0, 0);
+            rect(0, 0, 455, 256);
+            fill(255, 255, 255);
+            text8("Loading...", 227, 128, 1, "center");
+        }
+    }
+    var p = players[0];
+    save();
+    translate(floor(setPage.x) - 1, floor(setPage.y) - 1);
+    if (p.dir == -1) {translate(16, 0);}
+    if (p.flipped == -1) {translate(0, 24);}
+    scale(p.dir, p.flipped);
+    if (p.sprite2 != 0) {
+        image("playerSprites", playerImgs[p.sprite2], 0, 0, playerImgs[p.sprite2].w, playerImgs[p.sprite2].h);
+    }
+
+    image("playerSprites", playerImgs[p.sprite], 0, 0, playerImgs[p.sprite].w, playerImgs[p.sprite].h);
+
+    if (p.sprite3 != 0) {
+        image("playerSprites", playerImgs[p.sprite3], 0, 0, playerImgs[p.sprite3].w, playerImgs[p.sprite3].h);
+    }
+    restore();
+}
+//GUI
+
+//Debug player's position on tilemap
+fill(0, 0, 255);
+//text8("A: " + musicPlaying.track + ", B: " + musicPlaying.nextTrack + ", V: " + floor(musicPlaying.volume * 10) / 10 + ", V2: " + floor(musicPlaying.volumeTo * 10) / 10, 64, 1, 1);
+//text8("A: " + musicPlaying.drumTrack + ", B: " + musicPlaying.nextDrumTrack + ", V: " + floor(musicPlaying.drumVolume * 10) / 10 + ", V2: " + floor(musicPlaying.drumVolumeTo * 10) / 10, 64, 10, 1);
+//text8(floor(players[0].x / 16) + ", " + floor(players[0].y / 16), 1, 1, 1);
+//text8(cutscene.timer, 1, 7, 1);
+//text8(floor(playersX) + ", " + floor(playersY), 1, 1, 1);
+//text8(" " + (currentLevel.length - 1), 1, 24, 1);
+
+//Player 1's flask count
+fill(0, 0, 0, 0.5);
+rect(8, 7, 60, 14);
+fill(255, 0, 0);
+
+image("collectableSprites", collectableImgs[["drinkWarmWater","drinkYellowTea"][players[0].flaskSelected]], 8, 8);
+text8(players[0].flaskCount, 21 + players[0].drinkCountShakeX, 10, 1);
+
+//Player 1's health
+for (var i = 0; i < players[0].maxHp; i += 2) {
+    fill(255, 0, 0);
+    if (players[0].hp - i >= 2) {
+        image("gui", {x:1,y:25,w:9,h:8}, 32 + i * 6, 10);
+    } else if (players[0].hp - i >= 1) {
+        image("gui", {x:11,y:25,w:9,h:8}, 32 + i * 6, 10);
+    } else {
+        image("gui", {x:21,y:25,w:9,h:8}, 32 + i * 6, 10);
+    }
+}
+if (players[0].hp != players[0].lastHp && floor(players[0].lastHpTimer / 10) * 10 == floor(players[0].lastHpTimer / 20) * 20) {
+    for (var i = floor(players[0].hp / 2) * 2; i < ceil(players[0].lastHp / 2) * 2; i += 2) {
+        fill(255, 0, 0);
+        if (players[0].lastHp - i >= 2 && players[0].hp - i <= 0) {
+            image("gui", {x:21,y:34,w:9,h:8}, 32 + i * 6, 10);
+        } else if (players[0].lastHp - i >= 1 && players[0].hp - i == 1) {
+            image("gui", {x:11,y:34,w:9,h:8}, 32 + i * 6, 10);
+        } else {
+            image("gui", {x:1,y:34,w:9,h:8}, 32 + i * 6, 10);
+        }
+    }
+}
+
+if (abs(players[0].lastHp - players[0].hp) > 1 && dramaticTimer > 0 && _settings.redFlash) {
+    fill(255, 0, 0, 0.1 / 12 * dramaticTimer);
+    rect(0, 0, 455, 256);
+}
+
+screenTitle.resetTimer--;
+if (screenTitle.resetTimer < 0 && screenTitle.resetTimer > -5) {
+    screenTitle.resetTimer = -10;
+    screenTitle.fadeDir = -0.05;
+}
+screenTitle.fade += screenTitle.fadeDir;
+screenTitle.fade = constrain(screenTitle.fade, 0, 1);
+if (screenTitle.fade > 0) {
+    fill(255, 255, 255, screenTitle.fade);
+    text8(screenTitle.title, screenTitle.x, screenTitle.y, screenTitle.titleSize, "center");
+    text8(screenTitle.subtitle, screenTitle.x2, screenTitle.y2, screenTitle.subtitleSize, "center");
+}
+
+if (keysDown[controls.E] && !paused) {
+    if (!inventoryOpened) {
+        inventoryCursor.x = players[0].flaskSelected;
+        if (players[0].sitting) {
+            inventoryPage = 1;
+        }
+    }
+    inventoryOpened = !inventoryOpened;
+    inventoryCursor.blink = -20;
+}
+
+if (inventoryOpened) {
+    inventoryCursor.blink++;
+    if (inventoryCursor.blink > 60) {
+        inventoryCursor.blink = 0;
+    }
+    inventoryFade += 0.1;
+    if (players[0].sitting) {
+        //fill(0, 0, 0, 0.5);
+        //rect(0, 0, 455, 256);
+    }
+} else {
+    inventoryFade -= 0.1;
+}
+inventoryFade = constrain(inventoryFade, 0, 1);
+if (inventoryFade > 0) {
+    if (!inventoryCursor.showMap) {
+        if (AkeysDown[37] && inventoryCursor.x > 0 | inventoryPage > 0) {
+            playSound("menuMove");
+            inventoryCursor.x--;
+        }
+        if (AkeysDown[39] && inventoryPage < 2) {
+            inventoryCursor.x++;
+            playSound("menuMove");
+        }
+    } else {
+        if (Akeys[37]) {inventoryCursor.mapX += 2;}
+        if (Akeys[39]) {inventoryCursor.mapX -= 2;}
+        if (Akeys[38]) {inventoryCursor.mapY += 2;}
+        if (Akeys[40]) {inventoryCursor.mapY -= 2;}
+        inventoryCursor.mapX = constrain(inventoryCursor.mapX, -650, -50);
+        inventoryCursor.mapY = constrain(inventoryCursor.mapY, -250, 0);
+    }
+    fill(0, 0, 0, inventoryFade / 2);
+    rect(0, 0, 455, 256);
+    fill(255, 255, 255, inventoryFade);
+    rect(75, 30, 304, 196);
+    fill(0, 0, 0, inventoryFade);
+    rect(77, 32, 300, 192);
+    fill(255, 255, 255, inventoryFade);
+    text8(["Map", "Drinks", "Cartridges"][inventoryPage], 227, 42, 1, "center");
+
+    fill(255, 255, 255, inventoryFade);
+    if (inventoryPage == 0) {fill(255, 0, 0, inventoryFade);}
+    rect(217, 54, 1, 3);
+    rect(216, 55, 3, 1);
+
+    fill(255, 255, 255, inventoryFade);
+    if (inventoryPage == 1) {fill(255, 0, 0, inventoryFade);}
+    rect(227, 54, 1, 3);
+    rect(226, 55, 3, 1);
+
+    fill(255, 255, 255, inventoryFade);
+    if (inventoryPage == 2) {fill(255, 0, 0, inventoryFade);}
+    rect(237, 54, 1, 3);
+    rect(236, 55, 3, 1);
+    if (inventoryPage == 0) {
+        if (inventoryCursor.x > 0) {
+            inventoryPage++;
+            inventoryCursor.x = 0;
+        }
+        inventoryCursor.x = constrain(inventoryCursor.x, 0, 0);
+    } else if (inventoryPage == 1) {
+        if (inventoryCursor.x < 0) {
+            inventoryPage--;
+        } else if (inventoryCursor.x > 6) {
+            inventoryPage++;
+            inventoryCursor.x = 0;
+        }
+        inventoryCursor.x = constrain(inventoryCursor.x, 0, 6);
+    } else if (inventoryPage == 2) {
+        if (inventoryCursor.x < 0) {
+            inventoryPage--;
+            inventoryCursor.x = 6;
+        } else {
+            inventoryCursor.x = constrain(inventoryCursor.x, 0, 0);
+        }
+    }
+    if (inventoryPage != 0) {
+        inventoryCursor.showMap = false;
+    }
+    var selectKey = buttonNames[constControls.Z];
+    if (controllerType == 1) {
+        selectKey = getControllerKey("A", false);
+    }
+    if (inventoryPage == 0 && saveData.mapData.owned) {
+        inventoryCursor.x = constrain(inventoryCursor.x, 0, 0);
+        if (AkeysDown[90]) {
+            inventoryCursor.showMap = !inventoryCursor.showMap;
+            if (inventoryCursor.showMap) {
+                inventoryCursor.blink = -10;
+                playSound("menuSelect");
+            } else {
+                playSound("menuBack");
+            }
+        }
+        if (inventoryCursor.showMap && inventoryFade >= 1) {
+            playerMapDisplay = {
+                minX:10000,
+                minY:10000,
+                w:-10000,
+                h:-10000,
+            };
+            save();
+            translate(227 + inventoryCursor.mapX, 128 + inventoryCursor.mapY);
+            inventoryMapImg("infestedMinesMap", {x:291,y:141,w:28,h:15}, 291, 141, "infestedMines", 0);
+            if (!saveData.mapData.areas.infestedMines[26]) {
+                fill(255, 255, 255);
+                inventoryMapRect(291, 142, 1, 13, "infestedMines", 0);
+                fill(0, 0, 0);
+                inventoryMapRect(291, 155, 1, 1, "infestedMines", 0);
+            }
+            inventoryMapImg("infestedMinesMap", {x:319,y:140,w:69,h:16}, 319, 140, "infestedMines", 1);
+            inventoryMapImg("infestedMinesMap", {x:363,y:71,w:29,h:68}, 363, 72, "infestedMines", 2);
+
+            inventoryMapImg("infestedMinesMap", {x:331,y:156,w:91,h:27}, 331, 156, "infestedMines", 3);
+            inventoryMapImg("infestedMinesMap", {x:421,y:165,w:8,h:19}, 421, 165, "infestedMines", 3);
+
+            inventoryMapImg("infestedMinesMap", {x:267,y:76,w:96,h:28}, 267, 76, "infestedMines", 4);
+            inventoryMapImg("infestedMinesMap", {x:215,y:89,w:53,h:29}, 215, 89, "infestedMines", 4);
+            inventoryMapImg("infestedMinesMap", {x:207,y:93,w:8,h:25}, 207, 93, "infestedMines", 4);
+            inventoryMapImg("infestedMinesMap", {x:133,y:104,w:75,h:16}, 133, 104, "infestedMines", 4);
+
+            inventoryMapImg("infestedMinesMap", {x:68,y:92,w:66,h:48}, 68, 92, "infestedMines", 5);
+
+            inventoryMapImg("infestedMinesMap", {x:134,y:85,w:35,h:15}, 134, 85, "infestedMines", 6);
+
+            inventoryMapImg("infestedMinesMap", {x:169,y:79,w:50,h:15}, 169, 79, "infestedMines", 7);
+
+            inventoryMapImg("infestedMinesMap", {x:11,y:86,w:27,h:14}, 11, 86, "infestedMines", 8);
+
+            inventoryMapImg("infestedMinesMap", {x:38,y:94,w:31,h:6}, 38, 94, "infestedMines", 9);
+
+            inventoryMapImg("infestedMinesMap", {x:268,y:53,w:74,h:14}, 268, 53, "infestedMines", 10);
+            if (!saveData.oneTimers.infestedMines[0]) {
+                fill(255, 255, 255);
+                inventoryMapRect(289, 57, 1, 7, "infestedMines", 10);
+                fill(0, 0, 0);
+                inventoryMapRect(289, 55, 1, 1, "infestedMines", 10);
+                inventoryMapRect(289, 65, 1, 1, "infestedMines", 10);
+                inventoryMapRect(268, 55, 21, 16, "infestedMines", 10);
+            }
+            
+
+
+            inventoryMapImg("infestedMinesMap", {x:341,y:43,w:59,h:29}, 341, 43, "infestedMines", 11);
+            inventoryMapImg("infestedMinesMap", {x:422,y:147,w:10,h:17}, 422, 147, "infestedMines", 12);
+            inventoryMapImg("infestedMinesMap", {x:432,y:115,w:27,h:38}, 432, 115, "infestedMines", 12);
+
+            inventoryMapImg("infestedMinesMap", {x:429,y:156,w:15,h:26}, 429, 156, "infestedMines", 13);
+            inventoryMapImg("infestedMinesMap", {x:443,y:153,w:48,h:28}, 443, 153, "infestedMines", 13);
+            inventoryMapImg("infestedMinesMap", {x:491,y:139,w:43,h:42}, 491, 139, "infestedMines", 13, {x1:0,y1:14,x2:0,y2:0});
+
+            inventoryMapImg("infestedMinesMap", {x:219,y:47,w:49,h:39}, 219, 47, "infestedMines", 14);
+
+            inventoryMapImg("infestedMinesMap", {x:209,y:7,w:29,h:40}, 209, 7, "infestedMines", 15);
+            inventoryMapImg("infestedMinesMap", {x:533,y:175,w:28,h:9}, 533, 175, "infestedMines", 16);
+            inventoryMapImg("infestedMinesMap", {x:86,y:140,w:31,h:26}, 86, 140, "infestedMines", 17, {x1:0,y1:6,x2:0,y2:10});
+            inventoryMapImg("infestedMinesMap", {x:36,y:145,w:50,h:16}, 36, 145, "infestedMines", 18);
+            inventoryMapImg("infestedMinesMap", {x:115,y:141,w:33,h:15}, 115, 141, "infestedMines", 19);
+            inventoryMapImg("infestedMinesMap", {x:285,y:164,w:46,h:23}, 285, 164, "infestedMines", 20);
+            inventoryMapImg("infestedMinesMap", {x:253,y:170,w:32,h:37}, 253, 170, "infestedMines", 21);
+            inventoryMapImg("infestedMinesMap", {x:256,y:207,w:27,h:91}, 256, 207, "infestedMines", 22);
+            inventoryMapImg("infestedMinesMap", {x:149,y:169,w:105,h:29}, 149, 169, "infestedMines", 23);
+            inventoryMapImg("infestedMinesMap", {x:146,y:156,w:25,h:16}, 146, 156, "infestedMines", 24);
+            inventoryMapImg("infestedMinesMap", {x:171,y:153,w:27,h:16}, 171, 153, "infestedMines", 24, {x1:0,y1:0,x2:7,y2:0});
+            inventoryMapImg("infestedMinesMap", {x:131,y:157,w:15,h:12}, 131, 157, "infestedMines", 25);
+            inventoryMapImg("infestedMinesMap", {x:197,y:141,w:94,h:19}, 197, 141, "infestedMines", 26, {x1:10,y1:0,x2:5,y2:0});
+            inventoryMapImg("infestedMinesMap", {x:150,y:136,w:43,h:18}, 150, 136, "infestedMines", 27);
+            inventoryMapImg("infestedMinesMap", {x:153,y:121,w:55,h:16}, 153, 121, "infestedMines", 28);
+            inventoryMapImg("infestedMinesMap", {x:88,y:166,w:16,h:34}, 88, 166, "infestedMines", 29, {x1:0,y1:20,x2:0,y2:0});
+            inventoryMapImg("infestedMinesMap", {x:103,y:186,w:46,h:14}, 103, 186, "infestedMines", 29);
+            inventoryMapImg("infestedMinesMap", {x:392,y:88,w:99,h:14}, 392, 89, "infestedMines", 30);
+            inventoryMapImg("infestedMinesMap", {x:491,y:88,w:33,h:52}, 491, 88, "infestedMines", 31, {x1:0,y1:0,x2:0,y2:8});
+            inventoryMapImg("infestedMinesMap", {x:524,y:85,w:153,h:14}, 524, 85, "infestedMines", 32);
+            inventoryMapImg("infestedMinesMap", {x:677,y:81,w:31,h:14}, 677, 81, "infestedMines", 33);
+            inventoryMapImg("infestedMinesMap", {x:708,y:83,w:34,h:12}, 708, 83, "infestedMines", 34);
+
+            if (!saveData.mapData.areas.infestedMines[12]) {
+                fill(255, 255, 255);
+                inventoryMapRect(423, 165, 2, 1, "infestedMines", 3);
+                fill(0, 0, 0);
+                inventoryMapRect(425, 165, 2, 1, "infestedMines", 3);
+                inventoryMapRect(428, 157, 2, 2, "infestedMines", 3);
+            }
+
+            playerMapDisplay.w -= playerMapDisplay.minX;
+            playerMapDisplay.h -= playerMapDisplay.minY;
+            inventoryPlayerDisplay(playerMapDisplay.minX + floor((players[0].x / 16) * constrain(playerMapDisplay.w / currentLevel[0].length, 0, currentLevel[0].length)) - 6,
+                                   playerMapDisplay.minY + floor((players[0].y / 16) * constrain(playerMapDisplay.h / (currentLevel.length - 1)), 0, currentLevel.length - 1) - 6,
+                                   12, 12);
+            restore();
+            fill(255, 255, 255);
+            text8("Press " +  selectKey + " to go back.", 227, 210, 1, "center");
+            if (inventoryCursor.blink < 0) {
+                fill(0, 0, 0);
+                rect(227 - 150, 60, 300, 148);
+                inventoryCursor.blink = 0;
+                inventoryCursor.mapX = -(playerMapDisplay.minX + floor((players[0].x / 16) * constrain(playerMapDisplay.w / currentLevel[0].length)));
+                inventoryCursor.mapY = -(playerMapDisplay.minY + floor((players[0].y / 16) * constrain(playerMapDisplay.h / (currentLevel.length - 1))));
+            }
+        } else if (inventoryFade >= 1) {
+            var areaSizes = {
+                "infestedMines":{"x":212,"y":121,"w":30,"h":15},
+            };
+            if (saveData.mapData.visitedAreas.infestedMines) {
+                fill(255, 0, 0);
+                rect(212, 121, 30, 15);
+                fill(0, 0, 0);
+                rect(213, 122, 28, 13);
+                fill(255, 255, 0);
+                text8("Placeholder art.", 227, 160, 1, "center");
+                text8("Nicer art will be added once I", 227, 176, 1, "center");
+                text8("add in more areas.", 227, 192, 1, "center");
+            }
+            fill(255, 255, 255);
+            text8("Press " + selectKey + " to select area.", 227, 210, 1, "center");
+            var areaMapSelected = "infestedMines";
+            var blinkAdder = (inventoryCursor.blink > 30);
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x - 3 + blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y - 3 + blinkAdder, 3, 1);
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x - 3 + blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y - 3 + blinkAdder, 1, 3);
+
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x + areaSizes[areaMapSelected].w - blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y - 3 + blinkAdder, 3, 1);
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x + areaSizes[areaMapSelected].w + 2 - blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y - 3 + blinkAdder, 1, 3);
+
+
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x - 3 + blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y + areaSizes[areaMapSelected].h + 2 - blinkAdder, 3, 1);
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x - 3 + blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y + areaSizes[areaMapSelected].h - blinkAdder, 1, 3);
+
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x + areaSizes[areaMapSelected].w - blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y + areaSizes[areaMapSelected].h + 2 - blinkAdder, 3, 1);
+            rect(inventoryCursor.x + areaSizes[areaMapSelected].x + areaSizes[areaMapSelected].w + 2 - blinkAdder, inventoryCursor.y + areaSizes[areaMapSelected].y + areaSizes[areaMapSelected].h - blinkAdder, 1, 3);
+        }
+    } else if (inventoryPage == 0 && !saveData.mapData.owned) {
+            fill(255, 255, 255);
+            text8("Nothing here yet...", 227, 128, 1, "center");
+    } else if (inventoryPage == 1) {
+        inventoryCursor.x = constrain(inventoryCursor.x, 0, 6);
+        fill(255, 255, 255, inventoryFade);
+        if (saveData.flasks.unlocked[inventoryCursor.x]) {
+            text8(["Warm Water", "Yellow Tea", "???", "???", "???", "???", "???"][inventoryCursor.x], 227, 64, 1, "center");
+            text8("Heals: ", 127, 128, 1, "center");
+            if (players[0].flasks.length > inventoryCursor.x) {
+                for (var i = 0; i < players[0].flasks[inventoryCursor.x].hp; i += 2) {
+                    image("gui", {x:1,y:25,w:9,h:8}, 150 + i * 6, 128);
+                }
+                if (floor(players[0].flasks[inventoryCursor.x].hp / 2) * 2 != players[0].flasks[inventoryCursor.x].hp) {
+                    image("gui", {x:11,y:25,w:9,h:8}, 150 + players[0].flasks[inventoryCursor.x].hp * 6 - 6, 128);
+                }
+            }
+            text8("Perks: ", 127, 140, 1, "center");
+            text8(["Heals an extra heart when at", "Heals faster.", "???", "???", "???", "???", "???"][inventoryCursor.x], 143, 140, 1);
+            text8(["half a heart.", "", "", "", "", "", ""][inventoryCursor.x], 143, 149, 1);
+        }
+
+        if (!players[0].sitting) {
+            text8("You must be sitting at a campfire", 227, 184, 1, "center");
+            text8("to switch drinks.", 227, 196, 1, "center");
+        } else if (AkeysDown[90] && saveData.flasks.unlocked[inventoryCursor.x]) {
+            players[0].flaskSelected = inventoryCursor.x;
+            //playSound("");
+        }
+
+        rect(130 + 32 * inventoryCursor.x, 114, 8, 8)
+        rect(123 + 32 * players[0].flaskSelected, 78, 22, 32);
+        fill(0, 0, 0, inventoryFade);
+        rect(124 + 32 * players[0].flaskSelected, 79, 20, 30);
+        fill(150, 150, 150, inventoryFade);
+        if (!saveData.flasks.unlocked[0]) {
+            image("gui", {x:44,y:43,w:14,h:24}, 127, 82);
+        } else {
+            image("gui", {x:12,y:43,w:14,h:24}, 127, 82);
+        }
+        if (!saveData.flasks.unlocked[1]) {
+        image("gui", {x:44,y:43,w:14,h:24}, 158, 82);
+        } else {
+            image("gui", {x:27,y:43,w:16,h:24}, 158, 82);
+        }
+        fill(150, 150, 150, inventoryFade);
+        image("gui", {x:44,y:43,w:14,h:24}, 191, 82);
+        image("gui", {x:44,y:43,w:14,h:24}, 223, 82);
+        image("gui", {x:44,y:43,w:14,h:24}, 255, 82);
+        image("gui", {x:44,y:43,w:14,h:24}, 287, 82);
+        image("gui", {x:44,y:43,w:14,h:24}, 319, 82);
+    } else if (inventoryPage == 2) {
+        fill(255, 255, 255, inventoryFade);
+        text8("Cartridges don't exist yet.", 227, 112, 1, "center");
+        text8("They will be a collectable that", 227, 128, 1, "center");
+        text8("you can play in the full game.", 227, 144, 1, "center");
+    }
+}
+
+
+//Item Get stuff
+if (itemGet) {
+    paused = false;
+    if (itemGetTimer == 0) {
+        playSound("itemGetDramatic1");
+    } else if (itemGetTimer >= 1.475 && itemGetTimer <= 1.55) {
+        playSound("itemGetDramatic2");
+    }
+    itemGetTimer += 0.02;
+    fill(itemGetTimer * 255, itemGetTimer * 255, itemGetTimer * 255);
+    rect(227 - itemGetTimer * 455, 128 - itemGetTimer * 256, itemGetTimer * 2 * 455, itemGetTimer * 2 * 256);
+    if (itemGetTimer >= 1.5) {
+        fill(0, 0, 0);
+        rect(0, 0, 455, 256);
+        itemGetFunc();
+        fill(255, 255, 255);
+        if (itemGetTimer <= 0 || itemGetTimer >= 200) {fill(0, 0, 0);}
+        rect(0, 0, 455, 128 - itemGetTimer);
+        rect(0, 128 + itemGetTimer, 455, 128);
+        if (itemGetTimer < 200) {
+            itemGetTimer += 3;
+            itemGetTimer = round(itemGetTimer);
+        } else {
+            itemGetTimer = 200;
+        }
+        //fill(0, 0, 0);
+        //text8("" + itemGetTimer, 128, 16, 1, "center");
+    }
+}
+
+cutscene.fade = constrain(cutscene.fade, 0, 1);
+fill(0, 0, 0, constrain(cutscene.fade + players[0].spikeHitTimer, 0, 1));
+rect(0, 0, 455, 256);
+
+//Player death animation
+if (playersDed && players[0].deathTimer <= 0) {
+    if (cutscene.fade == 1) {
+        musicPlaying.volume = 0;
+        musicPlaying.volumeTo = 0;
+        musicPlaying.drumVolume = 0;
+        musicPlaying.drumVolumeTo = 0;
+        musicPlaying.nextDrumTrack = "";
+        musicPlaying.smoothTransition = true;
+    }
+    var p = players[0];
+    cutscene.fade += 0.05;
+    if (cutscene.fade >= 1) {
+        setPage.x += (227 - setPage.x) / 6;
+        setPage.y += (128 - setPage.y) / 6;
+        if (round(227) == round(setPage.x)) {setPage.x = 227;}
+        if (round(128) == round(setPage.y)) {setPage.y = 128;}
+    }
+    if (cutscene.fade >= 1 && setPage.x == 227 && setPage.y == 128) {
+            var minX = 0;
+            var minY = 0;
+            var maxX = 0;
+            var maxY = 0;
+            if (p.sprite != 0 && playerImgs[p.sprite].shiftX < minX) {minX = playerImgs[p.sprite].shiftX;}
+            if (p.sprite2 != 0 && playerImgs[p.sprite2].shiftX < minX) {minX = playerImgs[p.sprite2].shiftX;}
+            if (p.sprite3 != 0 && playerImgs[p.sprite3].shiftX < minX) {minX = playerImgs[p.sprite3].shiftX;}
+            if (p.sprite != 0 && playerImgs[p.sprite].shiftY < minY) {minY = playerImgs[p.sprite].shiftY;}
+            if (p.sprite2 != 0 && playerImgs[p.sprite2].shiftY < minY) {minY = playerImgs[p.sprite2].shiftY;}
+            if (p.sprite3 != 0 && playerImgs[p.sprite3].shiftY < minY) {minY = playerImgs[p.sprite3].shiftY;}
+            if (p.sprite != 0 && playerImgs[p.sprite].shiftX + playerImgs[p.sprite].w > maxX) {maxX = playerImgs[p.sprite].shiftX + playerImgs[p.sprite].w;}
+            if (p.sprite2 != 0 && playerImgs[p.sprite2].shiftX + playerImgs[p.sprite2].w > maxX) {maxX = playerImgs[p.sprite2].shiftX + playerImgs[p.sprite2].w;}
+            if (p.sprite3 != 0 && playerImgs[p.sprite3].shiftX + playerImgs[p.sprite3].w > maxX) {maxX = playerImgs[p.sprite3].shiftX + playerImgs[p.sprite3].w;}
+            if (p.sprite != 0 && playerImgs[p.sprite].shiftY + playerImgs[p.sprite].h > maxY) {maxY = playerImgs[p.sprite].shiftY + playerImgs[p.sprite].h;}
+            if (p.sprite2 != 0 && playerImgs[p.sprite2].shiftY + playerImgs[p.sprite2].h > maxY) {maxY = playerImgs[p.sprite2].shiftY + playerImgs[p.sprite2].h;}
+            if (p.sprite3 != 0 && playerImgs[p.sprite3].shiftY + playerImgs[p.sprite3].h > maxY) {maxY = playerImgs[p.sprite3].shiftY + playerImgs[p.sprite3].h;}
+            if (minX < 0) {maxX += abs(minX);}
+            if (minY < 0) {maxY += abs(minY);}
+            bufferCanvas.width = maxX;
+            bufferCanvas.height = maxY;
+            if (minX < 0) {minX = abs(minX);}
+            if (minY < 0) {minY = abs(minY);}
+            if (deathParticles.length == 0) {
+                for (var j = 0; j < maxY; j++) {
+                    var arrPusher = [];
+                    for (var i = 0; i < maxX; i++) {arrPusher.push([i, j, (i - maxX / 2) * random(0.1, 0.2), (j - maxY / 2) * random(0.1, 0.2), 0]);}
+                    deathParticles.push(arrPusher);
+                }
+            }
+            bufferCan.save();
+            if (p.dir == -1) {
+                bufferCan.translate(16, 0);
+                bufferCan.scale(-1, 1);
+            }
+            if (p.sprite != 0) {
+                bufferCan.drawImage(getId("playerSprites"), playerImgs[p.sprite].x, playerImgs[p.sprite].y, playerImgs[p.sprite].w, playerImgs[p.sprite].h,
+                                    playerImgs[p.sprite].shiftX + minX, playerImgs[p.sprite].shiftY + minY, playerImgs[p.sprite].w, playerImgs[p.sprite].h);
+            }
+            if (p.sprite2 != 0) {
+                bufferCan.drawImage(getId("playerSprites"), playerImgs[p.sprite2].x, playerImgs[p.sprite2].y, playerImgs[p.sprite2].w, playerImgs[p.sprite2].h,
+                                    playerImgs[p.sprite2].shiftX + minX, playerImgs[p.sprite2].shiftY + minY, playerImgs[p.sprite2].w, playerImgs[p.sprite2].h);
+            }
+            if (p.sprite3 != 0) {
+                bufferCan.drawImage(getId("playerSprites"), playerImgs[p.sprite3].x, playerImgs[p.sprite3].y, playerImgs[p.sprite3].w, playerImgs[p.sprite3].h,
+                                    playerImgs[p.sprite3].shiftX + minX, playerImgs[p.sprite3].shiftY + minY, playerImgs[p.sprite3].w, playerImgs[p.sprite3].h);
+            }
+            bufferCan.restore();
+        }
+            if (playersDedTimer > 240) {
+                loadArea(saveData.currentArea);
+                if (!loadingArea) {
+                    playersDedTimer = 0;
+                    deathParticles = [];
+                    resetCutscene();
+                    cutscene.fade = 1;
+                    cutscene.type = "revive";
+                    cutscene.timer = 120;
+                    playersDed = false;
+                    for (var i = 0; i < players.length; i++) {
+                        players[i].spikeHitTimer = 0;
+                        players[i].spikeHitDir = -0.05;
+                        players[i].hp = players[i].maxHp;
+                        players[i].velX = 0;
+                        players[i].velY = 0;
+                        players[i].hitTimer = 0;
+                        players[i].isHitting = 0;
+                        players[i].immuneTimer = 0;
+                    }
+                    currentScreen = saveData.currentScreen;
+                    saveData.updateMap.areas[currentArea][currentScreen] = true;
+                    saveData.spawnLocations
+                    var setMapData = JSON.stringify(saveData.updateMap);
+                    var dontResetTimePlayed = saveData.timePlayed;
+                    saveGame(saveFile);
+                    loadGame(saveFile);
+                    saveData.timePlayed = dontResetTimePlayed;
+                    saveData.mapData = JSON.parse(setMapData);
+                    background = {};
+                    currentLevel = levels[saveData.currentScreen];
+                    if (currentLevel[currentLevel.length - 1][0].background != undefined) {
+                        background = currentLevel[currentLevel.length - 1][0].background;
+                    }
+                    updateLevelDisplay();
+                    updateLevelMusic();
+                    //Constrain the camera on the X and Y axises
+                    scrollX = constrain(scrollX, -(currentLevel[0].length * 16) + screenWidth, 0);
+                    scrollY = constrain(scrollY, -(currentLevel.length * 16) + 16 + screenHeight, 0);
+                    enemies = [];
+                    projectiles = [];
+                    spawnEntities();
+                    saveGame(saveFile);
+                }
+            } else {
+                playersDedTimer++;
+                if (Akeys[88] && playersDedTimer > 62 && playersDedTimer < 234) {
+                    playersDedTimer += 4;
+                } else if (playersDedTimer > 50 && playersDedTimer < 190 && playersDedTimer == Math.floor(playersDedTimer / 30) * 30) {
+                     var deathSoundValue = 0;
+                     if (Math.floor(playersDedTimer / 30) * 30 == 60) {
+                         deathSoundValue = 0.5;
+                     } else if (Math.floor(playersDedTimer / 30) * 30 == 90) {
+                         deathSoundValue = 0.4;
+                     } else if (Math.floor(playersDedTimer / 30) * 30 == 120) {
+                         deathSoundValue = 0.3;
+                     } else if (Math.floor(playersDedTimer / 30) * 30 == 150) {
+                         deathSoundValue = 0.2;
+                     } else if (Math.floor(playersDedTimer / 30) * 30 == 180) {
+                         deathSoundValue = 0.1;
+                     }
+                     playSound("playerDie", deathSoundValue);
+                }
+            }
+            if (playersDedTimer > 60) {
+                var deathParticleSpeed = 1;
+                if (Akeys[88]) {deathParticleSpeed = 5;}
+                for (var j = 0; j < deathParticles.length; j++) {
+                    for (var i = 0; i < deathParticles[j].length; i++) {
+                        var dp = deathParticles[j][i];
+                        dp[0] += dp[2] * (1 - dp[4] / 2) * deathParticleSpeed;
+                        dp[1] += dp[3] * (1 - dp[4] / 2) * deathParticleSpeed;
+                        image("bufferCanvas", {x:i,y:j,w:1,h:1}, round(dp[0] + setPage.x), round(dp[1] + setPage.y), 1, 1);
+                        //fill(0, 0, 0, dp[4]);
+                        //rect(round(dp[0] + setPage.x), round(dp[1] + setPage.y), 1, 1);
+                        dp[4] += 0.01 * deathParticleSpeed;
+                    }
+                    //alert(deathParticles[j][0][0]);
+                }
+                fill(0, 0, 0, deathParticles[0][0][4]);
+                rect(0, 0, 455, 256);
+            }
+    if (setPage.x != 227 || setPage.y != 128 || playersDedTimer <= 60 && playersDedTimer > 0) {
+        save();
+        translate(floor(setPage.x) - 1, floor(setPage.y) - 1);
+        if (p.dir == -1) {translate(16, 0);}
+        if (p.flipped == -1) {translate(0, 24);}
+        scale(p.dir, p.flipped);
+        if (p.sprite2 != 0) {
+            image("playerSprites", playerImgs[p.sprite2], 0, 0, playerImgs[p.sprite2].w, playerImgs[p.sprite2].h);
+        }
+
+        image("playerSprites", playerImgs[p.sprite], 0, 0, playerImgs[p.sprite].w, playerImgs[p.sprite].h);
+
+        if (p.sprite3 != 0) {
+            image("playerSprites", playerImgs[p.sprite3], 0, 0, playerImgs[p.sprite3].w, playerImgs[p.sprite3].h);
+        }
+        restore();
+    }
+}
+
+if (coinGuiSubTimer > 0) {
+    coinGuiSubTimer--;
+}
+
+if (coinGuiY > -30 && coinGuiY < -20 && inventoryFade >= 1 | players[0].idleTimer > 500 | coinGuiSubTimer > 0) {
+    coinGuiCount = 0;
+    for (var i = 0; i < saveData.coins.length; i++) {
+        if (saveData.coins[i]) {coinGuiCount++;}
+    }
+}
+
+fill(0, 0, 0, 0.5);
+rect(403, floor(coinGuiY) - 2, 48, 20);
+fill(255, 255, 255);
+image("collectableSprites", collectableImgs.coinPickup1, 405, floor(coinGuiY));
+text8(coinGuiCount, 435, floor(coinGuiY) + 4, 1, "center");
+if (inventoryFade >= 1 | coinGuiSubTimer > 0 | players[0].idleTimer > 500 && floor(coinGuiY) < 20) {
+    coinGuiY += (20 - coinGuiY) / 5;
+} else if (inventoryFade <= 0 && coinGuiSubTimer <= 0 && players[0].idleTimer < 500 && floor(coinGuiY) > -32) {
+    coinGuiY += (-32 - coinGuiY) / 5;
+}
+    //display the text box
+    if (dialogBox.visible && roomTimer <= 0 && !paused && !inventoryOpened && inventoryFade <= 0 && !itemGet && !playersDed && !loadingArea && dramaticTimer <= 0) {
+        if (dialogBox.txts[dialogBox.txtPage][0] == "@" && AkeysDown[40] | AkeysDown[38]) {
+            if (AkeysDown[38]) {
+                dialogBox.selector--;
+            } else if (AkeysDown[40]) {
+                dialogBox.selector++;
+            }
+            if (constrain(dialogBox.selector, 1, dialogBox.txts[dialogBox.txtPage].length - 1) == dialogBox.selector) {
+                playSound("menuMove");
+            }
+            dialogBox.selector = constrain(dialogBox.selector, 1, dialogBox.txts[dialogBox.txtPage].length - 1);
+        }
+
+        if (dialogBox.lockCutsceneTimer >= 0) {
+            cutscene.timer = dialogBox.lockCutsceneTimer;
+        }
+        var dialogBoxLimit = dialogBox.txts[dialogBox.txtPage].length;
+        if (dialogBox.txts[dialogBox.txtPage][0] == "$") {
+            dialogBoxLimit = dialogBox.txts[dialogBox.txtPage][dialogBox.selector].length;
+        }
+        if (floor(dialogBox.leLimit) < dialogBoxLimit) {
+            var elDialogText = "";
+            if (dialogBox.txts[dialogBox.txtPage][0] != "$") {
+                elDialogText = dialogBox.txts[dialogBox.txtPage][floor(dialogBox.leLimit) - 1];
+            } else {
+                elDialogText = dialogBox.txts[dialogBox.txtPage][dialogBox.selector][floor(dialogBox.leLimit) - 1];
+            }
+            if (elDialogText == "." || elDialogText == "!" || elDialogText == "?") {
+                dialogBox.speed = 0.05;
+            } else {
+                dialogBox.speed = 0.55;
+            }
+            if (Akeys[88] && dialogBox.skippable) {
+                dialogBox.speed = 1000;
+            }
+            dialogBox.leLimit += dialogBox.speed;
+            if (floor(dialogBox.leLimit - dialogBox.speed) != floor(dialogBox.leLimit) && dialogBox.txts[dialogBox.txtPage][0] != "@") {
+                playSound(dialogBox.sound, dialogBox.volume);
+            }
+            if (dialogBox.txts[dialogBox.txtPage][0] != "$") {
+                dialogBox.leLimit = constrain(dialogBox.leLimit, -1, dialogBox.txts[dialogBox.txtPage].length);
+            } else {
+                dialogBox.leLimit = constrain(dialogBox.leLimit, -1, dialogBox.txts[dialogBox.txtPage][dialogBox.selector].length);
+            }
+        } else if (AkeysDown[90]) {
+            if (dialogBox.txts[dialogBox.txtPage][0] == "@") {
+                playSound("menuSelect");
+            }
+            dialogBox.leLimit = 0;
+            dialogBox.txtPage++;
+            if (dialogBox.txtPage < dialogBox.txts.length) {
+                if (dialogBox.txts[dialogBox.txtPage][0] == "@") {
+                    dialogBox.selector = 1;
+                } else if (dialogBox.txts[dialogBox.txtPage][0] == "$") {
+                    dialogBox.leLimit = dialogBox.txts[dialogBox.txtPage][dialogBox.selector].indexOf(":") + 1;
+                } else {
+                    dialogBox.leLimit = dialogBox.txts[dialogBox.txtPage].indexOf(":") + 1;
+                }
+            }
+        }
+        players[0].idleTimer = 0;
+        coinGuiY = -32;
+    }
+    //render it
+    if (dialogBox.visible) {
+        if (dialogBox.txtPage >= dialogBox.txts.length) {
+            dialogBox.visible = false;
+        } else {
+            fill(255, 255, 255);
+            rect(2, 2, 451, 44);
+            fill(0, 0, 0);
+            rect(4, 4, 447, 40);
+            fill(255, 255, 255);
+            if (dialogBox.txts[dialogBox.txtPage][0] != "@" && dialogBox.txts[dialogBox.txtPage][0] != "$") {
+                textScroll(dialogBox.txts[dialogBox.txtPage], floor(dialogBox.leLimit), -8, 8, 1);
+            } else if (dialogBox.txts[dialogBox.txtPage][0] == "@") {
+                rect(16, 8 + (dialogBox.selector - 1) * 9, 8, 8);
+                for (var i = 1; i < dialogBox.txts[dialogBox.txtPage].length; i++) {
+                    textScroll(dialogBox.txts[dialogBox.txtPage][i], 1000, 8, 8 + (9 * (i - 1)), 1);
+                }
+            } else if (dialogBox.txts[dialogBox.txtPage][0] == "$") {
+                textScroll(dialogBox.txts[dialogBox.txtPage][dialogBox.selector], floor(dialogBox.leLimit), -8, 8, 1);
+            }
+            //I think people will either know what to press or press random buttons until they figure it out.
+            /*var dialogBoxLimit = dialogBox.txts[dialogBox.txtPage].length;
+            if (dialogBox.txts[dialogBox.txtPage][0] == "$") {
+                dialogBoxLimit = dialogBox.txts[dialogBox.txtPage][dialogBox.selector].length;
+            }
+            if (floor(dialogBox.leLimit) >= dialogBoxLimit) {
+                fill(255, 255, 255);
+                rect(436, 28, 11, 11);
+                fill(0, 0, 0);
+                text8("Z", 430, 30, 1);
+            }*/
+        }
+    }
+
+//Pause stuff
+pauseTimer += (paused - 0.5) / 5;
+pauseTimer = constrain(pauseTimer, 0, 0.7);
+fill(0, 0, 0, pauseTimer);
+rect(0, 0, 455, 256);
+
+if (paused) {
+  GUI.maxX = 0;
+  GUI.maxY = 2;
+  fill(255, 255, 255);
+  switch(GUI.scene) {
+  case "main":
+    GUI.maxY = 2;
+    text8("PAUSED", 227, 80, 1, "center");
+    text8("Continue", 227, 110, 1, "center");
+    text8("Options", 227, 125, 1, "center");
+    text8("Quit", 227, 140, 1, "center");
+    rect(166, 110 + GUI.y * 15, 8, 8);
+  break;
+  case "continue":
+    paused = false;
+  break;
+  case "quit":
+    GUI.maxY = 1;
+    text8("Are you sure you want to quit?", 227, 80, 1, "center");
+    text8("All progress will be saved", 227, 95, 1, "center");
+    text8("Back", 227, 125, 1, "center");
+    text8("Quit", 227, 140, 1, "center");
+    rect(166, 125 + GUI.y * 15, 8, 8);
+  break;
+  case "yes":
+    scene = "mainMenu";
+    GUI.y = 0;
+    GUI.scene = "main";
+    paused = false;
+    pauseTimer = 0;
+    saveData.mapData = JSON.parse(JSON.stringify(saveData.updateMap));
+    currentArea = saveData.currentArea;
+    currentScreen = saveData.currentScreen;
+    saveGame(saveFile);
+  break;
+  case "item_sword":break;//idk why that is here but I'm leaving it in case it is important
+  }
+    if (GUI.scene == "options") {
+        GUI.maxY = 3;
+        text8("OPTIONS", 228, 32, 1, "center");
+        text82("Audio", 228, 96, 1, 0, 0, "center");
+        text82("Video", 228, 112, 1, 0, 1, "center");
+        text82("Controls", 228, 128, 1, 0, 2, "center");
+        text82("Back", 228, 144, 1, 0, 3, "center");
+    } else if (GUI.scene == "optionsAudio") {
+        GUI.maxY = 2;
+        text8("AUDIO", 228, 32, 1, "center");
+        text82("Sound Effects: " + floor(_settings.soundVolume * 10), 228, 96, 1, 0, 0, "center");
+        text82("Music: " + floor(_settings.musicVolume * 10), 228, 112, 1, 0, 1, "center");
+        if (GUI.y == 0 && AkeysDown[37]) {
+            _settings.AsoundVolume -= 10;
+            _settings.AsoundVolume = constrain(_settings.AsoundVolume, 0, 100);
+            playSound("menuMove");
+        } else if (GUI.y == 0 && AkeysDown[39]) {
+            _settings.AsoundVolume += 10;
+            _settings.AsoundVolume = constrain(_settings.AsoundVolume, 0, 100);
+            playSound("menuMove");
+        } else if (GUI.y == 1 && AkeysDown[37]) {
+            _settings.AmusicVolume -= 10;
+            _settings.AmusicVolume = constrain(_settings.AmusicVolume, 0, 100);
+            playSound("menuMove");
+        } else if (GUI.y == 1 && AkeysDown[39]) {
+            _settings.AmusicVolume += 10;
+            _settings.AmusicVolume = constrain(_settings.AmusicVolume, 0, 100);
+            playSound("menuMove");
+        }
+        _settings.AmusicVolume = constrain(_settings.AmusicVolume, 0, 100);
+        text82("Back", 228, 144, 1, 0, 2, "center");
+    } else if (GUI.scene == "optionsVideo") {
+        GUI.maxY = 3;
+        text8("VIDEO", 228, 32, 1, "center");
+        text82("Red Flash: " + (_settings.redFlash ? "On" : "Off"), 228, 96, 1, 0, 0, "center");
+        text82("Screen Scale: " + _settings.screenScale, 228, 112, 1, 0, 1, "center");
+        text82("Full Screen: " + (_settings.fullScreen ? "On" : "Off"), 228, 128, 1, 0, 2, "center");
+        text82("Back", 228, 144, 1, 0, 3, "center");
+        if (GUI.y == 0 && AkeysDown[90]) {
+            _settings.redFlash = !_settings.redFlash;
+        } else if (GUI.y == 1 && AkeysDown[37]) {
+            _settings.screenScale--;
+            _settings.screenScale = constrain(_settings.screenScale, 1, 5);
+            resizeScreen(_settings.screenScale);
+            playSound("menuMove");
+        } else if (GUI.y == 1 && AkeysDown[39]) {
+            _settings.screenScale++;
+            _settings.screenScale = constrain(_settings.screenScale, 1, 5);
+            resizeScreen(_settings.screenScale);
+            playSound("menuMove");
+        } else if (GUI.y == 2 && AkeysDown[90]) {
+            _settings.fullScreenCheck = 5;
+            _settings.fullScreen = !_settings.fullScreen;
+            if (_settings.fullScreen) {
+                fullscreen();
+            } else {
+                document.exitFullscreen();
+                resizeScreen(_settings.screenScale);
+            }
+        }
+    } else if (GUI.scene == "optionsControls") {
+        GUI.maxY = 3;
+        GUI.maxX = 0;
+        text8("CONTROLS", 228, 32, 1, "center");
+        text82("Remap Buttons", 228, 96, 1, 0, 0, "center");
+        text82("Reset to Defaults", 228, 112, 1, 0, 1, "center");
+        text82("Controller Rumble: " + (_settings.controllerVibration ? "On" : "Off"), 228, 128, 1, 0, 2, "center");
+        text82("Back", 228, 144, 1, 0, 3, "center");
+        if (GUI.subDisplay == "remapAreYouSure") {
+            GUI.y = 1;
+            GUI.maxX = 1;
+            fill(255, 255, 255);
+            rect(116, 72, 222, 112);
+            fill(0, 0, 0);
+            rect(117, 73, 220, 110);
+            fill(255, 255, 255);
+            text8("Reset controls to defaults?", 227, 112, 1, "center");
+            text82("No", 198, 144, 1, 0, 1, "center");
+            text82("Yes", 260, 144, 1, 1, 1, "center");
+            if (AkeysDown[37] && GUI.x > 0) {
+                GUI.x--;
+                playSound("menuMove");
+            } else if (AkeysDown[39] && GUI.x < GUI.maxX) {
+                GUI.x++;
+                playSound("menuMove");
+            }
+            GUI.x = constrain(GUI.x, 0, 1);
+            if (AkeysDown[90]) {
+                if (GUI.x == 0) {
+                    GUI.x = 0;
+                    GUI.subDisplay = "";
+                    playSound("menuSelect");
+                } else if (GUI.x == 1) {
+                    _resetControls();
+                    GUI.x = 0;
+                    GUI.subDisplay = "remapDone";
+                    playSound("menuSelect");
+                }
+            }
+            keysDown = [];
+            keys = [];
+            AkeysDown = [];
+            Akeys = [];
+        } else if (GUI.subDisplay == "remapDone") {
+            GUI.y = 1;
+            GUI.maxX = 0;
+            fill(255, 255, 255);
+            rect(116, 72, 222, 112);
+            fill(0, 0, 0);
+            rect(117, 73, 220, 110);
+            fill(255, 255, 255);
+            text8("Controls Reset", 227, 112, 1, "center");
+            text82("Ok", 227, 144, 1, 0, 1, "center");
+            GUI.x = constrain(GUI.x, 0, 1);
+            if (AkeysDown[90]) {
+                GUI.x = 0;
+                GUI.subDisplay = "";
+                playSound("menuSelect");
+            }
+            keysDown = [];
+            keys = [];
+            AkeysDown = [];
+            Akeys = [];
+        }
+        if (GUI.y == 1 && AkeysDown[90]) {
+            GUI.subDisplay = "remapAreYouSure";
+            playSound("menuSelect");
+            keysDown = [];
+            keys = [];
+            AkeysDown = [];
+            Akeys = [];
+            for (var j = 0; j < gamepads.length; j++) {
+                if (gamepads[j] == undefined) {continue;}
+                gamepads[j] = navigator.getGamepads()[j];
+                if (gamepads[j] == undefined) {continue;}
+                var gamepad = gamepads[j];
+                for (var i = 0; i < gamepad.buttons.length; i++) {
+                     gamepad.buttons[i].pressed = false;
+                }
+            }
+            GUI.y = 1;
+        } else if (GUI.y == 2 && AkeysDown[90]) {
+            _settings.controllerVibration = !_settings.controllerVibration;
+            if (_settings.controllerVibration) {
+                vibrateGamepads(100, 50);//Idk why my variable names are so inconsistent. This won't hinder me later at all.
+            }
+        }
+    } else if (GUI.scene == "optionsControlsRemap") {
+        GUI.maxY = 8;
+        GUI.maxX = 1;
+        text8("REMAP CONTROLS", 228, 32, 1, "center");
+        var textShifts = [80, 166, 247 + 48, 328, 409];
+      if (GUI.subDisplay == "") {
+        //Keyboard
+        text8("ACTIONS", textShifts[0], 48, 1, "center");
+        text8("Jump:", textShifts[0], 64, 1, "center");
+        text8("Attack:", textShifts[0], 80, 1, "center");
+        text8("Heal:", textShifts[0], 96, 1, "center");
+        text8("Dash:", textShifts[0], 112, 1, "center");
+        text8("Up:", textShifts[0], 128, 1, "center");
+        text8("Left:", textShifts[0], 144, 1, "center");
+        text8("Down:", textShifts[0], 160, 1, "center");
+        text8("Right:", textShifts[0], 174, 1, "center");
+        //Controller
+        text82(buttonNames[controls.Z], textShifts[1], 64, 1, 0, 0, "center");
+        text82(buttonNames[controls.X], textShifts[1], 80, 1, 0, 1, "center");
+        text82(buttonNames[controls.D], textShifts[1], 96, 1, 0, 2, "center");
+        text82(buttonNames[controls.SHIFT], textShifts[1], 112, 1, 0, 3, "center");
+        text82(buttonNames[controls.w], textShifts[1], 128, 1, 0, 4, "center");
+        text82(buttonNames[controls.a], textShifts[1], 144, 1, 0, 5, "center");
+        text82(buttonNames[controls.s], textShifts[1], 160, 1, 0, 6, "center");
+        text82(buttonNames[controls.d], textShifts[1], 174, 1, 0, 7, "center");
+        //Controller
+        var showControllerArray = controllerBindings;
+
+        for (var j = 0; j < 8; j++) {
+            var thisControllerBinds = "";
+            for (var i = 0; i < controllerBindings.length; i++) {
+                if (controllerBindings2[controllerBindings[i]] == ["A","X","Y","RT","D-Pad UP","D-Pad LEFT","D-Pad DOWN","D-Pad RIGHT"][j]) {
+                    if (thisControllerBinds.length > 0) {thisControllerBinds += ", ";}
+                    thisControllerBinds += controllerBindings2[constControllerBindings[i]];
+                }
+            }
+            text82(thisControllerBinds, textShifts[2], 64 + j * 16, 1, 1, j, "center");
+        } 
+        text82("BACK", 227, 230, 1, 1, 8, "center");
+      }
+        if (GUI.y == 8) {GUI.x = 1;}
+        if (GUI.subDisplay == "remapButton") {
+            fill(255, 255, 255);
+            rect(116, 47, 222, 162);
+            fill(0, 0, 0);
+            rect(117, 48, 220, 160);
+            fill(255, 255, 255);
+            if (GUI.x == 0) {
+                text8("Press keyboard button", 227, 128, 1, "center");
+                for (var i = 0; i < keysDown.length; i++) {
+                    if (AkeysDown[i] == true) {
+                        controls[GUI.remmappingButton] = i;
+                        i = keysDown.length;
+                        GUI.remmappingButton = 0;
+                        GUI.subDisplay = "";
+                    }
+                }
+            } else if (GUI.x == 1) {
+                text8("Press controller button", 227, 128, 1, "center");
+                var buttonIsIndeedPressed = false;
+                for (var i = 0; i < AkeysDown.length && !buttonIsIndeedPressed; i++) {
+                    if (AkeysDown[i]) {
+                        buttonIsIndeedPressed = true;
+                    }
+                }
+                for (var j = 0; j < gamepads.length; j++) {
+                    if (gamepads[j] == undefined) {continue;}
+                    gamepads[j] = navigator.getGamepads()[j];
+                    if (gamepads[j] == undefined) {continue;}
+                    var gamepad = gamepads[j];
+                    for (var i = 0; i < gamepad.buttons.length; i++) {
+                        buttons[j][i] = gamepad.buttons[i].pressed;
+                        if (buttonIsIndeedPressed && buttons[j][i] && i != 9) {
+                            //You have no idea... or maybe you do?
+                            //controllerBindings[[0,2,3,7,12,14,13,15][GUI.y]] = constControllerBindings[i];
+                            controllerBindings[i] = constControllerBindings[[0,2,3,7,12,14,13,15][GUI.y]];
+                            //controllerBindings2[["Z","X","Y","C","w","a","s","d"][GUI.y]] = "B";
+                            //controls[["Z","X","Y","C","w","a","s","d"][GUI.y]] = constControls[constControllerBindings[i]];
+                            
+                            GUI.remmappingButton = 0;
+                            GUI.subDisplay = "";
+                        }
+                    }
+                }
+                if (AkeysDown[88]) {
+                    GUI.remmappingButton = 0;
+                    GUI.subDisplay = "";
+                }
+            }
+            keysDown = [];
+            keys = [];
+            AkeysDown = [];
+            Akeys = [];
+        }
+        if (AkeysDown[90] && GUI.y < 8 && GUI.subDisplay != "remapButton") {
+            for (var j = 0; j < gamepads.length; j++) {
+                if (gamepads[j] == undefined) {continue;}
+                gamepads[j] = navigator.getGamepads()[j];
+                if (gamepads[j] == undefined) {continue;}
+                var gamepad = gamepads[j];
+                for (var i = 0; i < gamepad.buttons.length; i++) {
+                     gamepad.buttons[i].pressed = false;
+                }
+            }
+            GUI.subDisplay = "remapButton";
+            GUI.remmappingButton = ["Z","X","D","SHIFT","w","a","s","d"][GUI.y];
+        }
+    }
+    if (AkeysDown[90]) {
+        playSound("menuSelect");
+        var transitionTos = [];
+        switch (GUI.scene) {
+          case "main":transitionTos = ["continue","options","quit"];break;
+          case "quit": transitionTos = ["main", "yes"];break;
+        }
+        if (GUI.scene == "options") {
+            transitionTos = ["optionsAudio","optionsVideo","optionsControls","main"];
+        } else if (GUI.scene == "optionsAudio") {
+            transitionTos = [false, false, "options"];
+        } else if (GUI.scene == "optionsVideo") {
+            transitionTos = [false, false, false, "options"];
+        } else if (GUI.scene == "optionsControls") {
+            transitionTos = ["optionsControlsRemap", false, false,"options"];
+        } else if (GUI.scene == "optionsControlsRemap") {
+            transitionTos = [false, false, false, false, false, false, false, false, "optionsControls"];
+        }
+        if (transitionTos[floor(GUI.y)] != false) {
+            if (transitionTos[floor(GUI.y)] == "main" && GUI.scene == "options") {
+                saveSettings();
+            }
+            GUI.scene = transitionTos[floor(GUI.y)];
+            GUI.y = 0;
+        }
+    }
+
+
+    if (AkeysDown[88]) {
+        if (GUI.scene != "main") {
+            playSound("menuBack");
+        }
+        switch(GUI.scene) {
+            case "main":GUI.scene = "main";break;
+            case "options":GUI.scene = "main";saveSettings();break;
+            case "optionsAudio":GUI.scene = "options";break;
+            case "optionsVideo":GUI.scene = "options";break;
+            case "optionsControls":GUI.scene = "options";break;
+            case "optionsControlsRemap":GUI.scene = "optionsControls";break;
+            case "quit":GUI.scene = "main";break;
+        }
+        GUI.y = 0;
+    }
+
+    if (AkeysDown[40] && GUI.y < GUI.maxY) {
+        GUI.y++;
+        playSound("menuMove");
+    } else if (AkeysDown[38] && GUI.y > 0) {
+        GUI.y--;
+        playSound("menuMove");
+    }
+    if (AkeysDown[37] && GUI.x > 0) {
+        GUI.x--;
+        playSound("menuMove");
+    } else if (AkeysDown[39] && GUI.x < GUI.maxX) {
+        GUI.x++;
+        playSound("menuMove");
+    }
+    //Keep the GUI selector from going away from the buttons
+    GUI.x = constrain(GUI.x, 0, GUI.maxX);
+    GUI.y = constrain(GUI.y, 0, GUI.maxY);
+}
+
+if (keysDown[13] && roomTimer <= 0 && !itemGet) {
+    if (paused && GUI.scene != "main" && GUI.scene != "quit") {
+        saveSettings();
+    }
+    GUI.x = 0;
+    GUI.y = 0;
+    GUI.scene = "main";
+    paused = !paused;
+    inventoryOpened = false;
+}
+        //FPS Stuff(not my code)
+        now=Date.now();
+        fps=Math.round(1000/(now-before));
+        before=now;
+        fill(255, 255, 0);
+        //text8(Math.round(playersY) + " ", 16, 48, 1);
+        //text8(fps + " ", 16, 48, 1);
+        //text8(saveData.currentScreen + " ", 16, 48, 1);
+        //text8(scrollY + ", " + playersY, 16, 48, 1);
+        //text8(buttons[0], 16, 64, 1);
+};

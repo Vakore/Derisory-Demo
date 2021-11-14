@@ -1,0 +1,167 @@
+var currentScreen = 0;//What screen the game is currently on
+var currentArea = 0;//What area the game is currently on
+
+function interactionBox(x, y, w, h, x2, y2, w2, h2, fadeAction, doAction) {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.x + p.w > x && p.x < x + w && p.y + p.h > y && p.y < y + h && keysDown[p.controls.w] && p.isGrounded > 0) {
+            doAction(p);
+        }
+        if (p.x + p.w > x2 && p.x < x2 + w2 && p.y + p.h > y2 && p.y < y2 + h2) {
+            fadeAction(p);
+        }
+    }
+    /*fill(255, 0, 0);
+    rect(x2, y2, w2, h2);
+    fill(255, 255, 255);
+    rect(x, y, w, h);*/
+};
+
+var campfireImgs = {
+//old fire images. Used to be animated via sprites but now I'm using smoke illusion, which was a technique I found from a game jam game
+"campfire0":{x:137,y:33,w:33,h:31},
+"campfire1":{x:1,y:1,w:33,h:31},
+"campfire2":{x:35,y:1,w:33,h:31},
+"campfire3":{x:69,y:1,w:33,h:31},
+"campfire4":{x:103,y:1,w:33,h:31},
+"campfire5":{x:137,y:1,w:33,h:31},
+"campfire6":{x:171,y:1,w:33,h:31},
+"campfire7":{x:1,y:33,w:33,h:31},
+"campfire8":{x:35,y:33,w:33,h:31},
+"campfire9":{x:69,y:33,w:33,h:31},
+"campfire10":{x:103,y:33,w:33,h:31},
+"smoke1":{x:171,y:33,w:11,h:11,shiftX:-5,shiftY:-5},
+"smoke2":{x:183,y:33,w:10,h:10,shiftX:-5,shiftY:-5},
+"smoke3":{x:194,y:33,w:9,h:9,shiftX:-4,shiftY:-4},
+"smoke4":{x:171,y:45,w:8,h:8,shiftX:-4,shiftY:-4},
+"smoke5":{x:180,y:45,w:7,h:7,shiftX:-3,shiftY:-3},
+"smoke6":{x:188,y:45,w:6,h:6,shiftX:-3,shiftY:-3},
+"smoke7":{x:195,y:45,w:5,h:5,shiftX:-2,shiftY:-2},
+"smoke8":{x:201,y:45,w:4,h:4,shiftX:-2,shiftY:-2},
+"smoke9":{x:206,y:45,w:3,h:3,shiftX:-1,shiftY:-1},
+"smoke10":{x:210,y:46,w:1,h:1,shiftX:0,shiftY:0},
+
+"furnace0":{x:1,y:65,w:17,h:16,shiftX:6,shiftY:16},
+"furnace1":{x:19,y:65,w:17,h:16,shiftX:6,shiftY:16},
+"furnace2":{x:37,y:65,w:17,h:16,shiftX:6,shiftY:16},
+"furnace3":{x:55,y:65,w:17,h:16,shiftX:6,shiftY:16},
+"furnace4":{x:73,y:65,w:17,h:16,shiftX:6,shiftY:16},
+"furnace5":{x:91,y:65,w:17,h:16,shiftX:6,shiftY:16},
+"furnace6":{x:73,y:65,w:17,h:16,shiftX:6,shiftY:16},
+};
+
+var Campfire = function(x, y, type) {
+    this.immumeTimers = [-10, -10];
+    this.inWater = false;
+    this.x = x;
+    this.y = y;
+    this.w = 33;
+    this.h = 31;
+    this.type = type;
+    this.textFade = 0;
+    this.spriteTimer = 0;
+    this.spriteFrames = [
+    "campfire0",
+    "campfire1","campfire2","campfire3","campfire4","campfire5","campfire6",
+    "campfire7","campfire8","campfire9","campfire10",];
+    this.smokeTimer = 0;
+    this.smokeParticles = [];
+    if (saveData.currentScreen == currentScreen) {
+        this.lit = true;
+    }
+    this.fireSoundTimer = 0;
+};
+
+Campfire.prototype.run = function() {
+    var thisCampfire = this;
+    this.textFade -= 0.1;
+    interactionBox(this.x - 16, this.y, this.w + 32, this.h, this.x - 16, this.y - 128, this.w + 32, this.h + 128,
+    function(p) {
+        if (!p.sitting) {
+            thisCampfire.textFade += 0.2;
+        }
+    },function(p) {
+        saveData.mapData = JSON.parse(JSON.stringify(saveData.updateMap));
+        if (!thisCampfire.lit) {
+            playSound("fireStart", 0.5);
+            thisCampfire.lit = true;
+            for (var i = 0; i < 10; i++) {
+                thisCampfire.smokeParticles.push([thisCampfire.x + round(random(7, 27)), thisCampfire.y + 29, round(random(90, 100)), random(1, 2), random(-1.5, 1.5)],);
+            }
+        }
+        saveData.spawnLocations = [thisCampfire.x - 16, thisCampfire.y + 8, thisCampfire.x + thisCampfire.w, thisCampfire.y + 8];
+        saveData.currentArea = currentArea;
+        saveData.currentScreen = currentScreen;
+        saveGame(saveFile);
+        p.checkPointX = thisCampfire.x - 16;
+        p.checkPointY = thisCampfire.y + 7;
+        p.hp = p.maxHp;
+        p.flaskCount = p.maxFlaskCount;
+        p.drinkCountShakeTimer = 15;
+        p.sitting = true;
+        if (p.x + p.w / 2 < thisCampfire.x + thisCampfire.w / 2) {
+            p.dir = 1;
+        } else {
+            p.dir = -1;
+        }
+    });
+    this.textFade = constrain(this.textFade, 0, 1);
+
+    if (this.lit) {
+        //this.spriteTimer += 0.25;
+        this.smokeTimer++;
+        if (this.smokeTimer >= 4) {
+            this.smokeTimer = 0;
+            this.smokeParticles.push([this.x + round(random(7, 25)), this.y + 30, round(random(90, 100)), 0.5, 0],);
+            //this.smokeParticles.push([this.x + round(random(7, 25)), this.y + 30, round(random(90, 100)), 0.5, 0],);
+            //alert(this.smokeParticles.length);
+        }
+        this.fireSoundTimer--;
+        if (this.fireSoundTimer < 0) {
+            this.fireSoundTimer = 60;
+            playSound("fire", 0.5);
+        }
+        //this needs to become a function(!!!)
+        getId("fire").volume = constrain(1 - abs((players[0].x + players[0].w / 2) - (this.x + this.w / 2)) / 320, 0, 0.7);
+        if (this.type == 1) {
+            if (getId("fire").volume > 0) {
+                getId("fire").volume = constrain(1 - abs((players[0].x + players[0].w / 2) - (this.x + this.w / 2)) / 320, 0, 0.35);
+                getId("fire").volume /= 2;
+                getId("fire").volume = constrain(1 - abs((players[0].x + players[0].w / 2) - (this.x + this.w / 2)) / 320, 0, 0.35);
+            }
+            this.spriteTimer += 0.1;
+            if (floor(this.spriteTimer) > 6) {this.spriteTimer = 3;}
+        }
+        getId("fire").volume *= _settings.soundVolume;
+    }
+    if (this.spriteTimer > 10) {
+        this.spriteTimer = 7;
+    }
+    for (var i = 0; i < this.smokeParticles.length; i++) {
+        this.smokeParticles[i][0] -= this.smokeParticles[i][4];
+        this.smokeParticles[i][1] -= this.smokeParticles[i][3];
+        this.smokeParticles[i][2]--;
+        if (this.smokeParticles[i][2] < 0) {
+            this.smokeParticles.splice(i, 1);
+            continue;
+        }
+    }
+};
+
+
+Campfire.prototype.drawBack = function() {
+  if (this.type == 0) {
+    for (var i = 0; i < this.smokeParticles.length; i++) {
+        //fill(255, 255, 255, round(this.smokeParticles[i][2] / 25) / 4);
+        //if (this.smokeParticles[i][2] > 85) {fill(255, 0, 0);}
+        //rect(this.smokeParticles[i][0] - round(this.smokeParticles[i][2] / 20), round(this.smokeParticles[i][1]), round(this.smokeParticles[i][2] / 10), round(this.smokeParticles[i][2] / 10));
+        //alert(floor(floor(110 - this.smokeParticles[i][2]) / 10));
+        image("campfire", campfireImgs["smoke" + constrain(floor(floor(110 - this.smokeParticles[i][2]) / 10), 1, 10)], round(this.smokeParticles[i][0]), round(this.smokeParticles[i][1]));
+    }
+    image("campfire", campfireImgs[this.spriteFrames[floor(this.spriteTimer)]], this.x, this.y + 2);
+  } else if (this.type == 1) {
+    image("campfire", campfireImgs["furnace" + floor(this.spriteTimer)], this.x, this.y);
+  }
+    fill(255, 255, 255, this.textFade);
+    text8("REST", this.x + 16, this.y - 16, 1, "center");
+};

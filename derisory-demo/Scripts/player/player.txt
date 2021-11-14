@@ -1,0 +1,1767 @@
+const playerImgs = {
+    //Legs
+    "idleLeg":{x:1,y:18,w:12,h:6,shiftX:2,shiftY:17},
+    "run1Leg":{x:14,y:18,w:8,h:6,shiftX:4,shiftY:17},
+    "run2Leg":{x:23,y:18,w:9,h:6,shiftX:3,shiftY:17},
+    "run3Leg":{x:33,y:18,w:14,h:6,shiftX:1,shiftY:17},
+    "run4Leg":{x:48,y:18,w:14,h:6,shiftX:1,shiftY:17},
+    "run5Leg":{x:63,y:18,w:14,h:6,shiftX:1,shiftY:16},
+    "run6Leg":{x:78,y:18,w:8,h:6,shiftX:4,shiftY:17},
+    "run7Leg":{x:87,y:17,w:12,h:7,shiftX:3,shiftY:15},
+    "run8Leg":{x:100,y:18,w:14,h:6,shiftX:2,shiftY:16},
+    "jump1Leg":{x:115,y:18,w:11,h:7,shiftX:2,shiftY:16},
+    "jump2Leg":{x:127,y:18,w:11,h:6,shiftX:2,shiftY:16},
+    "jump3Leg":{x:139,y:18,w:10,h:6,shiftX:3,shiftY:16},
+    "jump4Leg":{x:150,y:19,w:11,h:6,shiftX:3,shiftY:16},
+    "jump5Leg":{x:162,y:19,w:11,h:6,shiftX:3,shiftY:16},
+    "onWallLeg":{x:174,y:18,w:11,h:6,shiftX:1,shiftY:16},
+    "glide1Leg":{x:205,y:17,w:8,h:13,shiftX:4,shiftY:16},
+    "glide2Leg":{x:214,y:17,w:8,h:12,shiftX:4,shiftY:16},
+    "glide3Leg":{x:223,y:17,w:8,h:11,shiftX:4,shiftY:16},
+    "glide4Leg":{x:232,y:17,w:8,h:9,shiftX:4,shiftY:16},
+    "glide5Leg":{x:241,y:17,w:8,h:8,shiftX:4,shiftY:16},
+    "glide6Leg":{x:241,y:17,w:8,h:6,shiftX:4,shiftY:16},
+
+    //Body
+    "idle":{x:1,y:0,w:16,h:17,shiftX:0,shiftY:0},
+    "run1":{x:18,y:0,w:19,h:16,shiftX:-2,shiftY:1},
+    "run2":{x:38,y:0,w:17,h:16,shiftX:-1,shiftY:1},
+    "run3":{x:56,y:0,w:14,h:16,shiftX:1,shiftY:1},
+    "run4":{x:71,y:0,w:14,h:16,shiftX:1,shiftY:1},
+    "run5":{x:86,y:0,w:14,h:16,shiftX:1,shiftY:1},
+    "run5":{x:86,y:0,w:14,h:16,shiftX:1,shiftY:0},
+    "run6":{x:101,y:0,w:14,h:17,shiftX:1,shiftY:0},
+    "run7":{x:116,y:0,w:17,h:17,shiftX:-1,shiftY:0},
+    "run8":{x:134,y:0,w:19,h:16,shiftX:-2,shiftY:0},
+    "stop1":{x:130,y:43,w:17,h:17,shiftX:-1,shiftY:0},
+    "stop2":{x:148,y:43,w:16,h:17,shiftX:-1,shiftY:0},
+    "jump1":{x:154,y:0,w:17,h:18,shiftX:-2,shiftY:0},
+    "jump2":{x:172,y:0,w:18,h:17,shiftX:-2,shiftY:0},
+    "jump3":{x:191,y:0,w:19,h:16,shiftX:-2,shiftY:0},
+    "jump4":{x:211,y:0,w:20,h:16,shiftX:-2,shiftY:0},
+    "jump5":{x:232,y:0,w:20,h:16,shiftX:-2,shiftY:0},
+
+    "attack1":{x:1,y:25,w:14,h:17,shiftX:1,shiftY:0},
+    "attack2":{x:16,y:25,w:17,h:17,shiftX:-1,shiftY:0},
+    "attack3":{x:34,y:25,w:16,h:17,shiftX:0,shiftY:0},
+    "attack4":{x:51,y:25,w:14,h:17,shiftX:2,shiftY:0},
+    "attack5":{x:66,y:25,w:14,h:17,shiftX:1,shiftY:0},
+    "attackUp1":{x:1,y:43,w:14,h:17,shiftX:1,shiftY:0},
+    "attackUp2":{x:42,y:43,w:22,h:17,shiftX:-7,shiftY:0},
+    "attackUp3":{x:65,y:43,w:23,h:17,shiftX:-7,shiftY:0},
+    "attackDown1":{x:1,y:43,w:14,h:17,shiftX:1,shiftY:0},
+    "attackDown2":{x:16,y:43,w:25,h:17,shiftX:-7,shiftY:0},
+    "attackDown3":{x:16,y:43,w:25,h:17,shiftX:-7,shiftY:0},
+
+    "onWall":{x:81,y:25,w:18,h:16,shiftX:-2,shiftY:0},
+    "onLedge":{x:184,y:61,w:16,h:17,shiftX:0,shiftY:0},
+    "drink1":{x:100,y:25,w:14,h:17,shiftX:1,shiftY:0},
+    "drink2":{x:115,y:26,w:14,h:17,shiftX:1,shiftY:0},
+    "drink3":{x:130,y:25,w:14,h:17,shiftX:1,shiftY:0},
+
+    "healEffect1":{x:145,y:26,w:14,h:16,shiftX:1,shiftY:8},
+    "healEffect2":{x:160,y:26,w:14,h:16,shiftX:1,shiftY:8},
+    "healEffect3":{x:175,y:26,w:14,h:16,shiftX:1,shiftY:4},
+    "healEffect4":{x:190,y:26,w:14,h:16,shiftX:1,shiftY:-3},
+	
+    "dash":{x:1,y:61,w:18,h:20,shiftX:0,shiftY:0},
+
+    "takeDamage":{x:20,y:61,w:17,h:22,shiftX:0,shiftY:0},
+    "flip1":{x:38,y:61,w:14,h:21,shiftX:1,shiftY:1},
+    "flip2":{x:53,y:61,w:20,h:14,shiftX:-2,shiftY:5},
+    "flip3":{x:75,y:61,w:19,h:18,shiftX:1,shiftY:4},
+    "flip4":{x:95,y:61,w:15,h:21,shiftX:0,shiftY:0},
+    "flip5":{x:111,y:61,w:15,h:20,shiftX:0,shiftY:1},
+    "flip6":{x:127,y:61,w:20,h:14,shiftX:-2,shiftY:5},
+    "flip7":{x:148,y:61,w:20,h:14,shiftX:-2,shiftY:5},
+    "flip8":{x:169,y:61,w:14,h:22,shiftX:0,shiftY:0},
+
+    "sit1":{x:162,y:93,w:18,h:22,shiftX:-2,shiftY:-1},
+    "sit2":{x:181,y:93,w:16,h:23,shiftX:0,shiftY:-3},
+    "sit3":{x:198,y:93,w:17,h:23,shiftX:0,shiftY:-2},
+    "sit4":{x:216,y:93,w:17,h:19,shiftX:0,shiftY:4},
+    "sit5":{x:234,y:93,w:17,h:21,shiftX:0,shiftY:2},
+
+    "whipping1":{x:1,y:128,w:15,h:17,shiftX:0,shiftY:0},
+    "whipping2":{x:18,y:128,w:14,h:17,shiftX:2,shiftY:0},
+
+    //swipes and dashes
+    "dashEffect1":{x:1,y:226,w:25,h:10,shiftX:-18,shiftY:3},
+    "dashEffect2":{x:1,y:237,w:26,h:18,shiftX:-19,shiftY:1},
+    "dashEffect3":{x:28,y:233,w:30,h:22,shiftX:-22,shiftY:0},
+    "dashEffect4":{x:59,y:229,w:30,h:26,shiftX:-25,shiftY:-2},
+    "dashEffect5":{x:93,y:233,w:17,h:22,shiftX:-26,shiftY:0},
+
+    "swipe2":{x:111,y:233,w:38,h:22,shiftX:6,shiftY:0},
+    "swipe3":{x:93,y:228,w:13,h:4,shiftX:6,shiftY:0},
+    "swipe5":{x:150,y:235,w:27,h:20,shiftX:16,shiftY:1},
+    "swipe6":{x:107,y:228,w:12,h:4,shiftX:18,shiftY:17},
+    "swipeUp2":{x:186,y:225,w:31,h:30,shiftX:-7,shiftY:-17},
+    "swipeUp3":{x:125,y:224,w:3,h:8,shiftX:-7,shiftY:4},
+    "swipeDown2":{x:218,y:225,w:31,h:30,shiftX:-7,shiftY:13},
+    "swipeDown3":{x:121,y:224,w:3,h:8,shiftX:-7,shiftY:14},
+
+    "whip1":{x:1,y:210,w:9,h:15,shiftX:-7,shiftY:9},
+
+    //Cutscene stuff
+    "pickUpSword1":{x:1,y:146,w:16,h:23,shiftX:0,shiftY:0},
+    "pickUpSword2":{x:18,y:146,w:14,h:23,shiftX:1,shiftY:0},
+    "pickUpSword3":{x:33,y:146,w:14,h:23,shiftX:1,shiftY:0},
+    "pickUpSword4":{x:48,y:146,w:17,h:23,shiftX:1,shiftY:0},
+    "pickUpSword5":{x:66,y:146,w:17,h:23,shiftX:1,shiftY:0},
+    "pickUpSword6":{x:1,y:170,w:25,h:25,shiftX:-9,shiftY:-2},
+    "pickUpSword7":{x:27,y:170,w:25,h:23,shiftX:-9,shiftY:0},
+
+    "pickUpBoots1":{x:155,y:146,w:16,h:23,shiftX:0,shiftY:0},
+    "pickUpBoots2":{x:172,y:146,w:14,h:23,shiftX:1,shiftY:0},
+    "pickUpBoots3":{x:187,y:146,w:14,h:23,shiftX:1,shiftY:0},
+    "pickUpBoots4":{x:202,y:146,w:14,h:23,shiftX:1,shiftY:0},
+    "pickUpBoots5":{x:217,y:146,w:20,h:23,shiftX:-2,shiftY:-2},
+    "pickUpBoots6":{x:155,y:170,w:20,h:23,shiftX:-2,shiftY:-1},
+    "pickUpBoots7":{x:176,y:170,w:20,h:23,shiftX:-2,shiftY:0},
+    "pickUpBoots8":{x:197,y:170,w:20,h:23,shiftX:-2,shiftY:0},
+
+    "weak1":{x:104,y:146,w:16,h:23},
+    "weak2":{x:121,y:146,w:16,h:23},
+    "weak3":{x:138,y:146,w:16,h:23},
+    "lay1":{x:255,y:123,w:27,h:12,shiftX:0,shiftY:11},
+    "lay2":{x:255,y:136,w:27,h:12,shiftX:0,shiftY:11},
+    "lay3":{x:255,y:149,w:27,h:14,shiftX:0,shiftY:9},
+    "lay4":{x:255,y:164,w:26,h:16,shiftX:0,shiftY:7},
+    "lay5":{x:255,y:181,w:23,h:18,shiftX:0,shiftY:5},
+    "lay6":{x:255,y:200,w:17,h:20,shiftX:0,shiftY:3},
+
+    "surprised1":{x:36,y:102,w:18,h:25,shiftX:-1,shiftY:-2},
+    "surprised2":{x:55,y:103,w:18,h:24,shiftX:-1,shiftY:-1},
+    "surprised3":{x:74,y:106,w:17,h:21,shiftX:0,shiftY:2},
+    "surprised4":{x:92,y:104,w:17,h:23,shiftX:0,shiftY:0},
+    "surprised5":{x:110,y:104,w:16,h:23,shiftX:0,shiftY:0},
+    "surprised6":{x:127,y:104,w:16,h:23,shiftX:0,shiftY:0},
+};
+
+var actions = function(whatTo, whatNot) {
+    return whatNot - whatTo;
+};
+
+var Player = function(x, y, maxHp, maxFlaskCount, abilities, controls) {
+    this.tag = "player";
+    //pipe stuff
+    this.pipeReady = 1;
+    this.pipeDir = "";
+
+    this.abilities = abilities;
+    this.controls = controls;
+
+    this.checkPointX = x;
+    this.checkPointY = y;
+    this.spikeHitTimer = 0;
+    this.spikeHitDir = -0.05;
+    this.spikeHitCount = 0;
+    this.spikeMercyTimer = -10;
+
+    //Moving platforms. Very hacky.
+    this.carryX = 0;
+    this.carryY = 0;
+
+    //Player positions
+    this.x = x;
+    this.y = y;
+    //Player sizes
+    this.w = 14;
+    this.h = 22;
+
+    //Player velocities
+    this.velX = 0;
+    this.velY = 0;
+
+    //If the player is grounded(positive if it is), and if the player double-jumped
+    this.isGrounded = -5;
+    this.inSlime = false;
+    this.inWater = false;
+    this.doubleJumped = false;
+
+    this.sitting = false;
+    this.sitTimer = 1;
+
+    //Player's max health and current health
+    this.maxHp = maxHp;
+    this.hp = maxHp;
+    this.lastHp = this.hp;
+    this.drinkCountShakeTimer = 0;
+    this.drinkCountShakeX = 0;
+
+    //Player's max flash count and current flask count
+    this.maxFlaskCount = maxFlaskCount;
+    this.flaskCount = maxFlaskCount;
+    this.flaskSelected = saveData.flasks.equipped;
+    this.flasks = [
+        {timer:120,hp:3,perk:function(p){
+            if (p.hp <= 1) {p.hp += 2;}
+        },color:[255,0,0],visualEffect:function(p) {
+            for (var i = 0; i < 10; i++) {
+                enemies.push(new floatParticle(p.x + p.w / 2, p.y + p.h - 3, 1, 1, random(-2, 2), random(-2, 0), 1.02, 48 + round(random(-5, 5)), [255, 0, 0]));
+            }
+        },visualOffset:14},
+        {timer:50,hp:2,perk:function(){},color:[255,255,0],visualEffect:function(p) {
+            for (var i = 0; i < 5; i++) {
+                enemies.push(new floatParticle(p.x + p.w / 2, p.y + p.h - 3, 1, 1, random(-2, 2), random(-2, 0), 1.001, 40 + round(random(-5, 5)), [255, 255, 0]));
+            }
+        },visualOffset:8},
+        {timer:0,hp:0,perk:function(){},color:[255,255,255],visualEffect:function(p) {},visualOffset:16},
+        {timer:0,hp:0,perk:function(){},color:[255,255,255],visualEffect:function(p) {},visualOffset:16},
+        {timer:0,hp:0,perk:function(){},color:[255,255,255],visualEffect:function(p) {},visualOffset:16},
+        {timer:0,hp:0,perk:function(){},color:[255,255,255],visualEffect:function(p) {},visualOffset:16},
+        {timer:0,hp:0,perk:function(){},color:[255,255,255],visualEffect:function(p) {},visualOffset:16},
+    ];
+
+    //If the player is drinking, and the time the player is invincible
+    this.drinkTimer = 0;
+    this.immuneTimer = 0;
+    this.healingParticles = [];
+
+    //The timer for dashing and if the player dashed before touching the ground
+    this.dashTimer = 0;
+    this.dashed = false;
+
+    //The timer for cDashing, if the player cDashed before touching the ground, and the direction for the player cDashing
+    this.cDashTimer = 0;
+    this.cDashed = false;
+    this.cDashDir = [0, 0];
+    this.dashBoost = 0;
+
+    //What the sprite for the player is, and the sprite for the legs
+    this.sprite = "idle";
+    this.sprite2 = "idle";
+    this.sprite3 = 0;
+    this.exitWaterTimer = -1;
+    this.exitWaterPos = {x:0,y:0};
+    //The walktimer to decide which walking frame to show
+    this.stopTimer = 0;
+    this.walkTimer = 1;
+    this.flipTimer = 1;
+    this.dir = 1;
+
+    //If the player has flipped gravity(-1 = yes, 1 = no)
+    this.flipped = 1;
+
+    //The direction the player is facing on a wall and the timer for after jumping off a wall
+    this.onWall = 0;
+    this.wallJumpTimer = 0;
+
+    this.onLedge = 0;
+
+    //If the player is using their jetboots to glide
+    this.gliding = false;
+    this.glideChance = true;
+    this.glideTimer = 90;
+    this.glideAnimTimer = 1;
+    //If the player is near ground(prevents them from gliding if true)
+    this.nearGround = false;
+
+    //If the player is attacking, and which direction
+    this.attackTimer = 0;
+    this.attacker = 1;
+    this.attackDir = 1;
+    this.shouldAttackTimer = 0;
+
+    //The player's swipe hitboxes
+    this.swipe = {
+        x:[0,0],//X and Y positions of the swipe
+        y:[0,0],
+        w:[0,0],//Width and height of the swipe
+        h:[0,0],
+        tip:[0,0],
+    };
+
+    this.canHit = true;
+    this.didHit = true;
+
+    //The hitboxes when swiping
+    this.swipeHitBoxes = {
+      "Up":{
+        x:[-15,-13],
+        y:[-12,-27],
+        w:[29,26],
+        h:[15,15],
+        tip:[0,-27],
+      },"Down":{
+        x:[-15,-12],
+        y:[-3,11],
+        w:[31,25],
+        h:[14,20],
+        tip:[0,31],
+      },"Forward":{
+        x:[0,20],
+        y:[-11,-7],
+        w:[20,14],
+        h:[21,14],
+        tip:[34,0],
+      },"Whip":{
+        x:[2,-100],
+        y:[-1,-100],
+        w:[46,0],
+        h:[4,0],
+        tip:[0,0],
+      },"Not":{
+        x:[-100,-100],
+        y:[-100,-100],
+        w:[0,0],
+        h:[0,0],
+        tip:[0,0],
+      },
+    };
+    this.deathTimer = 60;
+    this.damageTimer = 0;
+
+    //If the player is pogoing
+    this.pogoing = false;
+
+    //The direction and timer for knocking the player backwards after hitting an enemy
+    this.isHitting = 0;
+    this.hitTimer = 0;
+
+    this.inputBuffer = {
+    Z:5,X:5,SHIFT:5,C:5,A:5,D:5,
+    };
+
+    this.inputBuffers = ["Z","X","SHIFT","C","A","D"];
+
+    this.idleTimer = 0;    
+};
+
+///////////////////////////////////////////////////////
+///////////////PLAYER SWIPE HITBOX/////////////////////
+///////////////////////////////////////////////////////
+Player.prototype.setHitbox = function(hitBoxer) {
+    var hitBox = this.swipeHitBoxes[hitBoxer];
+
+    this.swipe.w[0] = hitBox.w[0];
+    this.swipe.w[1] = hitBox.w[1];
+
+    this.swipe.h[0] = hitBox.h[0];
+    this.swipe.h[1] = hitBox.h[1];
+
+    this.swipe.x[0] = this.x + (hitBox.x[0] * this.dir) + 8 + (this.dir - 1) * this.swipe.w[0] / 2;
+    this.swipe.x[1] = this.x + (hitBox.x[1] * this.dir) + 8 + (this.dir - 1) * this.swipe.w[1] / 2;
+
+    this.swipe.y[0] = this.y + (hitBox.y[0] * this.flipped) + 11 + (this.flipped - 1) * this.swipe.h[0] / 2;
+    this.swipe.y[1] = this.y + (hitBox.y[1] * this.flipped) + 11 + (this.flipped - 1) * this.swipe.h[1] / 2;
+
+    this.swipe.tip[1] = this.y + (hitBox.tip[1] * this.flipped) + 11 + (this.flipped - 1);
+    this.swipe.tip[0] = this.x + (hitBox.tip[0] * this.dir) + 8;
+};
+
+///////////////////////////////////////////////////////
+/////////////////PLAYER POGOING////////////////////////
+///////////////////////////////////////////////////////
+Player.prototype.pogo = function() {
+    if (this.damageTimer <= 0) {
+        this.velY = (-4.5 * this.flipped) / ((this.inWater) ? 2 : 1);
+    }
+    this.isGrounded = -1;
+    this.doubleJumped = false;
+    this.dashed = false;
+    this.cDashed = false;
+    this.dashTimer = -20;
+    this.cDashTimer = -10;
+    this.canHit = false;
+    this.pogoing = true;
+};
+
+
+///////////////////////////////////////////////////////
+/////////////PLAYER TAKE DAMAGE////////////////////////
+///////////////////////////////////////////////////////
+Player.prototype.takeDamage = function(amount) {
+    if (this.immuneTimer < 0 && this.pipeDir == "" && cutscene.timer <= 0) {
+        if (amount == 1) {
+            vibrateGamepads(100, 50);
+        } else if (amount >= 2) {
+            vibrateGamepads(120, 75);
+        }
+        endSound("swipe1");
+        endSound("swipe2");
+        endSound("metalHit1");
+        this.dashBoost = 0;
+        this.lastHp = this.hp;
+        this.lastHpTimer = 60;
+        this.hp -= amount;
+        dramaticTimer = 12;
+        this.sprite = "takeDamage";
+        this.sprite2 = 0;
+        this.sprite3 = 0;
+        this.drinkTimer = -1;
+        this.isHitting = -this.dir * 3;
+        this.hitTimer = 5;
+        if (this.attackTimer > 0) {this.attackTimer = 0;}
+        this.velY = (-3 * this.flipped) / ((this.inWater) ? 2 : 1);
+        this.pogoing = true;
+        this.immuneTimer = 74;
+        this.dashTimer = -10;
+        this.cDashTimer = -10;
+        this.damageTimer = 5;
+        playSound("takeDamage");
+        if (amount > 1) {
+            playSound("takeHeavyDamage", 1);
+        }
+    }
+};
+
+///////////////////////////////////////////////////////
+/////////PLAYER HURT AND ATTACK BOXES//////////////////
+///////////////////////////////////////////////////////
+var damageBoxes = [];
+
+//A function that creates a box that hurts the player
+var damageBox = function(x, y, w, h, damage, isSpike, whichSound) {
+    if (!isSpike) {isSpike = false;}
+    damageBoxes.push([x, y, w, h, damage, isSpike, whichSound]);
+};
+
+var hurtBox = function(x, y, w, h, damageCount, isSpike, whichSound) {
+    if (!whichSound) {whichSound = "takeDamage";}
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.x + p.w > x && p.x < x + w && p.y + p.h > y && p.y < y + h) {
+            p.takeDamage(damageCount);
+            if (isSpike) {
+                p.hitTimer = 0;
+                p.spikeHitDir = 0.05;
+                if (p.immuneTimer > 0 && p.spikeHitTimer <= 0) {
+                    if (whichSound == "playerSplash2") {
+                        for (var i = 0; i < 2; i++) {
+                            enemies.push(new bounceParticle(p.x + 8 + random(-4, 4), Math.floor((p.y + 24) / 16) * 16 + 4, 1, 1, random(-1, 1), random(-3, -2), 0.1, 0));
+                        }
+                    }
+                    if (p.spikeHitCount < 3) {p.spikeHitCount++;}
+                    p.spikeMercyTimer = 200;
+                    p.dashBoost = 0;
+                    dramaticTimer = 12;
+                    p.sprite = "takeDamage";
+                    p.sprite2 = 0;
+                    p.sprite3 = 0;
+                    p.drinkTimer = -1;
+                    p.isHitting = -p.dir * 3;
+                    p.hitTimer = 5;
+                    if (p.attackTimer > 0) {p.attackTimer = 0;}
+                    p.velY = -3 * p.flipped;
+                    if (p.inWater) {p.velY /= 2;}
+                    p.pogoing = true;
+                    p.immuneTimer = 74;
+                    p.dashTimer = -10;
+                    p.cDashTimer = -10;
+                    p.damageTimer = 5;
+                    playSound(whichSound);
+                }
+            } else {
+                p.spikeMercyTimer = -10;
+                p.spikeHitCount = 0;
+            }
+        }
+    }
+};
+
+//A function that creates a box that the player can attack and links that box to an object
+var attackBox = function(x, y, w, h, thing, sound) {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        //Only detect swipe hitbox collisions if the player is attacking with their sword
+        for (var j = 0; j < 2; j++) {
+            if (p.attackTimer > 0 && p.swipe.x[j] + p.swipe.w[j] > x && p.swipe.x[j] < x + w &&
+            p.swipe.y[j] + p.swipe.h[j] > y && p.swipe.y[j] < y + h) {
+                var decideKb = p.attackDir;
+                if (p.attacker == "Up" || p.attacker == "Down") {
+                    decideKb = p.attacker;
+                    //Account for if the player is flipped by changing Up to Down and vice versa
+                    if (p.flipped == -1) {
+                        if (p.attacker == "Up") {
+                            decideKb = "Down";
+                        } else {
+                            decideKb = "Up";
+                        }
+                    }
+                }
+
+                if (p.canHit && p.attackTimer > 0) {
+                    if (sound != undefined) {playSound(sound);}
+                    if (abs(p.attacker) == 1) {
+                        p.canHit = false;
+                        p.isHitting = -p.attackDir * 2;
+                        p.hitTimer = 5;
+                        p.dashBoost = 0;
+                    } else if (p.attacker == "Down") {
+                        p.willPogo = true;
+                        p.canHit = false;
+                    } else if (p.attacker == "Up" && p.velY < 0 & p.flipped == 1 | p.velY > 0 & p.flipped == -1) {
+                        p.velY = 0;
+                        if (p.inWater) {p.velY = 1;}
+                        p.canHit = false;
+                    }
+                }
+
+                //If anything crashed move this behind the 'if' statement above this one(p.canHit && p.attackTimer > 0)
+                if (thing != 0 && thing != undefined && thing.immuneTimers[i] < 0) {
+                    if (p.attackTimer > 0) {
+                        thing.takeDamage(1, decideKb, p.swipe.tip);
+                        thing.immuneTimers[i] = ceil(p.attackTimer);
+                    }
+                }
+        }
+      }//End of j loop
+    }//end of i loop
+};
+
+var attackBox2 = function(x, y, w, h, thing) {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        //Only detect swipe hitbox collisions if the player is attacking with their sword
+          for (var j = 0; j < 2; j++) {
+            if (p.attackTimer > 0 && p.swipe.x[j] + p.swipe.w[j] > x && p.swipe.x[j] < x + w &&
+            p.swipe.y[j] + p.swipe.h[j] > y && p.swipe.y[j] < y + h) {
+                var decideKb = p.attackDir;
+                if (p.attacker == "Up" || p.attacker == "Down") {
+                    decideKb = p.attacker;
+                    //Account for if the player is flipped by changing Up to Down and vice versa
+                    if (p.flipped == -1) {
+                        if (p.attacker == "Up") {
+                            decideKb = "Down";
+                        } else {
+                            decideKb = "Up";
+                        }
+                    }
+                }
+
+                if (thing != 0 && thing != undefined && thing.immuneTimers[i] < 0) {
+                    if (p.attackTimer > 0) {
+                        thing.takeDamage(1, decideKb, p.swipe.tip);
+                        thing.immuneTimers[i] = ceil(p.attackTimer);
+                    }
+                }
+        }
+      }//End of j loop
+    }//end of i loop
+};
+
+//Check if any player is colliding with a box
+function checkPlayers(x, y, w, h, p) {
+    var loopLength = (p == undefined) ? players.length : 1;
+    for (var i = 0; i < loopLength; i++) {
+        if (p == undefined) {p = players[i];}
+        if (p.x + p.w > x && p.x < x + w && p.y + p.h > y && p.y < y + h) {
+            return true;
+        }
+    }
+};
+
+///////////////////////////////////////////////////////
+////////////////////PLAYER RUN/////////////////////////
+///////////////////////////////////////////////////////
+Player.prototype.run = function() {
+    this.didHit = this.canHit;
+    //Detect each of the inputBuffer keys, and if that key isn't down, reset that input buffer
+    for (var i = 0; i < this.inputBuffers.length; i++) {
+        if (this.inputBuffer[this.inputBuffers[i]] > -10) {
+            this.inputBuffer[this.inputBuffers[i]]--;
+        }
+        if (!keys[this.controls[this.inputBuffers[i]]]) {
+            this.inputBuffer[this.inputBuffers[i]] = 6;
+        }
+    }
+    if (!keys[this.controls.Z]) {this.glideChance = true;}
+
+    //Reset the player's sprites
+    this.sprite = "idle";
+    this.sprite2 = "idle";
+    if (this.immuneTimer > -500) {
+        this.immuneTimer--;
+    }
+    if (this.lastHpTimer > 0) {
+        this.lastHpTimer--;
+    } else {
+        this.lastHp = this.hp;
+    }
+    if (this.stopTimer > 0) {this.stopTimer -= 0.5;}
+
+    //Resetting variables when grounded
+    if (this.isGrounded > 0 || this.onWall != 0) {
+        this.dashBoost = 0;
+        this.doubleJumped = false;
+        if (this.isGrounded > 0) {this.pogoing = false;}
+        this.dashed = false;
+        if (this.cDashTimer < 0 && this.onWall == 0) {
+            this.cDashed = false;
+            this.glideTimer = 90;
+        }
+        this.flipTimer = 1;
+        //Pressing D causes the player to drink
+        if (cutscene.timer <= 0 && keys[this.controls.D] && this.inputBuffer.D > 0 && this.drinkTimer < -5 && this.onWall == 0 && this.flaskCount > 0 && this.dashTimer < 0 && this.cDashTimer < 0 && this.attackTimer < 0) {
+            this.drinkTimer = this.flasks[this.flaskSelected].timer;
+            this.inputBuffer.D = -5;
+        }
+    }
+    if (keys[this.controls.D] && this.flaskCount <= 0 && this.inputBuffer.D > 0) {
+        this.drinkCountShakeTimer = 10;
+        this.inputBuffer.D = -5;
+        playSound("playerDrinkOut", 1.0);
+    }
+    if (this.isGrounded > -10) {this.isGrounded--;}
+    if (this.wallJumpTimer > -10) {this.wallJumpTimer--;}
+    if (this.dashTimer > -100) {this.dashTimer--;}
+    if (this.cDashTimer > -10) {this.cDashTimer--;}
+    if (this.attackTimer > -200) {this.attackTimer -= 1.5;}
+    if (this.drinkTimer > -100) {this.drinkTimer--;}
+    if (this.pipeReady > -10) {this.pipeReady--;}
+    if (this.drinkCountShakeTimer > -10) {this.drinkCountShakeTimer--;}
+    if (this.drinkCountShakeTimer > 0) {
+        this.drinkCountShakeX = sin(this.drinkCountShakeTimer);
+    } else {
+        this.drinkCountShakeX = 0;
+    }
+    if (this.spikeMercyTimer < 0) {
+        this.spikeHitCount = 0;
+    } else {
+        this.spikeMercyTimer--;
+    }
+    this.spikeHitTimer += this.spikeHitDir;
+    if (this.spikeHitTimer > 0.9 && this.spikeHitDir > 0) {
+        this.spikeHitTimer -= this.spikeHitDir * 0.8;
+    }
+    this.spikeHitTimer = constrain(this.spikeHitTimer, 0, 1);
+    if (this.spikeHitTimer == 1) {
+        this.velY = 0;
+        this.spikeHitDir = -0.05;
+        this.x = this.checkPointX;
+        this.y = this.checkPointY;
+        //if (this.spikeHitCount <= 2) {
+            this.immuneTimer = 60;
+        //} else {
+            //this.immuneTimer = 20;
+        //}
+        scrollX = -this.x + screenW;
+        scrollY = -this.y + screenH;
+    }
+    if (this.dashTimer < 0 && this.wallJumpTimer < 0 && this.cDashTimer < 0 && this.dashBoost == 0) {this.velX = 0;}
+    if (this.dashBoost != 0) {this.velX += (this.dashBoost > 0) ? -0.1 : 0.1;}
+    if (abs(this.velX) <= 2) {this.dashBoost = 0;}
+
+    //Handling the input(well, most of it)
+
+    //Pressing LEFT/RIGHT causes the player to move and look in a direction
+    if (this.spikeHitTimer <= 0 && !this.sitting && this.dashTimer < 0 && this.wallJumpTimer < 0 && this.cDashTimer < 0 && this.onLedge == 0) {
+        if (keys[this.controls.a] && !keys[this.controls.d] && round(this.isHitting) <= 0 && this.dashBoost >= 0) {
+            this.velX = (-1 - (this.drinkTimer < 0)) * ((this.inWater) ? 0.75 : 1);
+            this.dir = -1;
+            this.walkTimer += 0.25;
+            this.stopTimer = 2;
+        } else if (!keys[this.controls.a] && keys[this.controls.d] && round(this.isHitting) >= 0 && this.dashBoost <= 0) {
+            this.velX = (1 + (this.drinkTimer < 0)) * ((this.inWater) ? 0.75 : 1);
+            this.dir = 1;
+            this.walkTimer += 0.25;
+            this.stopTimer = 2;
+        }
+        this.velX += round(this.isHitting);
+    } else if (!keys[this.controls.a] && !keys[this.controls.d] || this.isGrounded < 0) {
+        this.walkTimer = 1;
+    }
+    if (this.dashBoost != this.dir) {
+        this.dashBoost = 0;
+    }
+
+    //Pressing C causes the player to dash
+    if (this.abilities.dash && keys[this.controls.C] && this.inputBuffer.C > 0 && this.attackTimer < 0 && this.drinkTimer < 0
+     && this.dashTimer < -20 && this.cDashTimer < 0 && !this.dashed && this.pipeDir == "") {
+        this.inputBuffer.C = -5;
+        this.dashTimer = 10;
+        playSound("dash", 0.35);
+        if (this.onWall == 0) {this.dashed = true;}
+        if (this.onWall != 0 && this.wallJumpTimer < 0 && this.attackTimer < 0) {
+            this.dir = this.onWall;
+        } else {
+            if (keys[this.controls.a]) {
+                this.dir = -1;
+            } else if (keys[this.controls.d]) {
+                this.dir = 1;
+            }
+        }
+    }
+
+    //Pressing SHIFT causes the player to cDash
+    if (cutscene.timer <= 0 && this.abilities.cDash && keys[this.controls.SHIFT] && this.inputBuffer.SHIFT > 0 && this.attackTimer < 0 && this.drinkTimer < 0 && this.cDashTimer < -5 && this.dashTimer < 0
+     && !this.cDashed && this.pipeDir == "") {
+        this.inputBuffer.SHIFT = -5;
+        this.dashBoost = false;
+        this.cDashTimer = 13;
+        playSound("dash", 0.35);
+        if (this.onWall == 0) {this.cDashed = true;}
+        if (this.onWall != 0 && this.wallJumpTimer < 0 && this.attackTimer < 0) {
+            this.dir = this.onWall;
+        } else {
+            if (keys[this.controls.a]) {
+                this.dir = -1;
+            } else if (keys[this.controls.d]) {
+                this.dir = 1;
+            }
+        }
+
+        if (keys[this.controls.a]) {
+            this.cDashDir[0] = -1;
+        } else if (keys[this.controls.d]) {
+            this.cDashDir[0] = 1;
+        } else {
+            this.cDashDir[0] = 0;
+        }
+
+        if (keys[this.controls.w]) {
+            this.cDashDir[1] = -1;
+        } else if (keys[this.controls.s]) {
+            this.cDashDir[1] = 1;
+        } else {
+            this.cDashDir[1] = 0;
+        }
+
+        if (abs(this.cDashDir[0]) + abs(this.cDashDir[1]) > 1) {
+            this.cDashDir[0] *= 0.8;
+            this.cDashDir[1] *= 0.8;
+        } else if (this.cDashDir[0] == 0 && this.cDashDir[1] == 0) {
+            this.cDashDir[0] = this.dir;
+        }
+    }
+
+    if (this.cDashTimer < 7) {
+        this.cDashDir[0] -= (this.cDashTimer[0] > 0) / 7;
+        this.cDashDir[1] -= (this.cDashTimer[1] > 1) / 7;
+    }
+
+    //Add more to the player's 'y' velocity over time
+    this.velY += 0.3 * this.flipped / ((this.inWater) ? 4 : 1);
+    if (this.inWater) {
+        this.glideChance = false;
+        this.cDashed = false;
+        this.glideTimer = 90;
+    }
+    this.gliding = false;
+    if (this.velY > 2 & this.flipped == 1 | this.velY < -2 & this.flipped == -1 && this.glideTimer > 0 && this.cDashTimer < 0
+        && keys[this.controls.Z] && this.abilities.jetboots && !this.nearGround && this.glideChance && this.wallJumpTimer <= 0 && this.onWall == 0) {
+        this.gliding = true;
+    } else if (this.velY > -1 & this.flipped == 1 | this.velY < 1 & this.flipped == -1 && this.glideTimer <= 0 && this.cDashTimer < 0
+        && keysDown[this.controls.Z] && this.abilities.jetboots && !this.nearGround && this.glideChance && this.wallJumpTimer <= 0 && this.onWall == 0) { 
+        playSound("playerJetbootsEmpty", 0.4);
+        for (var i = 0; i < 5; i++) {
+            var myNewParticleVelX = random(-2, 2);
+            var myNewParticleVelY = random(-1, -0.1);
+            if (random(0, 1) < 0.6) {
+                enemies.push(new floatParticle(this.x + this.w / 2, this.y + this.h - 4, 1, 3, myNewParticleVelX, myNewParticleVelY, 1.05, 60, [255, 255, 255]));
+                enemies.push(new floatParticle(this.x + this.w / 2 - 1, this.y + this.h - 3, 1, 1, myNewParticleVelX, myNewParticleVelY, 1.05, 60, [255, 255, 255]));
+                enemies.push(new floatParticle(this.x + this.w / 2 + 1, this.y + this.h - 3, 1, 1, myNewParticleVelX, myNewParticleVelY, 1.05, 60, [255, 255, 255]));
+            } else {
+                enemies.push(new floatParticle(this.x + this.w / 2, this.y + this.h - 3, 1, 1, myNewParticleVelX, myNewParticleVelY, 1.05, 60, [255, 255, 255]));
+            }
+        }
+        if (this.velY > 5) {
+            //I'll consider it, or maybe I have already decided...
+            //this.velY = 5;
+        }
+    }
+    if (this.gliding) {
+        this.velY = 2 * this.flipped;
+        this.glideTimer -= 0.5;
+        getId("playerJetboots").play();
+        getId("playerJetboots").volume = 0.23 * _settings.soundVolume;
+        if (getId("playerJetboots").currentTime > 0.8) {
+            getId("playerJetboots").currentTime = 0.1;
+        }
+    }
+    if (!this.gliding) {
+        endSound("playerJetboots");
+        //getId("playerJetboots").volume = 0;
+    }
+    this.velY = constrain(this.velY, -10, 10);
+
+    if (this.dashTimer > 0) {
+        this.velY = 0;
+    } else if (this.cDashTimer > 0) {
+        this.velY = this.cDashDir[1] * 8;
+    } else if (this.cDashTimer == 0 && this.cDashTimer[1] < 0 & this.flipped == 1 | this.cDashTimer[1] > 0 & this.flipped == -1) {
+        this.velY = -this.flipped;
+    }
+
+
+    //HERE IS WORK
+    if (this.cDashTimer <= 4) {
+        this.cDashDir[0] *= 0.5;
+        if (this.cDashDir[1] < 0 && this.flipped == 1 || this.cDashDir[1] > 0 && this.flipped == -1) {
+            this.cDashDir[1] *= 0.5;
+        }
+    }
+
+    if (this.spikeHitTimer <= 0 && this.isGrounded > 0 && keys[this.controls.Z] && this.inputBuffer.Z > 0 && this.drinkTimer < 0 && this.dashTimer < 0 && this.cDashTimer < 0 && cutscene.timer <= 0) {
+        this.pogoing = false;
+        this.glideChance = false;
+        this.velY = (-6.5 * this.flipped / ((this.inWater) ? 2 : 1)) * ((this.inSlime) ? 0.2 : 1);//-6.5 is low jump
+        //Dash Boost if the player is dashing towards the ground
+        /*if (this.cDashDir[0] != 0 && this.cDashDir[1] * this.flipped > 0 && this.cDashTimer > 0) {
+            this.dashBoost = this.dir;
+            this.velX = 4.5 * this.dir;
+            this.cDashTimer = -1;
+            this.cDashDir = [0, 0];
+        }*/
+
+        this.isGrounded = -1;
+        this.pogoing = false;
+        this.dashed = false;
+        this.cDashed = false;
+        this.inputBuffer.Z = -5;
+        this.cDashTimer = -1;
+        if (!this.inWater) {
+            playSound("playerJump");
+        } else {
+            playSound("playerSwim", 0.35);
+        }
+        if (this.inSlime) {
+            enemies.push(new slimeParticle(this.x + 2, this.y + this.h - 2, random(-1.5, 1.5), random(-1.5, -0.5), round(random(2, 3))),
+                         new slimeParticle(this.x + 9, this.y + this.h - 2, random(-1.5, 1.5), random(-1.5, -0.5), round(random(2, 3))));
+        }
+    } else if (this.spikeHitTimer <= 0 && this.abilities.doubleJump && this.isGrounded <= 0 && keys[this.controls.Z] && this.inputBuffer.Z > 0 && !this.doubleJumped && this.dashTimer < 0 && this.onWall == 0 && this.drinkTimer < 0) {
+        this.glideChance = false;
+        this.velY = -6.5;
+        this.doubleJumped = true;
+        this.pogoing = false;
+        this.inputBuffer.Z = -5;
+    } else if (this.spikeHitTimer <= 0 && this.abilities.wallJump && keys[this.controls.Z] && this.inputBuffer.Z > 0 && this.onWall != 0 && this.drinkTimer < 0) {
+        this.glideChance = false;
+        this.velY = -6.5 * this.flipped / ((this.inWater) ? 2 : 1);
+        this.wallJumpTimer = 10;
+        this.velX = this.onWall * 2;
+        this.dir = this.onWall;
+        this.onWall = 0;
+        this.pogoing = false;
+        this.dashed = false;
+        this.inputBuffer.Z = -5;
+    } else if (this.spikeHitTimer <= 0 && keys[this.controls.Z] && this.inputBuffer.Z > 0 && this.inWater && this.cDashTimer < 0 && this.dashTimer < 0) {
+        this.velY = -3;
+        this.inputBuffer.Z = -5;
+        this.pogoing = false;
+        playSound("playerSwim", 0.35);
+    } else if (keys[this.controls.Z] && this.inputBuffer.Z > 0 && this.onLedge != 0) {
+        if (!keys[this.controls.s]) {
+            this.glideChance = false;
+            this.dir = -this.onLedge;
+            this.inputBuffer.Z = -5;
+            this.velY = -6.5 * this.flipped / ((this.inWater) ? 2 : 1);//-6.5 is low jump
+        } else {
+            this.glideChance = false;
+            this.dir = -this.onLedge;
+            this.inputBuffer.Z = -5;
+            this.velY = 1;
+            this.y += 0.01;
+        }
+    }
+
+    //Releasing 'Z' mid-jump causes lower jump if the player didn't just pogo off something
+    if (!keys[this.controls.Z] && this.velY < -1 & this.flipped == 1 | this.velY > 1 & this.flipped == -1 && !this.pogoing && this.cDashTimer < 0) {
+       this.velY = -this.flipped;
+    }
+
+    if (this.willPogo) {
+        this.willPogo = false;
+        this.pogo();
+    }
+
+    if (cutscene.timer > 0) {
+        this.velX = cutscene.player.velX;
+        this.velY = cutscene.player.velY;
+        this.dir = cutscene.player.dir;
+    }
+
+    //for (var trol = 0; trol < 4; trol++) {
+    //Cursed moving platform code. Works surprisingly well for what it is.
+    while (this.carryX < 0) {
+        if (this.carryX < -1) {
+            this.x -= 1;
+        } else {
+            this.x += this.carryX;
+        }
+        var myCarryCoord1 = currentLevel[constrain(floor(this.y / 16), 0, currentLevel.length - 2)][constrain(floor(this.x / 16), 0, currentLevel[0].length)];
+        var myCarryCoord2 = currentLevel[constrain(floor((this.y + this.h / 2) / 16), 0, currentLevel.length - 2)][constrain(floor(this.x / 16), 0, currentLevel[0].length)];
+        var myCarryCoord3 = currentLevel[constrain(floor((this.y + this.h) / 16), 0, currentLevel.length - 2)][constrain(floor(this.x / 16), 0, currentLevel[0].length)];
+        if (myCarryCoord1 == "0" || myCarryCoord1 == "1" || myCarryCoord1 == "2" || myCarryCoord1 == "9" ||
+            myCarryCoord2 == "0" || myCarryCoord2 == "1" || myCarryCoord2 == "2" || myCarryCoord2 == "9" ||
+            myCarryCoord3 == "0" || myCarryCoord3 == "1" || myCarryCoord3 == "2" || myCarryCoord3 == "9") {
+            if (this.carryX < -1) {
+                this.x += 1;
+            } else {
+                this.x -= this.carryX;
+            }
+            this.carryX = 0;
+        }
+        if (this.carryX < -1) {
+            this.carryX++;
+        } else {
+            this.carryX = 0;
+        }
+    }
+    while (this.carryX > 0) {
+        if (this.carryX > 1) {
+            this.x += 1;
+        } else {
+            this.x += this.carryX;
+        }
+        var myCarryCoord1 = currentLevel[constrain(floor(this.y / 16), 0, currentLevel.length - 2)][constrain(floor((this.x + this.w) / 16), 0, currentLevel[0].length)];
+        var myCarryCoord2 = currentLevel[constrain(floor((this.y + this.h / 2) / 16), 0, currentLevel.length - 2)][constrain(floor((this.x + this.w) / 16), 0, currentLevel[0].length)];
+        var myCarryCoord3 = currentLevel[constrain(floor((this.y + this.h) / 16), 0, currentLevel.length - 2)][constrain(floor((this.x + this.w) / 16), 0, currentLevel[0].length)];
+        if (myCarryCoord1 == "0" || myCarryCoord1 == "1" || myCarryCoord1 == "2" || myCarryCoord1 == "9" ||
+            myCarryCoord2 == "0" || myCarryCoord2 == "1" || myCarryCoord2 == "2" || myCarryCoord2 == "9" ||
+            myCarryCoord3 == "0" || myCarryCoord3 == "1" || myCarryCoord3 == "2" || myCarryCoord3 == "9") {
+            if (this.carryX > 1) {
+                this.x -= 1;
+            } else {
+                this.x -= this.carryX;
+            }
+            this.carryX = 0;
+        }
+        if (this.carryX > 1) {
+            this.carryX--;
+        } else {
+            this.carryX = 0;
+        }
+    }
+
+    while (this.carryY < 0) {
+        if (this.carryY < -1) {
+            this.y -= 1;
+        } else {
+            this.y += this.carryY;
+        }
+        var myCarryCoord1 = currentLevel[constrain(floor(this.y / 16), 0, currentLevel.length - 2)][constrain(floor(this.x / 16), 0, currentLevel[0].length)];
+        var myCarryCoord2 = currentLevel[constrain(floor(this.y / 16), 0, currentLevel.length - 2)][constrain(floor((this.x + this.w) / 16), 0, currentLevel[0].length)];
+        if (myCarryCoord1 == "0" || myCarryCoord1 == "1" || myCarryCoord1 == "2" || myCarryCoord1 == "9" ||
+            myCarryCoord2 == "0" || myCarryCoord2 == "1" || myCarryCoord2 == "2" || myCarryCoord2 == "9") {
+            if (this.carryY < -1) {
+                this.y += 1;
+            } else {
+                this.y -= this.carryY * 2;//No idea why this had to be multiplied by 2 and not the others, but it does. I'm just going with it.
+            }
+            this.carryY = 0;
+        }
+        if (this.carryY < -1) {
+            this.carryY++;
+        } else {
+            this.carryY = 0;
+        }
+    }
+    while (this.carryY > 0) {
+        if (this.carryY > 1) {
+            this.y += 1;
+        } else {
+            this.y += this.carryY;
+        }
+        var myCarryCoord1 = currentLevel[constrain(floor((this.y + this.h) / 16), 0, currentLevel.length - 2)][constrain(floor(this.x / 16), 0, currentLevel[0].length)];
+        var myCarryCoord2 = currentLevel[constrain(floor((this.y + this.h) / 16), 0, currentLevel.length - 2)][constrain(floor((this.x + this.w) / 16), 0, currentLevel[0].length)];
+        if (myCarryCoord1 == "0" || myCarryCoord1 == "1" || myCarryCoord1 == "2" || myCarryCoord1 == "9" ||
+            myCarryCoord2 == "0" || myCarryCoord2 == "1" || myCarryCoord2 == "2" || myCarryCoord2 == "9") {
+            if (this.carryY > 1) {
+                this.y -= 1;
+            } else {
+                this.y -= this.carryY;
+            }
+            this.carryY = 0;
+        }
+        if (this.carryY > 1) {
+            this.carryY--;
+        } else {
+            this.carryY = 0;
+        }
+    }
+    //End of moving platform code
+
+    //Move the player by the velocity they currently have
+    if (!this.sitting && this.cDashTimer <= 10 && this.pipeDir == "" && this.hp > 0) {
+        this.x += this.velX;
+        this.y += this.velY;
+    } else {
+        this.velX = 0;
+        this.velY = 0;
+    }
+
+    /*//Pressing X will cause the player to attack
+    if (this.abilities.sword && keys[this.controls.X] && this.inputBuffer.X > 0 && this.attackTimer < -15 && this.dashTimer < 0
+     && this.cDashTimer < 0 && this.drinkTimer < 0 && this.pipeDir == "") {
+        this.attackTimer = 11;
+        playSound("swipe1");
+        this.inputBuffer.X = -5;
+        if (this.onWall == 0) {
+            this.attackDir = this.dir;
+        } else {
+            this.attackDir = this.onWall;
+        }
+        this.action = "attack";
+        this.attacker = -this.attacker;
+        if (keys[this.controls.w] && this.flipped == 1 || keys[this.controls.s] && this.flipped == -1) {
+            this.attacker = "Up";
+        } else if (keys[this.controls.s] & this.flipped == 1 | keys[this.controls.w] & this.flipped == -1 && this.isGrounded < 5) {
+            this.attacker = "Down";
+        }
+
+        if (this.attacker == -1 || this.attacker == "Up") {
+            playSound("swipe1");
+        } else {
+            playSound("swipe2");
+        }
+    }
+
+    //Reset the swipe hitbox, and then set the hitbox if the player is attacking with their sword or whip
+    this.setHitbox("Not");
+    if (this.attackTimer >= 0) {
+        this.dir = this.attackDir;
+        if (abs(this.attacker) == 1) {
+            this.setHitbox("Forward");
+        } else {
+            this.setHitbox(this.attacker);
+        }
+    }*/
+
+    //Reset stuff before collisions
+    this.onWall = 0;
+    this.onLedge = 0;
+    this.nearGround = false;
+    var wasInWater = this.inWater;
+    this.inWater = !(currentLevel[currentLevel.length - 1][0].attributes.underWater != true);
+    this.inSlime = false;
+    this.carryX = 0;
+    this.carryY = 0;
+
+    //////////////////
+    //COLLISION CODE//
+    //////////////////
+    //Loop through the tiles around the player and collide
+    for (var trol = 0; trol < 2; trol++) {
+        var startTestX = floor(this.x / 16) - 1;
+        var endTestX = floor((this.x + this.w) / 16) + 1;
+        var dirTestX = 1;
+
+        var startTestY = floor(this.y / 16);
+        var endTestY = floor((this.y + this.h) / 16) + 2;
+        var dirTestY = 1;
+
+        if (this.velX < 0) {
+            startTestX = floor((this.x + this.w) / 16);
+            endTestX = floor(this.x / 16) - 2;
+            dirTestX = -1;
+        }
+
+        if (this.velY < 0) {
+            startTestY = floor((this.y + this.h) / 16);
+            endTestY = floor(this.y / 16) - 1;
+            dirTestY = -1;
+        }
+
+        for (var k = 0; k < 2 && this.attackTimer > 0; k++) {
+            if (this.velY >= 0) {
+                if (startTestY > floor(this.swipe.y[k] / 16)) {
+                    startTestY = floor(this.swipe.y[k] / 16);
+                }
+                if (endTestY < floor((this.swipe.y[k] + this.swipe.h[k]) / 16) + 1) {
+                    endTestY = floor((this.swipe.y[k] + this.swipe.h[k]) / 16) + 1;
+                }
+            } else {
+                if (endTestY > floor(this.swipe.y[k] / 16)) {
+                    endTestY = floor(this.swipe.y[k] / 16) - 1;
+                }
+                if (startTestY < floor((this.swipe.y[k] + this.swipe.h[k]) / 16)) {
+                    startTestY = floor((this.swipe.y[k] + this.swipe.h[k]) / 16);
+                }
+            }
+            if (this.velX >= 0) {
+                if (startTestX > floor(this.swipe.x[k] / 16)) {
+                    startTestX = floor(this.swipe.x[k] / 16);
+                }
+                if (endTestX < floor((this.swipe.x[k] + this.swipe.w[k]) / 16) + 1) {
+                    endTestX = floor((this.swipe.x[k] + this.swipe.w[k]) / 16) + 1;
+                }
+            } else {
+                if (endTestX > floor(this.swipe.x[k] / 16)) {
+                    endTestX = floor(this.swipe.x[k] / 16);
+                }
+                if (startTestX < floor((this.swipe.x[k] + this.swipe.w[k]) / 16) + 1) {
+                    startTestX = floor((this.swipe.x[k] + this.swipe.w[k]) / 16) + 1;
+                }
+            }
+        }
+
+        //Player collisions
+        var attackBoxes = [];
+        //
+        /*for (var j = startTestY; j < endTestY && j < currentLevel.length - 1 && dirTestY > 0
+            || j > endTestY && j > -1 && dirTestY < 0; j += dirTestY) {
+            if (j < 0 && dirTestY > 0) {
+                j = 0;
+            } else if (j > currentLevel.length - 1 && dirTestY < 0) {
+                j = currentLevel.length - 1;
+            }
+            for (var i = startTestX; i < endTestX && i < currentLevel[j].length && dirTestX > 0
+            || i > endTestX && dirTestX < 0; i += dirTestX) {
+                if (i < 0 && dirTestX > 0) {
+                    i = 0;
+                } else if (i > currentLevel[j].length && dirTestX < 0) {
+                    i = currentLevel[j].length;
+                }*/
+        startTestY = constrain(startTestY, -1, currentLevel.length - 1);
+        endTestY = constrain(endTestY, -1, currentLevel.length - 1);
+        if (dirTestY > 0) {
+            startTestY = constrain(startTestY, 0, currentLevel.length - 1);
+            endTestY = constrain(endTestY, 0, currentLevel.length - 1);
+        } 
+        startTestX = constrain(startTestX, -1, currentLevel[0].length);
+        endTestX = constrain(endTestX, -1, currentLevel[0].length);
+        if (dirTestX > 0) {
+            startTestX = constrain(startTestX, 0, currentLevel[0].length);
+            endTestX = constrain(endTestX, 0, currentLevel[0].length);
+        } 
+        for (var j = startTestY; j != endTestY; j += dirTestY) {
+            for (var i = startTestX; i != endTestX; i += dirTestX) {
+                if (currentLevel[j][i] == "0") {
+                    //Do the pipe tunnel stuff here.
+                  if (this.abilities.slime && this.x + this.w > i * 16 && this.x < i * 16 + 16 && this.y + this.h > j * 16 && this.y < j * 16 + 16) {
+                    var selector = return4s(
+                    currentLevel[constrain(j - 1, 0, j)][i],
+                    currentLevel[j][constrain(i + 1, i, currentLevel[j].length - 1)],
+                    currentLevel[constrain(j + 1, j, currentLevel.length - 2)][i],
+                    currentLevel[j][constrain(i - 1, 0, i)],
+                    "0");
+                    if (selector == "-111") {selector = "-1-1";}
+                    if (selector == "111-") {selector = "11--";}
+                    if (this.pipeReady < 0 && trol == 0) {
+                        switch (selector) {
+                            case "1---":if (this.pipeDir != "d" && keys[this.controls.w] && this.y >= j * 16 + 16 + this.velY) {this.pipeDir = "u";} else if (this.pipeDir != "") {this.pipeDir = " d";}break;
+                            case "-1--":if (this.pipeDir != "l" && keys[this.controls.d] && this.x + this.w <= i * 16 + this.velX) {this.pipeDir = "r";} else if (this.pipeDir != "") {this.pipeDir = " l";}break;
+                            case "--1-":if (this.pipeDir != "u" && keys[this.controls.s] && this.y + this.h <= j * 16 + this.velY) {this.pipeDir = "d";} else if (this.pipeDir != "") {this.pipeDir = " u";}break;
+                            case "---1":if (this.pipeDir != "r" && keys[this.controls.a] && this.x >= i * 16 + 16 + this.velX) {this.pipeDir = "l";} else if (this.pipeDir != "") {this.pipeDir = " r";}break;
+                            case "11--":if (this.pipeDir == "d") {this.pipeDir = "r";} else if (this.pipeDir == "l") {this.pipeDir = "u";}break;
+                            case "-11-":if (this.pipeDir == "u") {this.pipeDir = "r";} else if (this.pipeDir == "l") {this.pipeDir = "d";}break;
+                            case "--11":if (this.pipeDir == "u") {this.pipeDir = "l";} else if (this.pipeDir == "r") {this.pipeDir = "d";}break;
+                            case "1--1":if (this.pipeDir == "d") {this.pipeDir = "l";} else if (this.pipeDir == "r") {this.pipeDir = "u";}break;
+                        }
+                        if (this.pipeDir != "" && this.abilities.slime) {
+                            this.x = i * 16;
+                            this.y = j * 16;
+                            this.velY = 0;
+                            this.dashTimer = -10;
+                            this.cDashTimer = -10;
+                            this.attackTimer = -20;
+                        }
+                        this.pipeReady = 1;
+                  }
+                }
+                collider(i * 16, j * 16, 16, 16, this);
+            }
+            //fill(0, 0, 255);
+            //rect(i * 16, j * 16, 16, 16);
+        }
+    }
+
+    //Second layer of player collisions
+    for (var j = startTestY; j < endTestY && j < currentLevel.length - 1 && dirTestY > 0
+        || j > endTestY && j > -1 && dirTestY < 0; j += dirTestY) {
+        if (j < 0 && dirTestY > 0) {
+            j = 0;
+        } else if (j > currentLevel.length - 1 && dirTestY < 0) {
+            j = currentLevel.length - 1;
+        }
+        for (var i = startTestX; i < endTestX && i < currentLevel[j].length && dirTestX > 0
+        || i > endTestX && dirTestX < 0; i += dirTestX) {
+            if (i < 0 && dirTestX > 0) {
+                i = 0;
+            } else if (i > currentLevel[j].length && dirTestX < 0) {
+                i = currentLevel[j].length;
+            }
+            switch (currentLevel[j][i]) {
+            case "1":
+                collider(i * 16, j * 16, 16, 16, this, return4s(
+            currentLevel[constrain(j - 1, 0, j)][i],
+            currentLevel[j][constrain(i + 1, i, currentLevel[j].length - 1)],
+            currentLevel[constrain(j + 1, j, currentLevel.length - 2)][i],
+            currentLevel[j][constrain(i - 1, 0, i)],
+            ["1","2","9"]));
+            break;
+            case "2":
+                collider(i * 16, j * 16, 16, 16, this, return4s(
+            currentLevel[constrain(j - 1, 0, j)][i],
+            currentLevel[j][constrain(i + 1, i, currentLevel[j].length - 1)],
+            currentLevel[constrain(j + 1, j, currentLevel.length - 2)][i],
+            currentLevel[j][constrain(i - 1, 0, i)],
+            ["1","2","9"]));
+            break;
+            case "3":
+                //Up, right, down, left
+                var selector = return4s(
+                currentLevel[constrain(j - 1, 0, j)][i],
+                currentLevel[j][constrain(i + 1, i, currentLevel[j].length - 1)],
+                currentLevel[constrain(j + 1, j, currentLevel.length - 2)][i],
+                currentLevel[j][constrain(i - 1, 0, i)],
+                "1","3");
+                switch (selector) {
+                    case "-21-":slopeCollider(i * 16, j * 16, 16, 16, constrain((i * 16) - (this.x + this.w), -16, 0) / 2, 1, this);break;
+                    case "-112":slopeCollider(i * 16, j * 16, 16, 16, (constrain((i * 16) - (this.x + this.w), -16, 0) / 2) - 8, 1, this);break;
+                    case "-211":slopeCollider(i * 16, j * 16, 16, 16, (constrain(this.x - (i * 16) - 16, -16, 0) / 2) - 8, 1, this);break;
+                    case "--12":slopeCollider(i * 16, j * 16, 16, 16, constrain(this.x - (i * 16) - 16, -16, 0) / 2, 1, this);break;
+                    case "12--":slopeCollider(i * 16, j * 16, 16, 16, constrain((this.x + this.w) - (i * 16), 0, 16) / 2, 2, this);break;
+                    case "11-2":slopeCollider(i * 16, j * 16, 16, 16, (constrain((this.x + this.w) - (i * 16), 0, 16) / 2) + 8, 2, this);break;
+                    case "12-1":slopeCollider(i * 16, j * 16, 16, 16, (constrain((i * 16) + 16 - this.x, 0, 16) / 2) + 8, 2, this);break;
+                    case "1--2":slopeCollider(i * 16, j * 16, 16, 16, constrain((i * 16) + 16 - this.x, 0, 16) / 2, 2, this);break;
+                    case "-12-":slopeCollider(i * 16, j * 16, 16, 16, constrain((j * 16) - (this.y + this.h), -16, 0) / 2, 3, this);break;
+                    case "211-":slopeCollider(i * 16, j * 16, 16, 16, (constrain((j * 16) - (this.y + this.h), -16, 0) / 2) - 8, 3, this);break;
+                    case "112-":slopeCollider(i * 16, j * 16, 16, 16, (constrain(this.y - (j * 16) - 16, -16, 0) / 2) - 8, 3, this);break;
+                    case "21--":slopeCollider(i * 16, j * 16, 16, 16, (constrain(this.y - (j * 16) - 16, -16, 0) / 2), 3, this);break;
+                    case "--21":slopeCollider(i * 16, j * 16, 16, 16, constrain((this.y + this.h) - (j * 16), 0, 16) / 2, 4, this);break;
+                    case "2-11":slopeCollider(i * 16, j * 16, 16, 16, (constrain((this.y + this.h) - (j * 16), 0, 16) / 2) + 8, 4, this);break;
+                    case "1-21":slopeCollider(i * 16, j * 16, 16, 16, (constrain((j * 16) + 16 - this.y, 0, 16) / 2) + 8, 4, this);break;
+                    case "2--1":slopeCollider(i * 16, j * 16, 16, 16, (constrain((j * 16) + 16 - this.y, 0, 16) / 2), 4, this);break;
+                    //Steep slopes
+                    case "-11-":slopeCollider(i * 16, j * 16, 16, 16, constrain((i * 16) - (this.x + this.w), -16, 0), 1, this);break;
+                    case "--11":slopeCollider(i * 16, j * 16, 16, 16, constrain(this.x - (i * 16) - 16, -16, 0), 1, this);break;
+                    case "11--":slopeCollider(i * 16, j * 16, 16, 16, constrain((this.x + this.w) - (i * 16), 0, 16), 2, this);break;
+                    case "1--1":slopeCollider(i * 16, j * 16, 16, 16, constrain((i * 16) + 16 - this.x, 0, 16), 2, this);break;
+                }
+            break;
+            case "4":
+                attackBoxes.push(i * 16, j * 16 + 8, 16, 8, 0, "metalHit1");
+                attackBoxes.push(i * 16 + 3, j * 16 + 4, 11, 4, 0, "metalHit1"); 
+                if (this.velY >= 0) {
+                    //damageBox(i * 16, j * 16 + 9, 16, 7, 1);
+                    damageBox(i * 16 + 1, j * 16 + 9, 14, 7, 1, true);
+                    damageBox(i * 16 + 3, j * 16 + 4, 11, 4, 1, true); 
+                }
+            break;
+            case "5":
+                attackBoxes.push(i * 16 + 8, j * 16, 8, 16, 0, "metalHit1");
+                attackBoxes.push(i * 16 + 5, j * 16 + 3, 4, 11, 0, "metalHit1"); 
+                if (this.velX >= 0) {
+                    damageBox(i * 16 + 9, j * 16 + 1, 7, 15, 1, true);
+                    damageBox(i * 16 + 5, j * 16 + 3, 4, 11, 1, true); 
+                }
+            break;
+            case "6":
+                attackBoxes.push(i * 16, j * 16, 8, 16, 0, "metalHit1");
+                attackBoxes.push(i * 16 + 7, j * 16 + 2, 4, 11, 0, "metalHit1");
+                if (this.velX <= 0) {
+                    damageBox(i * 16, j * 16, 7, 15, 1, true);
+                    damageBox(i * 16 + 7, j * 16 + 2, 4, 11, 1, true);
+                }
+            break;
+            case "7":
+                attackBoxes.push(i * 16, j * 16, 16, 8, 0, "metalHit1");
+                if (this.velY <= 0) {damageBox(i * 16, j * 16, 16, 8, 1, true);}
+            break;
+            case "8":
+                waterCollider(i * 16, j * 16, 16, 16, this, true);
+            break;
+            case "*":
+                damageBox(i * 16 + 1, j * 16 + 6, 14, 8, 1, true, "playerSplash2");
+            break;
+            case "9":
+                slimeCollider(i * 16, j * 16, 16, 16, this, return4s(
+            currentLevel[constrain(j - 1, 0, j)][i],
+            currentLevel[j][constrain(i + 1, i, currentLevel[j].length - 1)],
+            currentLevel[constrain(j + 1, j, currentLevel.length - 2)][i],
+            currentLevel[j][constrain(i - 1, 0, i)],
+            ["1","2","9"]));
+            break;
+            }
+            //Debug for which blocks player can collide with
+            //fill(255, 0, 0);
+            //rect(i * 16, j * 16, 16, 16);
+        }
+    }
+    //We detect collisions for the other colliders(i.e. breakable platforms)
+    for (var i = 0; i < enemies.length; i++) {
+        if (enemies[i].collider != undefined) {enemies[i].collider(this);}
+    }
+
+}//End of 'trol' loop
+    /////////////////////////
+    //END OF COLLISION CODE//
+    /////////////////////////
+    if (this.attackTimer < 0 && this.velX == 0 && this.velY == 0 && this.idleTimer < 520) {
+        this.idleTimer++;
+    } else if (this.idleTimer > 500) {
+        this.idleTimer = 500;
+    } else {
+        this.idleTimer = 0;
+    }
+    var maxExitWaterValueX = constrain(abs(this.velY / 2), 0.5, 2);
+    var maxExitWaterValueY = constrain(abs(this.velY / 2), 1, 3);
+    if (wasInWater && !this.inWater && this.spikeHitTimer <= 0) {
+        if (keys[this.controls.Z]) {
+            this.velY = -4 * 1.5;//multiplied by 1.5 because velocity gets halved when entering water
+        } else {
+            //this.velY *= 2;//idk why I originally put it here but its staying in case I need it.
+        }
+        playSound("playerSplash1");
+        this.exitWaterTimer = -1;
+        this.exitWaterPos = {x:this.x,y:ceil(this.y / 16) * 16};
+        for (var i = 0; i < 5; i++) {
+            enemies.push(new bounceParticle(this.exitWaterPos.x + 8 + random(-4, 4), this.exitWaterPos.y, 1, 1, random(-maxExitWaterValueX, maxExitWaterValueX), random(-maxExitWaterValueY, -1), 0.1, 0));
+        }
+    } else if (!wasInWater && this.inWater && this.spikeHitTimer <= 0) {
+        playSound("playerSplash2");
+        this.exitWaterTimer = -1;
+        this.exitWaterPos = {x:this.x,y:ceil(this.y / 16) * 16};
+        for (var i = 0; i < 5; i++) {
+            enemies.push(new bounceParticle(this.exitWaterPos.x + 8, this.exitWaterPos.y, 1, 1, random(-maxExitWaterValueX, maxExitWaterValueX), random(-maxExitWaterValueY, -1), 0.1, 0));
+        }
+    }
+if (this.shouldAttacktimer > -10) {this.shouldAttackTimer--;}
+//Pressing X will cause the player to attack
+if (this.abilities.sword && keys[this.controls.X] && this.inputBuffer.X > 0 && this.attackTimer < -20 && this.dashTimer < 0
+ && this.cDashTimer < 0 && this.drinkTimer < 0 && this.pipeDir == "" && cutscene.timer <= 0 && this.spikeHitTimer <= 0) {
+    this.shouldAttackTimer = 5;
+}
+if (this.attackTimer < -25 && this.shouldAttackTimer > 0) {
+    this.shouldAttackTimer = 0;
+    this.attackTimer = 12;
+    playSound("swipe1");
+    this.inputBuffer.X = -5;
+    if (this.onWall == 0) {
+        this.attackDir = this.dir;
+    } else {
+        this.attackDir = this.onWall;
+    }
+    this.action = "attack";
+    this.attacker = -this.attacker;
+    if (keys[this.controls.w] && this.flipped == 1 || keys[this.controls.s] && this.flipped == -1) {
+        this.attacker = "Up";
+    } else if (keys[this.controls.s] & this.flipped == 1 | keys[this.controls.w] & this.flipped == -1 && this.isGrounded < 0) {
+        this.attacker = "Down";
+    }
+
+    if (this.attacker == -1 || this.attacker == "Up") {
+        playSound("swipe1", 0.45);
+    } else {
+        playSound("swipe2", 0.45);
+    }
+}
+
+//Reset the swipe hitbox, and then set the hitbox if the player is attacking with their sword or whip(Lol removed long ago. This is old.)
+this.setHitbox("Not");
+if (this.attackTimer >= 0) {
+    this.dir = this.attackDir;
+    if (abs(this.attacker) == 1) {
+        this.setHitbox("Forward");
+    } else {
+        this.setHitbox(this.attacker);
+    }
+}
+
+for (var i = 0; i < attackBoxes.length; i += 6) {
+    attackBox(attackBoxes[i], attackBoxes[i + 1], attackBoxes[i + 2], attackBoxes[i + 3], attackBoxes[i + 4], attackBoxes[i + 5]);
+}
+
+//Taking care of movement through pipes
+if (this.pipeDir == "") {
+    this.h = 22;
+} else {
+    this.h = 16;
+    var currentLevelPipeChecks = [
+        currentLevel[floor(this.y / 16) - 1][floor(this.x / 16)],
+        currentLevel[floor(this.y / 16) + 1][floor(this.x / 16)],
+    ];
+            switch(this.pipeDir) {
+                case "u":this.y -= 16 / 2;break;
+                case "d":this.y += 16 / 2;break;
+                case "l":this.x -= 16 / 2;break;
+                case "r":this.x += 16 / 2;break;
+                case " u":this.y -= 24;this.pipeDir = "";break;
+                case " d":this.y += 16;this.pipeDir = "";break;
+                case " l":
+                    this.x -= 16;this.pipeDir = "";
+                    currentLevelPipeChecks = [
+                        currentLevel[floor(this.y / 16) - 1][floor(this.x / 16)],
+                        currentLevel[floor(this.y / 16) + 1][floor(this.x / 16)],
+                    ];
+                    if (currentLevelPipeChecks[0] == "1" || currentLevelPipeChecks[0] == "2" || currentLevelPipeChecks[0] == "9") {
+                        
+                    } else if (currentLevelPipeChecks[1] == "1" || currentLevelPipeChecks[1] == "2" || currentLevelPipeChecks[1] == "9") {
+                        this.y -= 8;
+                    } else {
+                        this.y -= 6;
+                    }
+                break;
+                case " r":
+                    this.x += 16;this.pipeDir = "";
+                    currentLevelPipeChecks = [
+                        currentLevel[floor(this.y / 16) - 1][floor(this.x / 16)],
+                        currentLevel[floor(this.y / 16) + 1][floor(this.x / 16)],
+                    ];
+                    if (currentLevelPipeChecks[0] == "1" || currentLevelPipeChecks[0] == "2" || currentLevelPipeChecks[0] == "9") {
+                        
+                    } else if (currentLevelPipeChecks[1] == "1" || currentLevelPipeChecks[1] == "2" || currentLevelPipeChecks[1] == "9") {
+                        this.y -= 8;
+                    } else {
+                        this.y -= 6;
+                    }
+                break;
+            }
+}
+if (this.cDashTimer > 0) {
+//    this.h = 16;
+}
+
+//Ending the knockback
+this.hitTimer--;
+if (this.hitTimer < 0) {
+    this.isHitting /= 1.5;
+}
+
+//Originial Jumping code position
+
+//Animation Handlers
+if (floor(this.walkTimer) > 8) {this.walkTimer = 1;}
+if (floor(this.flipTimer) > 8) {this.flipTimer = 1;}
+
+
+    this.sprite = "run" + floor(this.walkTimer);
+    this.sprite2 = "run" + floor(this.walkTimer);
+
+///Jumping Animation
+if (this.isGrounded > 0 && this.velX == 0) {
+    this.sprite = "idle";
+    this.sprite2 = "idle";
+    if (this.stopTimer > 0) {this.sprite = "stop" + Math.ceil(this.stopTimer);}
+    this.walkTimer = 1;
+} else if (this.isGrounded < 0) {
+    this.walkTimer = 1;
+    if (this.flipped == 1) {
+        if (this.velY < -1) {
+            this.sprite = "jump1";
+            this.sprite2 = "jump1";
+        } else if (this.velY >= -1 && this.velY < 0) {
+            this.sprite = "jump2";
+            this.sprite2 = "jump2";
+        } else if (this.velY >= 0 && this.velY < 1) {
+            this.sprite = "jump3";
+            this.sprite2 = "jump3";
+        } else if (this.velY >= 1 && this.velY < 2) {
+            this.sprite = "jump4";
+            this.sprite2 = "jump4";
+        } else if (this.velY >= 2) {
+            this.sprite = "jump5";
+            this.sprite2 = "jump5";
+        }
+    } else {
+        if (this.velY > 1) {
+            this.sprite = "jump1";
+            this.sprite2 = "jump1";
+        } else if (this.velY <= 1 && this.velY > 0) {
+            this.sprite = "jump2";
+            this.sprite2 = "jump2";
+        } else if (this.velY <= 0 && this.velY > -1) {
+            this.sprite = "jump3";
+            this.sprite2 = "jump3";
+        } else if (this.velY <= -1 && this.velY > -2) {
+            this.sprite = "jump4";
+            this.sprite2 = "jump4";
+        } else if (this.velY <= -2) {
+            this.sprite = "jump5";
+            this.sprite2 = "jump5";
+        }
+    }
+}
+
+if (this.gliding) {
+    this.glideAnimTimer += 0.5;
+    if (floor(this.glideAnimTimer) > 3) {this.glideAnimTimer = 0;}
+    var glideStuff = [1,2,3,2];
+    var glideAdder = 0;
+    if (this.glideTimer < 23) {
+        glideAdder = 3;
+    } else if (this.glideTimer < 35) {
+        glideAdder = 2;
+    } else if (this.glideTimer < 58) {
+        glideAdder = 1;
+    }
+    this.sprite2 = "glide" + JSON.stringify(glideStuff[floor(this.glideAnimTimer)] + glideAdder);
+}
+
+//Flipping
+if (this.doubleJumped) {
+    this.sprite = "flip" + floor(this.flipTimer);
+    this.sprite2 = 0;
+    this.flipTimer += 0.25;
+}
+
+//Clinging to wall
+if (this.onWall != 0 && this.velY > 2 & this.flipped == 1 | this.velY < -2 & this.flipped == -1) {
+    if (this.attackTimer < 0) {
+        this.dir = this.onWall;
+    }
+    this.velY = 2 * this.flipped;
+    this.sprite = "onWall";
+    this.sprite2 = "onWall";
+} else if (this.onLedge != 0) {
+    this.sprite = "onLedge";
+    this.dir = this.onLedge;
+    this.velY = 0;
+}
+
+//Attacking
+this.sprite3 = 0;
+if (this.attackTimer >= 0) {
+    this.sprite = "attack";
+    //this.dir = this.attackDir;
+
+    if (this.attackTimer > 10 && this.canHit | this.didHit != this.canHit) {
+        this.sprite += this.attacker + (2 - (round(this.attacker) != this.attacker));
+    } else if (this.attackTimer > 5 || this.attackTimer > 10 && !this.canHit && !this.didHit) {
+        this.sprite += this.attacker + (3 - (round(this.attacker) != this.attacker));
+        if ((round(this.attacker) == this.attacker)) {
+            this.sprite3 = "swipe" + ((this.attacker + 1) * 1.5 + 2);
+        } else {
+            this.sprite3 = "swipe" + this.attacker + 2;
+        }
+    } else {
+        this.sprite += this.attacker + (4 - (round(this.attacker) != this.attacker));
+        if ((round(this.attacker) == this.attacker)) {
+            this.sprite3 = "swipe" + ((this.attacker + 1) * 1.5 + 3);
+        } else {
+            this.sprite3 = "swipe" + this.attacker + 3;
+        }
+    }
+
+} else {
+    //this.attackTimer < 0
+    this.canHit = true;
+    if (round(this.attacker) != this.attacker) {
+        this.attacker = 1;
+    }
+}
+
+
+//Drinking
+if (this.drinkTimer > this.flasks[this.flaskSelected].timer - 5) {
+    this.sprite = "drink1";
+} else if (this.drinkTimer > this.flasks[this.flaskSelected].timer - 10) {
+    this.sprite = "drink2";
+} else if (this.drinkTimer >= 10) {
+    this.sprite = "drink3";
+    if (this.drinkTimer == 13) {
+        this.lastHp = this.hp;
+        this.flasks[this.flaskSelected].perk(this);
+        this.hp += this.flasks[this.flaskSelected].hp;
+        this.drinkCountShakeTimer = 15;
+        this.lastHpTimer = 50;
+        this.hp = constrain(this.hp, 0, this.maxHp);
+        this.flaskCount--;
+        this.flasks[this.flaskSelected].visualEffect(this);
+        playSound("playerHeal", 0.7);
+    }
+} else if (this.drinkTimer > 5) {
+    this.sprite = "drink2";
+} else if (this.drinkTimer > 0) {
+    this.sprite = "drink1";
+}
+
+if (this.drinkTimer < 20 && this.drinkTimer > 0) {
+    this.healingParticles.push({x:floor(random(0, 14)),y:24,lastY:24,offset:random(-2, 2)});
+    //this.sprite3 = "healEffect" + (floor((20 - this.drinkTimer) / 5) + 1);
+}
+
+    if (this.sprite2 != 0) {
+       this.sprite2 += "Leg";
+    }
+
+    //If the player is dashing
+    if (this.dashTimer > 0) {
+        this.sprite = "dash";
+        if (ceil((11-this.dashTimer) / 2) < 6) {
+            this.sprite2 = "dashEffect" + ceil((11-this.dashTimer) / 2);
+            //alert(this.sprite2);
+        } else {
+            this.sprite2 = 0;
+        }
+        this.velY = 0;
+        this.velX = this.dir * 7;
+    }
+
+    //If the player is cDashing
+    if (this.cDashTimer > 0) {
+        this.sprite = "dash";
+        if (ceil((11-this.cDashTimer) / 2) < 6) {
+            //this.sprite2 = "dashEffect" + ceil((11-this.cDashTimer) / 2);
+            this.sprite2 = 0;
+            //alert(this.sprite2);
+        } else {
+            this.sprite2 = 0;
+        }
+        this.velY = this.cDashDir[1] * 7;
+        if (abs(this.cDashDir[0] * 7) >= abs(this.velX)) {
+            this.velX = this.cDashDir[0] * 7;
+        }
+    }
+
+    if (this.sitting) {
+        this.attackTimer = 0;
+        this.dashTimer = 0;
+        this.cDashTimer = 0;
+        this.velY = 0;
+        this.drinkTimer = -10;
+        this.sprite2 = 0;
+        this.sprite3 = 0;
+        this.sitTimer += 0.2;
+        if (this.sitTimer < 4) {
+            this.sitTimer += 0.05;
+        }
+        if (floor(this.sitTimer) > 5) {
+            this.sitTimer = 5;
+        }
+        this.sprite = "sit" + floor(this.sitTimer);
+        if (keys[this.controls.Z]) {
+            this.sitting = false;
+        }
+    } else {
+        this.sitTimer = 1;
+    }
+
+    if (keysDown[this.controls.V] && this.isGrounded > 0 && this.abilities.gravity) {
+        this.isGrounded = 0;
+        this.flipped = -this.flipped;
+    }
+
+    //If the player is taking damage
+    if (this.spikeHitTimer > 0) {
+        if (this.spikeHitDir > 0) {
+            if (this.spikeHitTimer < 0.2) {
+                this.sprite = "takeDamage";
+            } else if (this.spikeHitTimer < 0.4) {
+                this.sprite = "takeDamage";
+            } else if (this.spikeHitTimer < 0.6) {
+                this.sprite = "takeDamage";
+            } else if (this.spikeHitTimer < 0.8) {
+                this.sprite = "takeDamage";
+            } else if (this.spikeHitTimer < 1) {
+                this.sprite = "takeDamage";
+            }
+        } else if (this.spikeHitDir < 0) {
+            if (this.spikeHitTimer > 0.2) {
+                this.sprite = "weak3";
+            } else if (this.spikeHitTimer > 0) {
+                this.sprite = "weak2";
+            }
+        }
+        if (this.spikeHitTimer > 0 || this.spikeHitDir > 0) {
+            this.sprite2 = 0;
+            this.sprite3 = 0;
+        }
+        this.velY -= 0.1 * this.flipped / ((this.inWater) ? 4 : 1);
+    }
+    if (this.damageTimer > 0) {
+        this.damageTimer--;
+        this.sprite = "takeDamage";
+        this.sprite2 = 0;
+        this.sprite3 = 0;
+    }
+
+
+    if (cutscene.timer > 0) {
+        this.sprite = cutscene.player.sprite;
+        this.sprite2 = cutscene.player.sprite2;
+        this.sprite3 = cutscene.player.sprite3;
+    }
+    if (this.exitWaterTimer > -10) {
+        this.exitWaterTimer -= 0.25;
+    }
+    for (var i = 0; i < this.healingParticles.length; i++) {
+        this.healingParticles[i].lastY = this.healingParticles[i].y;
+        this.healingParticles[i].y -= abs((this.healingParticles[i].y + 24 + this.healingParticles[i].offset) / 24);
+        if (this.healingParticles[i].y < -16 - abs(this.healingParticles[i].offset) * 3) {
+            this.healingParticles.splice(i, 1);
+            continue;
+        }
+    }
+};
+
+
+
+///////////////////////////////////////////////////////
+///////////////////PLAYER DRAW/////////////////////////
+///////////////////////////////////////////////////////
+Player.prototype.draw = function() {
+//Draw the player
+if (this.hp <= 0 && playersDed) {
+    this.deathTimer--;
+} else {
+    this.deathTimer = 60;
+}
+if (this.immuneTimer < 0 || this.immuneTimer == round(this.immuneTimer / 2) * 2 || this.hp <= 0) {
+    save();
+    translate(round(this.x) - 1, round(this.y) - 1);
+    if (this.dir == -1) {translate(16, 0);}
+    if (this.flipped == -1) {translate(0, 24);}
+    scale(this.dir, this.flipped);
+    if (this.sprite2 != 0) {
+        image("playerSprites", playerImgs[this.sprite2], 0, 0, playerImgs[this.sprite2].w, playerImgs[this.sprite2].h);
+    }
+
+    image("playerSprites", playerImgs[this.sprite], 0, 0, playerImgs[this.sprite].w, playerImgs[this.sprite].h);
+
+    if (this.sprite3 != 0) {
+        image("playerSprites", playerImgs[this.sprite3], 0, 0, playerImgs[this.sprite3].w, playerImgs[this.sprite3].h);
+    }
+    restore();
+}
+    for (var i = 0; i < this.healingParticles.length; i++) {
+        fill(this.flasks[this.flaskSelected].color[0], this.flasks[this.flaskSelected].color[1], this.flasks[this.flaskSelected].color[2], (this.healingParticles[i].y + this.flasks[this.flaskSelected].visualOffset) / 24);
+        rect(round(this.healingParticles[i].x + this.x), round(this.healingParticles[i].y + this.y), 1, ceil(abs(this.healingParticles[i].y - this.healingParticles[i].lastY)));
+    }
+    if (this.attackTimer > 0 && this.canHit == false) {
+        fill(255, 255, 255);
+        //rect(this.swipe.hit[0] - 3, this.swipe.hit[1] - 3, 6, 6);
+    }
+    if (this.exitWaterTimer > 0) {
+        fill(255, 255, 255);
+        rect(this.exitWaterPos.x, this.exitWaterPos.y - this.exitWaterTimer * 3, 16, this.exitWaterTimer * 3);
+    }
+    //Debug some collisions
+    /*fill(0, 0, 255, 0.5);
+    //rect(this.x, this.y, this.w, this.h);
+    //text8(this.cDashDir, this.x, this.y - 20, 2);
+    rect(this.swipe.x[0], this.swipe.y[0], this.swipe.w[0], this.swipe.h[0]);
+    rect(this.swipe.x[1], this.swipe.y[1], this.swipe.w[1], this.swipe.h[1]);*/
+    fill(255, 0, 0);
+    //rect(this.swipe.tip[0] - 1, this.swipe.tip[1] - 1, 2, 2);
+};
+
+
+Player.prototype.pickUpSword = function(x, y) {
+    //this.x = x;
+    this.y = y;
+    this.abilities.sword = true;
+    resetCutscene();
+    cutscene.timer = 600;
+    cutscene.type = 1;
+    cutscene.movePlayer = [x, y];
+};
+
+Player.prototype.pickUpBoot = function(x, y) {
+    //this.x = x;
+    this.y = y;
+    this.abilities.jetboots = true;
+    resetCutscene();
+    cutscene.timer = 600;
+    cutscene.type = "jetboots";
+    cutscene.movePlayer = [x, y];
+};
+//A function that detects if any players are colliding with a certain area
+var detectPlayer = function(x, y, w, h, extraValue) {
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.x + p.w > x && p.x < x + w && p.y + p.h > y && p.y < y + h && p[extraValue] > 0 | extraValue == undefined) {
+            return true;
+        }
+    }
+};
+//{"sword":true,"dash":true,"wallJump":true,"cDash":true,"gravity":true}
+var playerAbilities = saveData.abilities;
+
+var players = [
+new Player(1296, 384, 6, 5, saveData.abilities, controls),
+];                                                         

@@ -1,0 +1,113 @@
+var bounceParticle = function(x, y, w, h, velX, velY, weight, timer) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.velX = velX;
+    this.velY = velY;
+    this.weight = weight;
+    this.ded = false;
+    this.timer = timer;
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+};
+
+bounceParticle.prototype.run = function() {
+    this.timer--;
+    this.velY += this.weight;
+    this.x += this.velX;
+    this.y += this.velY;
+    checkCollisions(this);
+    if (this.timer < -100) {this.ded = true;}
+};
+
+bounceParticle.prototype.drawBack = function() {
+    fill(255, 255, 255);
+    rect(round(this.x), round(this.y), this.w, this.h);
+};
+
+bounceParticle.prototype.wallTop = function() {
+    this.velY = -abs(this.velY) / 2;
+    if (this.velY > -0.1 || this.timer < 0) {this.ded = true;}
+};
+bounceParticle.prototype.wallBottom = function() {
+    this.velY = abs(this.velY);
+};
+
+var floatParticle = function(x, y, w, h, velX, velY, weight, timer, color) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.velX = velX;
+    this.velY = velY;
+    this.weight = weight;
+    this.ded = false;
+    this.timer = timer;
+    this.color = color;
+    if (this.color == undefined) {this.color = [255, 255, 255];}
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+};
+
+floatParticle.prototype.run = function() {
+    this.timer--;
+    this.velX /= this.weight;
+    this.velY /= this.weight;
+    this.x += this.velX;
+    this.y += this.velY;
+    checkCollisions(this);
+    if (this.timer < 0) {this.ded = true;}
+};
+
+floatParticle.prototype.drawBack = function() {
+    fill(this.color[0], this.color[1], this.color[2], this.timer / 60);
+    rect(round(this.x), round(this.y), this.w, this.h);
+};
+var dripParticle = function(x, y, velY) {
+    this.x = x;
+    this.y = y;
+    this.w = 1;
+    this.h = velY;
+    this.velX = 0;
+    this.velY = velY;
+    this.ded = false;
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+};
+
+dripParticle.prototype.run = function() {
+    this.y += this.velY;
+    checkCollisions(this);
+    if (this.inWater) {this.ded = true;}
+};
+
+dripParticle.prototype.draw = function() {
+    fill(0, 0, 255, 0.5);
+    rect(this.x, this.y, 1, this.h);
+};
+
+dripParticle.prototype.wallTop = function() {
+    this.ded = true;
+};
+
+var dripSpawner = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.timer = random(0, 60);
+    this.immuneTimers = [-10, -10];
+    this.inWater = false;
+};
+
+dripSpawner.prototype.run = function() {
+    this.timer++;
+    if (this.timer > 120) {
+        this.timer = random(0, 60);
+        enemies.push(new dripParticle(this.x, this.y + 2, 4));
+    }
+};
+
+dripSpawner.prototype.draw = function() {
+    fill(0, 0, 255, 0.5);
+    rect(this.x, this.y, 1, floor(this.timer / 40));
+};

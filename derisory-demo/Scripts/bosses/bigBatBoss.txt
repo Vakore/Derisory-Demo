@@ -1,0 +1,194 @@
+var bigBatBoss = function(x, y) {
+    this.immuneTimers = [-10, -10];
+    this.x = x;
+    this.y = y;
+    this.wingX = 0;
+    this.wingY = 0;
+    this.wingW = 0;
+    this.wingH = 0;
+    this.wingSlam = -1;
+    this.velX = 0;
+    this.velY = 0;
+    this.w = 64;
+    this.h = 96;
+    this.hp = 40;
+    this.flyDownTimer = 200;
+    this.alreadyShook = false;
+    this.attackTimer = 250;
+    this.wingTimer = 0;
+    this.dir = -1;
+    this.target = floor(random(0, players.length - 1));
+};
+
+bigBatBoss.prototype.run = function() {
+    if (this.flyDownTimer > 0) {
+        this.flyDownTimer -= 2;
+        this.velY = 2;
+        if (this.flyDownTimer == 0) {this.velY = -5;}
+    } else {
+        this.velY += 0.4;
+        this.attackTimer--;
+        if (this.attackTimer < 0) {
+            var whichAttack = round(random(0, 1));
+            //Only do attack 1(wing smack down) if the player is close to the bat
+            if (whichAttack == 1 && players[this.target].x + 14 < this.x - 80 | players[this.target].x > this.x + this.w + 80) {
+                whichAttack += round(random(0, 1) + 0.5);
+            }
+            //whichAttack = 2;
+            this.wingX = 0;
+            this.wingY = 0;
+            this.wingW = 0;
+            this.wingH = 0;
+            this.wingSlam = -1;
+            //Decide which attack to do
+            switch (whichAttack) {
+              case 0:
+                this.attackTimer = 60;
+                this.velY = -10;
+                this.velX = ((players[this.target].x + 7) - (this.x + 32)) / 50;
+                this.alreadyShook = false;
+              break;
+              case 1:
+                this.wingSlam = 0;
+                this.attackTimer = 120;
+                this.wingX = -32;
+                this.wingY = 0;
+                this.wingW = 24;
+                this.wingH = 0;
+              break;
+              case 2:
+                this.attackTimer = 60;
+                this.velX = (players[this.target].x + 7 > this.x + 32) ? 10 : -10;
+              break;
+            }
+        }
+    }
+    if (this.wingX < 0 && this.wingW > 0 && this.attackTimer < 20 && round(this.wingY) >= 72 && this.wingSlam == 0) {
+        //this.wingSlam = false;
+        this.wingX = round(this.wingX);
+        this.wingW = round(this.wingW);
+        this.wingX += 4;
+        this.wingW -= 4;
+        if (round(this.wingX) == 0) {
+            this.wingSlam = -1;
+            this.wingX = 0;
+            this.wingW = 0;
+            this.wingY = 0;
+            this.wingH = 0;
+        }
+    } else if (this.wingY == -64 && this.wingSlam <= 0) {
+        this.wingSlam = 32;
+    } else if (this.wingX == -32 && this.wingSlam <= 0) {
+        this.wingY -= 4;
+        this.wingH += 4;
+    }
+    if (this.wingSlam > 0) {
+        if (this.wingSlam <= 16) {
+            this.wingX -= 5;
+            this.wingY += 8.5;
+            this.wingW += 3.5;
+            this.wingH -= 2.5;
+        }
+        this.wingSlam--;
+        /*this.wingX = -112;
+        this.wingW = 80;
+        this.wingY = 72;
+        this.wingH = 24;*/
+    }
+    this.x += this.velX;
+    this.y += this.velY;
+    checkCollisions(this);
+    if (this.hp > 0) {
+        attackBox(this.x, this.y, this.w, this.h, this);
+        damageBox(this.x, this.y, this.w, this.h, 1);
+        attackBox(this.x + this.wingX + (this.w / 2), this.y + this.wingY, this.wingW, this.wingH, this);
+        damageBox(this.x + this.wingX + (this.w / 2), this.y + this.wingY, this.wingW, this.wingH, 1);
+        attackBox(this.x - this.wingX - this.wingW + (this.w / 2), this.y + this.wingY, this.wingW, this.wingH, this);
+        damageBox(this.x - this.wingX - this.wingW + (this.w / 2), this.y + this.wingY, this.wingW, this.wingH, 1);
+    } else if (cutscene.timer <= 0 && cutscene.type != "afterBatBoss" && cutscene.type != "batBoss") {
+            //make this victory
+            resetCutscene();
+            this.wingSlam = -1;
+            this.wingX = 0;
+            this.wingY = 0;
+            this.wingW = 0;
+            this.wingH = 0;
+            cutscene.objWidth = 16;
+            cutscene.timer = 600;
+            cutscene.type = "batBoss";
+            this.velY = -10;
+            this.velX = ((88 * 16) - (this.x + 32)) / 50;
+            this.attackTimer = 1000;
+    }
+    if (this.velY == 0 && screenShake.timer <= 0) {
+        if (players[this.target].x + 7 < this.x + 32) {this.dir = -1;} else {this.dir = 1;}
+        if (cutscene.timer > 531) {cutscene.timer = 531;}
+    }
+    for (var i = 0; i < players.length; i++) {
+        if (players[i].hp == 1 && cutscene.timer <= 0 && cutscene.type != "afterBatBoss" && cutscene.type != "batBoss") {
+            resetCutscene();
+            this.wingSlam = -1;
+            this.wingX = 0;
+            this.wingY = 0;
+            this.wingW = 0;
+            this.wingH = 0;
+            cutscene.objWidth = 16;
+            cutscene.timer = 600;
+            cutscene.type = "batBoss";
+            this.velY = -10;
+            this.velX = ((88 * 16) - (this.x + 32)) / 50;
+            this.attackTimer = 1000;
+        }
+    }
+};
+
+bigBatBoss.prototype.draw = function() {
+    save();
+    translate(round(this.x), round(this.y));
+    if (this.dir < 0) {translate(this.w, 0);}
+    scale(this.dir, 1);
+    fill(255, 255, 255);
+    rect(0, 0, this.w, this.h);
+    fill(0, 0, 0);
+    rect(30, 10, 5, 10);
+    rect(40, 10, 5, 10);
+    fill(255, 0, 0);
+    rect(this.wingX + (this.w / 2), this.wingY, this.wingW, this.wingH);
+    rect(-this.wingX - this.wingW + (this.w / 2), this.wingY, this.wingW, this.wingH);
+    restore();
+};
+
+bigBatBoss.prototype.takeDamage = function(amount) {
+    this.hp -= amount;
+};
+bigBatBoss.prototype.wallTop = function() {
+    if (this.velY > 1) {this.velX = 0;} else {this.velX /= 1.1;}
+    this.velY = 0;
+    if (!this.alreadyShook) {
+        shakeScreen(1, 1, 1, 1, 50);
+        this.alreadyShook = true;
+    }
+};
+
+
+var bigBatBossSpawner = function(x, y, w, h, spawnX, spawnY) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.spawnX = spawnX;
+    this.spawnY = spawnY;
+    this.ded = false;
+};
+
+bigBatBossSpawner.prototype.run = function() {
+    var canSpawn = true;
+    for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.x + p.w > this.x && p.x < this.x + this.w && p.y + p.h > this.y && p.y < this.y + this.h) {} else {canSpawn = false;}
+    }
+    if (canSpawn) {
+        enemies.push(new bigBatBoss(this.spawnX, this.spawnY));
+        this.ded = true;
+    }
+};
