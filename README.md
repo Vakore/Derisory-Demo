@@ -30,3 +30,8 @@ v1.01 - Added FPS cap code due to people with super computers games running at 1
 v1.02 - Add gameSpeed.txt file. It can be modified if your game is running too choppy or too fast.
 v1.03 - The FPS capping is now toggleable in gameSpeed.txt. If the game is too fast, you can turn it on. Otherwise you can leave it alone.
 v1.04 - I am pretty sure this new fix is the one that will work the best.
+
+v1.10 - Fixed a variety of bugs, including saving custom controls not working, the healing prompt not showing the right button, and more.
+- Fixed sitting at campfires not working when having multiple buttons set to jump
+
+* Known bug: having multiple buttons set to an action on keyboard effects controller. I am not super concerned about this right now, but just note that you should not have the same button bound to multiple actions on keyboard if you want to use controller. I am just saying this for those who want to use UP to jump and attack up. If you only use keyboard, do not worry about this.
