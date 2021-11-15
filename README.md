@@ -7,7 +7,7 @@ HOW TO:
  1. Download the ZIP file called derisory-demo
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch 'derisory.html'
- 4. (OPTIONAL)If the game is too fast(i.e. you have a 120fps monitor), go to 'gameSpeed.txt' and change 'gameIsTooFast' to true. It will run the game at half speed.
+ 4. (OPTIONAL)If the game is too fast(i.e. you have a 120fps monitor), go to 'gameSpeed.txt' and change 'gameIsTooFast' to true. It will run the game at half speed. Refresh the page afterwards
  5. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
  6. Go to options for fullscreen
 
