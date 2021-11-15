@@ -7,7 +7,7 @@ HOW TO:
  1. Download the ZIP file called derisory-demo
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch 'derisory.html'
- 4. If the game is too fast, go to 'gameSpeed.txt' and fiddle with the settings until it suits you(You'll know it when you see it. If everything seems normal skip this step)
+ 4. (OPTIONAL)If the game is too fast(i.e. you have a 120fps monitor), go to 'gameSpeed.txt' and change 'gameIsTooFast' to true. It will run the game at half speed.
  5. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
  6. Go to options for fullscreen
 
@@ -25,9 +25,8 @@ P.S. There are two sequence breaks you can do without the bonus dev abilities. I
 
 P.P.S. hold X to speed up the dying animation if you get tired of it.
 
-P.P.P.S. The speed up bug on powerful computers might not be fixed yet. Will debug tomorrow evening.
-
 CHANGES:
 v1.01 - Added FPS cap code due to people with super computers games running at 120fps, causing the game to run at twice the speed.
 v1.02 - Add gameSpeed.txt file. It can be modified if your game is running too choppy or too fast.
 v1.03 - The FPS capping is now toggleable in gameSpeed.txt. If the game is too fast, you can turn it on. Otherwise you can leave it alone.
+v1.04 - I am pretty sure this new fix is the one that will work the best.
