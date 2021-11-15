@@ -21,3 +21,5 @@ YOUTUBE: https://www.youtube.com/channel/UCqSwjaGctHSVnY7xR8Mec9g
 
 
 P.S. There are two sequence breaks you can do without the bonus dev abilities. If you do them you'll just get into rooms that wrap into themselves, but performing them will make you feel cool!
+
+P.P.S hold X to speed up the dying animation if you get tired of it.
