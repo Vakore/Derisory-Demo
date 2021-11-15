@@ -7,7 +7,7 @@ HOW TO:
  1. Download the ZIP file called derisory-demo
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch 'derisory.html'
- 4. If the game is too fast, go to 'gameSpeed.txt' and fiddle with the settings until it suits you.
+ 4. If the game is too fast, go to 'gameSpeed.txt' and fiddle with the settings until it suits you(You'll know it when you see it. If everything seems normal skip this step)
  5. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
  6. Go to options for fullscreen
 
