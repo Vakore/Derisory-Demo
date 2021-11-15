@@ -7,8 +7,9 @@ HOW TO:
  1. Download the ZIP file called derisory-demo
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch derisory.html
- 4. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
- 5. Go to options for fullscreen
+ 4. If the game is too choppy, go to gameSpeed.txt and make the value higher. If it is too fast, change the value to be lower.
+ 5. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
+ 6. Go to options for fullscreen
 
 I've only tested this in Google Chrome. If it works in other browsers that is great, but if something doesn't work that may be why.
 
@@ -26,3 +27,4 @@ P.P.S hold X to speed up the dying animation if you get tired of it.
 
 CHANGES:
 v1.01 - Added FPS cap code due to people with super computers games running at 120fps, causing the game to run at twice the speed.
+v1.02 - Add gameSpeed.txt file. It can be modified if your game is running too choppy or too fast.
