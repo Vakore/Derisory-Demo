@@ -5,6 +5,7 @@ HOW TO:
  1. Download the ZIP file called derisory-demo
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch derisory.html
+ 4. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
 
 I've only tested this in Google Chrome. If it works in other browsers that is great, but if something doesn't work that may be why.
 
