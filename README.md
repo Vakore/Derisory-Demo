@@ -34,4 +34,11 @@ v1.04 - I am pretty sure this new fix is the one that will work the best.
 v1.10 - Fixed a variety of bugs, including saving custom controls not working, the healing prompt not showing the right button, and more.
 - Fixed sitting at campfires not working when having multiple buttons set to jump
 
-* Known bug: having multiple buttons set to an action on keyboard effects controller. I am not super concerned about this right now, but just note that you should not have the same button bound to multiple actions on keyboard if you want to use controller. I am just saying this for those who want to use UP to jump and attack up. If you only use keyboard, do not worry about this.
+v1.20 - FINALLY fixed the FPS cap code. It didn't handle 144fps displays. Now it should any displays that are faster than the game.
+- Added difficulty settings. Casual is easier than v1.10 and Tough is harder than v1.10. There is no normal mode as I feel like that would confuse people when deciding what difficulty to play on.
+- Fixed a few bugs including quitting when dying locking the screen, and a visual bug regarding a few breakable walls.
+- Added a particle when you kill smaller flies.
+
+* Known bugs: having multiple buttons set to an action on keyboard effects controller. I am not super concerned about this right now, but just note that you should not have the same button bound to multiple actions on keyboard if you want to use controller. I am just saying this for those who want to use UP to jump and attack up. If you only use keyboard, do not worry about this.
+
+* The Map doesn't work properly in other areas or show campfires on the map. The map is a major WIP.
