@@ -39,6 +39,9 @@ v1.20 - FINALLY fixed the FPS cap code. It didn't handle 144fps displays. Now it
 - Fixed a few bugs including quitting when dying locking the screen, and a visual bug regarding a few breakable walls.
 - Added a particle when you kill smaller flies.
 
+v1.21 - Added particles on the fly eggs
+- Change the position of a fly in a room so that it won't hide in spikes when entering from a certain way
+
 * Known bugs: having multiple buttons set to an action on keyboard effects controller. I am not super concerned about this right now, but just note that you should not have the same button bound to multiple actions on keyboard if you want to use controller. I am just saying this for those who want to use UP to jump and attack up. If you only use keyboard, do not worry about this.
 
 * The Map doesn't work properly in other areas or show campfires on the map. The map is a major WIP.
