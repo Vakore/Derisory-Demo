@@ -45,3 +45,5 @@ v1.21 - Added particles on the fly eggs
 * Known bugs: having multiple buttons set to an action on keyboard effects controller. I am not super concerned about this right now, but just note that you should not have the same button bound to multiple actions on keyboard if you want to use controller. I am just saying this for those who want to use UP to jump and attack up. If you only use keyboard, do not worry about this.
 
 * The Map doesn't work properly in other areas or show campfires on the map. The map is a major WIP.
+
+v1.22 - Fixed a crash to do with opening save files after quitting in a different area.
