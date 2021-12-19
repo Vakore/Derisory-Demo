@@ -15,7 +15,7 @@ I've only tested this in Google Chrome. If it works in other browsers that is gr
 
 Here are some links if you want them. If you don't then no need to read below.
 
-DISCORD: https://discord.com/invite/qb3nhGyh
+DISCORD: https://discord.gg/RHhgk6dT9s
 
 YOUTUBE: https://www.youtube.com/channel/UCqSwjaGctHSVnY7xR8Mec9g
 
