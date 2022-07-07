@@ -5,7 +5,7 @@ A demo of my work in progress game Derisory.
 HOW TO INSTALL:
  1. Download the ZIP file called derisory v0.3
  2. Unzip it's contents into a new folder. Call it whatever you want.
- 3. Launch 'derisory.html'
+ 3. Launch 'derisory.html' with a web browser(Google Chrome recommended as that is the only one this has beent tested on)
  4. Refresh the page upon firing it up the first time.
  5. (OPTIONAL AND NOT ALWAYS NEEDED) If you notice your game running at unusual speeds try refreshing your page/closing other windows/tabs. If this doesn't work, modify the gameSpeed.txt file.
  6. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
