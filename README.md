@@ -7,7 +7,7 @@ HOW TO INSTALL:
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch 'derisory.html' with a web browser(Google Chrome recommended as that is the only one this has beent tested on)
  4. Refresh the page upon firing it up the first time.
- 5. (OPTIONAL AND NOT ALWAYS NEEDED) If you notice your game running at unusual speeds try refreshing your page/closing other windows/tabs. If this doesn't work, modify the gameSpeed.txt file.
+ 5. (OPTIONAL AND NOT ALWAYS NEEDED) If you notice your game running at unusual speeds(lag, high speeds), or stuttering, try refreshing your page/closing other windows/tabs. If this doesn't work, restart your PC. If this doesn't work after a few attempts, modify the gameSpeed.txt file and read the instructions there carefully.
  6. Z on keyboard or A on controller to select stuff, and X on both to go back. Enter or Pause to pause.
  7. Go to options for fullscreen
 
