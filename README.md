@@ -3,7 +3,7 @@ A demo of my work in progress game Derisory.
 ![derisory-demo-picture](https://user-images.githubusercontent.com/94314052/141704647-ee7459f3-f05b-406d-a3cd-c550d3d52de2.png) 
 
 HOW TO INSTALL:
- 1. Download the ZIP file called derisory v0.3
+ 1. Download the ZIP file called derisory v0.31
  2. Unzip it's contents into a new folder. Call it whatever you want.
  3. Launch 'derisory.html' with a web browser(Google Chrome recommended as that is the only one this has beent tested on)
  4. Refresh the page upon firing it up the first time.
@@ -54,6 +54,9 @@ v1.30 - Sleep Frog Swamp Update!
 - Added polish
 - Fixed some hitboxes
 - Changed some lines of dialog
+
+v1.31
+- Fixed a subtle performance issue with fullscreen. Had little impact unless recording the screen, has now been fixed. Lowering the screen scale can increase performance even further but can cause blur.
 
 * Known bugs: having multiple buttons set to an action on keyboard effects controller. I am not super concerned about this right now, but just note that you should not have the same button bound to multiple actions on keyboard if you want to use controller. I am just saying this for those who want to use UP to jump and attack up. If you only use keyboard, do not worry about this.
 
